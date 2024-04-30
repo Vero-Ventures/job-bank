@@ -1,7 +1,5 @@
 ## **Project Description**
 
-something
-
 This project aims to build a job site network, allowing multiple front-end job boards to display listings from a central backend based on user-defined settings. This network will:
 
 - **Support underserved communities:** Job posting companies can promote roles across specialized job boards through a single admin panel, improving access for diverse applicant pools.
