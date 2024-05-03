@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "prettier --check .",
-    "format": "prettier --write ."
+    "lint": "next lint",
+    "prepare": "husky && pip install pre-commit && git config --unset-all core.hooksPath && pre-commit install"
   },
   "dependencies": {
     "next": "14.2.3",
@@ -24,12 +24,8 @@
   },
   "lint-staged": {
     "*/": [
-      "eslint --fix"
+      "eslint --fix",
+      "prettier --write --ignore-unknown"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npx lint-staged && npx run format && git add -A ."
-    }
   }
 }
