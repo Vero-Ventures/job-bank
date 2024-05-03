@@ -1,1 +1,2 @@
-npx lint-staged
+npx format
+npx lint
