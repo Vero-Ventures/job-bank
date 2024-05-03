@@ -7,15 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write .",
-    "prepare": "husky",
-    "postinstall": "node --eval \"require('fs').writeFileSync('.husky/pre-commit', 'npm run linter && npm run format && git add -A .\\n')\"",
-    "linter": "eslint . --fix"
+    "prepare": "husky"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run linter && npm run format && git add -A ."
-    }
+  "lint-staged": {
+    "**/*": [
+      "eslint --fix",
+      "prettier --write --ignore-unknown"
+    ]
   },
   "dependencies": {
     "next": "14.2.3",
@@ -24,7 +22,7 @@
   },
   "devDependencies": {
     "eslint": "^8",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-next": "14.1.3",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "postcss": "^8",
