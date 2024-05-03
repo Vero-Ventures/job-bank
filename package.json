@@ -6,14 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --fix",
+    "lint": "next lint",
     "format": "prettier --write .",
     "prepare": "husky",
-    "postinstall": "node --eval \"require('fs').writeFileSync('.husky/pre-commit', 'npm run format && git add -A .\\n')\""
+    "postinstall": "node --eval \"require('fs').writeFileSync('.husky/pre-commit', 'npm run linter && npm run format && git add -A .\\n')\"",
+    "linter": "eslint . --fix"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm run format && git add -A ."
+      "pre-commit": "npm run linter && npm run format && git add -A ."
     }
   },
   "dependencies": {
