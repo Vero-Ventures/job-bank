@@ -16,9 +16,9 @@ This web-based job portal will utilize:
 - **Front-end:** React
 - **Backend:** Supabase (SQL)
 - **External APIs:**
-    - Stripe for payment processing
-    - OpenAI for LLM functionalities
-    - Auth0 for user authentication
+  - Stripe for payment processing
+  - OpenAI for LLM functionalities
+  - Auth0 for user authentication
 
 ## **Hardware/Software Requirements**
 
@@ -26,8 +26,8 @@ This web-based job portal will utilize:
 - **Backend Database Management:** Supabase (SQL)
 - **Version Control:** GitHub
 - **Development Environment:**
-    - IDE suitable for React development
-    - Web browser for testing
+  - IDE suitable for React development
+  - Web browser for testing
 - **Computational Resources:** Cloud-based infrastructure and servers to host the job boards and admin panel.
 
 ## **Current Work/Arrangement**
