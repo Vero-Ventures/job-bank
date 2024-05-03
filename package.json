@@ -26,7 +26,6 @@
   "lint-staged": {
     "*/": [
       "eslint --fix",
-      "prettier --check",
       "prettier --write --ignore-unknown"
     ]
   }
