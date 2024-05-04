@@ -6,12 +6,38 @@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 
+import React, { useState, useEffect } from 'react';
+
+function toggleFilters() {
+  const filters = document.querySelector('.filters');
+  filters.classList.toggle('hidden');
+}
+
 export default function Filter() {
+  const [isLargeScreen, setIsLargeScreen] = useState(true);
+
+useEffect(() => {
+  const handleResize = () => {
+    setIsLargeScreen(window.innerWidth >= 1024);
+  };
+
+  window.addEventListener('resize', handleResize);
+  handleResize();
+
+  return () => {
+    window.removeEventListener('resize', handleResize);
+  };
+}, []);
+
   return (
     <div className="flex flex-col lg:flex-row">
-      <div className="bg-gray-100 dark:bg-gray-800 p-6 lg:w-[280px] lg:border-r">
-        <h2 className="text-2xl font-bold mb-6">Filters</h2>
-        <div className="space-y-6">
+      <div className="bg-gray-100 dark:bg-gray-800 p-6 pb-3 lg:w-[280px] lg:border-r">
+        <div className="flex item-center">
+          <h2 className="text-2xl font-bold mb-6 pr-4">Filters</h2>
+          <button onClick={()=>toggleFilters()} className="mb-6 lg:hidden"><img src="/arrowdown.png" style={{ width: '30px'}}/></button>
+        </div>
+        
+        <div className={`space-y-6 filters ${isLargeScreen ? '' : 'hidden'}`}>
           <div>
             <h3 className="text-lg font-semibold mb-2">Job Type</h3>
             <div className="space-y-2">
@@ -76,19 +102,19 @@ export default function Filter() {
               <div className="flex items-center gap-2">
                 <Checkbox id="location-1" />
                 <Label className="font-medium" htmlFor="location-1">
-                  New York, NY
+                  BC
                 </Label>
               </div>
               <div className="flex items-center gap-2">
                 <Checkbox id="location-2" />
                 <Label className="font-medium" htmlFor="location-2">
-                  San Francisco, CA
+                  AB
                 </Label>
               </div>
               <div className="flex items-center gap-2">
                 <Checkbox id="location-3" />
                 <Label className="font-medium" htmlFor="location-3">
-                  Chicago, IL
+                  ON
                 </Label>
               </div>
               <div className="flex items-center gap-2">
