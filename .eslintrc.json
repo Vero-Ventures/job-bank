@@ -9,5 +9,8 @@
     "*.md"
     // Add other file types you want to ignore
   ],
-  "plugins": ["@next/eslint-plugin-next"]
+  "plugins": ["@next/eslint-plugin-next"],
+  "env": {
+    "es6": true
+  }
 }
