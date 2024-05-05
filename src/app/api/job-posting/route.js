@@ -28,7 +28,7 @@ export async function GET(req) {
 
     } catch (error) {
 
-        console.error('Error fetching job postings by email:', error);
+        console.log('Error fetching job postings by email:', error);
 
         await mongoose.connection.close();
 
@@ -122,6 +122,62 @@ export async function DELETE(req) {
 
     } catch (error) {
         console.log('Error deleting job postings', error);
+
+        await mongoose.connection.close();
+
+        // Check error status and return appropriate response
+        if (error instanceof SyntaxError || error instanceof TypeError) {
+            // Malformed or invalid request
+            return NextResponse.json({ message: 'Bad Request - The request is malformed or invalid' }, { status: 400 });
+
+        } else if (error.name === 'UnauthorizedError') {
+            // Unauthorized
+            return NextResponse.json({ message: 'Unauthorized - The client is not authorized to perform the operation' }, { status: 401 });
+
+        } else if (error.name === 'NotFoundError') {
+            // Not Found
+            return NextResponse.json({ message: 'Not Found - The specified job ID does not exist' }, { status: 404 });
+
+        } else {
+            // Other server error
+            return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+        }
+    }
+}
+
+export async function PATCH(req) {
+    try {
+        const jobPostingId = req.nextUrl.searchParams.get('job-posting-id');
+        
+        if (!jobPostingId) {
+            return NextResponse.json({ message: 'Bad Request - Job posting ID and field are required' }, { status: 400 });
+        }
+
+        await connectMongoDB();
+
+        const Posting = mongoose.models.posting || mongoose.model('posting', posting);
+
+        const existingPosting = await Posting.findById(jobPostingId);
+
+        if (!existingPosting) {
+            return NextResponse.json({ message: 'Not Found - The specified job ID does not exist' }, { status: 404 });
+        }
+
+        const fieldsToUpdate = await req.json();
+
+        if (!fieldsToUpdate || typeof fieldsToUpdate !== 'object') {
+            return NextResponse.json({ message: 'Bad Request - Invalid fields to update' }, { status: 400 });
+        }
+
+        Object.assign(existingPosting, fieldsToUpdate);
+        await existingPosting.save();
+
+        await mongoose.connection.close();
+
+        return NextResponse.json({ message: 'Job posting updated successfully' }, { status: 200 });
+
+    } catch (error) {
+        console.log('Error updating job posting:', error);
 
         await mongoose.connection.close();
 
