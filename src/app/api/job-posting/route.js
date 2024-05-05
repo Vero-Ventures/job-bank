@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import { connectMongoDB } from '@/libs/mongodb';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
@@ -148,7 +148,7 @@ export async function DELETE(req) {
 export async function PATCH(req) {
     try {
         const jobPostingId = req.nextUrl.searchParams.get('job-posting-id');
-        
+
         if (!jobPostingId) {
             return NextResponse.json({ message: 'Bad Request - Job posting ID and field are required' }, { status: 400 });
         }
