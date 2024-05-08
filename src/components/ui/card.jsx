@@ -70,7 +70,7 @@ const Card = React.forwardRef(
       )}
       {...props}>
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className="title-case">{title}</CardTitle>
         <div className="flex space-x-2">
           <Button size="icon" variant="outline">
             <PencilIcon className="h-4 w-4" />
