@@ -1,5 +1,4 @@
 import { GET } from '@/app/api/job-posting/route';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { connectMongoDB } from '@/libs/mongodb';
@@ -24,13 +23,12 @@ export default async function Home() {
       const filteredJobPostings = res.jobPostings;
 
       return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
           <div className="flex items-center justify-between border-b-2 border-gray-200 py-6 md:justify-start md:space-x-10">
             <div className="flex justify-start lg:w-0 lg:flex-1">
-              <Input
-                className="pl-4 pr-10 py-2 border rounded-md leading-5"
-                placeholder="Search my job postings..."
-              />
+              <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate mt-8 mb-4">
+                My Job Postings
+              </h2>
             </div>
             <div className="md:flex items-center justify-end md:flex-1 lg:w-0">
               <Button
@@ -40,9 +38,7 @@ export default async function Home() {
               </Button>
             </div>
           </div>
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate mt-8 mb-4">
-            My Job Postings
-          </h2>
+
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {filteredJobPostings.length > 0 ? (
               filteredJobPostings.map((posting, index) => (
