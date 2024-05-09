@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
+import TrashButton from '@/components/ui/trashbutton';
 import { Checkbox } from '@/components/ui/checkbox';
-import { TrashIcon, PencilIcon } from '@/components/icons';
+import { PencilIcon } from '@/components/icons';
 import { cn } from '@/libs/utils';
 
 const CardHeader = React.forwardRef(({ className, ...props }, ref) => (
@@ -51,6 +52,7 @@ CardFooter.displayName = 'CardFooter';
 const Card = React.forwardRef(
   (
     {
+      jobPageId,
       title,
       organization,
       locality,
@@ -76,10 +78,7 @@ const Card = React.forwardRef(
             <PencilIcon className="h-4 w-4" />
             <span className="sr-only">Edit</span>
           </Button>
-          <Button size="icon" variant="outline">
-            <TrashIcon className="h-4 w-4" />
-            <span className="sr-only">Delete</span>
-          </Button>
+          <TrashButton jobPageId={jobPageId} />
         </div>
       </CardHeader>
       <CardContent>
