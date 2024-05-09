@@ -5,10 +5,10 @@ import { Button } from '@/components/ui/button';
 import { TrashIcon } from '@/components/icons';
 import { DELETE } from '@/app/api/job-posting/route';
 
-function TrashButton({ jobPageId }) {
+function TrashButton({ jobPostingId }) {
   const handleDelete = async () => {
     try {
-      const apiURL = `http://localhost:3000/api/job-posting?job-posting-id=${jobPageId}`;
+      const apiURL = `http://localhost:3000/api/job-posting?job-posting-id=${jobPostingId}`;
       const response = await DELETE({ nextUrl: new URL(apiURL) });
       if (response.status === 200) {
         alert('Job posting deleted successfully');

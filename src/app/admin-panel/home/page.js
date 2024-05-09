@@ -40,7 +40,7 @@ export default async function Home() {
               filteredJobPostings.map((posting, index) => (
                 <Card
                   key={index}
-                  jobPageId={posting._id}
+                  jobPostingId={posting._id}
                   title={posting.jobTitle}
                   organization={posting.hiringOrganization}
                   locality={posting.addressLocality}

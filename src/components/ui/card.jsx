@@ -52,7 +52,7 @@ CardFooter.displayName = 'CardFooter';
 const Card = React.forwardRef(
   (
     {
-      jobPageId,
+      jobPostingId,
       title,
       organization,
       locality,
@@ -78,7 +78,7 @@ const Card = React.forwardRef(
             <PencilIcon className="h-4 w-4" />
             <span className="sr-only">Edit</span>
           </Button>
-          <TrashButton jobPageId={jobPageId} />
+          <TrashButton jobPostingId={jobPostingId} />
         </div>
       </CardHeader>
       <CardContent>
