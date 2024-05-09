@@ -1,10 +1,6 @@
 import { GET } from '@/app/api/job-posting/route';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { connectMongoDB } from '@/libs/mongodb';
-
-//initialize MongoDB connection
-connectMongoDB();
 
 // Define your component
 export default async function Home() {
