@@ -1,26 +1,37 @@
-"use client";
-
-import JobLists from "@/components/JobLists";
-import Filter from "@/components/Filter";
-import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
+'use client';
+import Axios from 'axios';
+import JobLists from '@/components/JobLists';
+import Filter from '@/components/Filter';
+import { Input } from '@/components/ui/input';
+import Loading from '@/components/Loading';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
-  const [list, setList] = useState([1, 2, 3, 4]);
+  const [list, setList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
 
   // Todo: Add URL to get jobposting list
-  // const API_URL ="";
-  //
-  // function getData() {
-  //   Axios.get(API_URL).then((res) => {
-  //     console.log(res.data);
-  //     setList(res.data);
-  //   });
-  // }
-  //
-  // useEffect(() => {
-  //   getData();
-  // }, []);
+  const API_URL =
+    'http://localhost:3001/api/job-posting/indigenous?page_num=' ||
+    process.env.JOB_POSTING_API;
+
+  function getData() {
+    Axios.get(API_URL + page)
+      .then(res => {
+        console.log(res.data);
+        setList(res.data.jobPostings);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error.response);
+        //todo: handle error
+      });
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div className="flex flex-col lg:flex-row">
@@ -34,7 +45,8 @@ export default function Home() {
             type="text"
           />
         </div>
-        <JobLists list={list} />
+        {isLoading && <Loading />}
+        {!isLoading && <JobLists list={list} />}
       </div>
     </div>
   );
@@ -52,8 +64,7 @@ function SearchIcon(props) {
       stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+      strokeLinejoin="round">
       <circle cx="11" cy="11" r="8" />
       <path d="m21 21-4.3-4.3" />
     </svg>
