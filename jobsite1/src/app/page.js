@@ -17,21 +17,48 @@ export default function Home() {
     process.env.JOB_POSTING_API;
 
   function getData() {
+    setIsLoading(true);
+    console.log("New Page " + page);
     Axios.get(API_URL + page)
       .then(res => {
         console.log(res.data);
-        setList(res.data.jobPostings);
-        setIsLoading(false);
+        const newPage = page + 1;
+        const fetchedData = res.data.jobPostings; 
+        const mergedData = list.concat(fetchedData);        
+        setList(mergedData);
+        setPage(newPage);
       })
       .catch(error => {
         console.log(error.response);
         //todo: handle error
       });
+
+      setIsLoading(false);
   }
+
+  // Set scroll event
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+    if (scrollTop + clientHeight >= scrollHeight && isLoading === false) {
+      // get new data when scroll gets to the end of page
+      getData();
+    }
+   };
 
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    // scroll event listener 등록
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      // scroll event listener 해제
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
 
   return (
     <div className="flex flex-col lg:flex-row">
@@ -45,8 +72,8 @@ export default function Home() {
             type="text"
           />
         </div>
+        <JobLists list={list} />
         {isLoading && <Loading />}
-        {!isLoading && <JobLists list={list} />}
       </div>
     </div>
   );
