@@ -3,17 +3,25 @@
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { TrashIcon } from '@/components/icons';
-import { DELETE } from '@/app/api/job-posting/route';
 
 function TrashButton({ jobPostingId }) {
   const handleDelete = async () => {
     try {
-      const apiURL = `http://localhost:3000/api/job-posting?job-posting-id=${jobPostingId}`;
-      const response = await DELETE({ nextUrl: new URL(apiURL) });
-      if (response.status === 200) {
+      const apiUrl = `http://localhost:3000/api/job-posting/?job-posting-id=${jobPostingId}`;
+      const response = await fetch(apiUrl, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
         alert('Job posting deleted successfully');
+      } else {
+        throw new Error('Failed to delete job posting');
       }
     } catch (error) {
+      console.error('Error deleting job posting:', error);
       alert('An error occurred while deleting the job posting');
     }
   };
@@ -32,4 +40,4 @@ function TrashButton({ jobPostingId }) {
 
 TrashButton.displayName = 'TrashButton';
 
-export default TrashButton; // Correct export statement
+export default TrashButton;
