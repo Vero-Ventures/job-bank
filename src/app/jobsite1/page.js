@@ -3,7 +3,7 @@ import Axios from 'axios';
 import JobLists from '@/components/JobLists';
 import Filter from '@/components/Filter';
 import { Input } from '@/components/ui/input';
-import Loading from '@/components/Loading';
+import Loading from '@/components/ui/Loading';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
@@ -11,20 +11,17 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
 
-  // Todo: Add URL to get jobposting list
-  const API_URL =
-    'http://localhost:3001/api/job-posting/indigenous?page_num=' ||
-    process.env.JOB_POSTING_API;
+  const API_URL = '/api/job-posting/indigenous?page_num=';
 
   function getData() {
     setIsLoading(true);
-    console.log("New Page " + page);
+    console.log('New Page ' + page);
     Axios.get(API_URL + page)
       .then(res => {
         console.log(res.data);
         const newPage = page + 1;
-        const fetchedData = res.data.jobPostings; 
-        const mergedData = list.concat(fetchedData);        
+        const fetchedData = res.data.jobPostings;
+        const mergedData = list.concat(fetchedData);
         setList(mergedData);
         setPage(newPage);
       })
@@ -33,7 +30,7 @@ export default function Home() {
         //todo: handle error
       });
 
-      setIsLoading(false);
+    setIsLoading(false);
   }
 
   // Set scroll event
@@ -45,7 +42,7 @@ export default function Home() {
       // get new data when scroll gets to the end of page
       getData();
     }
-   };
+  };
 
   useEffect(() => {
     getData();
@@ -53,10 +50,10 @@ export default function Home() {
 
   useEffect(() => {
     // scroll event listener 등록
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
       // scroll event listener 해제
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   });
 

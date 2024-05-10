@@ -3,8 +3,8 @@
  * @see https://v0.dev/t/HHxdFP9lbfv
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 
 import React, { useState, useEffect } from 'react';
 
@@ -16,27 +16,29 @@ function toggleFilters() {
 export default function Filter() {
   const [isLargeScreen, setIsLargeScreen] = useState(true);
 
-useEffect(() => {
-  const handleResize = () => {
-    setIsLargeScreen(window.innerWidth >= 1024);
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth >= 1024);
+    };
 
-  window.addEventListener('resize', handleResize);
-  handleResize();
+    window.addEventListener('resize', handleResize);
+    handleResize();
 
-  return () => {
-    window.removeEventListener('resize', handleResize);
-  };
-}, []);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col lg:flex-row">
       <div className="bg-gray-100 dark:bg-gray-800 p-6 pb-3 lg:w-[280px] lg:border-r">
         <div className="flex item-center">
           <h2 className="text-2xl font-bold mb-6 pr-4">Filters</h2>
-          <button onClick={()=>toggleFilters()} className="mb-6 lg:hidden"><img src="/arrowdown.png" style={{ width: '30px'}}/></button>
+          <button onClick={() => toggleFilters()} className="mb-6 lg:hidden">
+            <img src="/arrowdown.png" alt="logo" style={{ width: '30px' }} />
+          </button>
         </div>
-        
+
         <div className={`space-y-6 filters ${isLargeScreen ? '' : 'hidden'}`}>
           <div>
             <h3 className="text-lg font-semibold mb-2">Job Type</h3>
@@ -127,6 +129,6 @@ useEffect(() => {
           </div>
         </div>
       </div>
-     </div>
-  )
+    </div>
+  );
 }

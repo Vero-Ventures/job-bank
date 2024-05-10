@@ -15,7 +15,9 @@ export default function JobLists({ list }) {
           <div
             key={item._id}
             className="bg-white dark:bg-gray-950 rounded-lg shadow-sm p-6">
-            <Link href="/jobposting" as={`/jobposting/${item._id}`}>
+            <Link
+              href="/jobsite1/jobposting"
+              as={`/jobsite1/jobposting/${item._id}`}>
               <h3 className="text-xl font-bold mb-2 titleCase">
                 {item.jobTitle}
               </h3>
