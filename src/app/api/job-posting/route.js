@@ -55,7 +55,7 @@ export async function GET(req) {
     } else if (error.name === 'NotFoundError') {
       // Not Found
       return NextResponse.json(
-        { message: 'Not Found - The specified job ID does not exist' },
+        { message: 'Not Found - The specified job email does not exist' },
         { status: 404 }
       );
     } else {
@@ -108,12 +108,6 @@ export async function POST(req) {
             'Unauthorized - The client is not authorized to perform the operation',
         },
         { status: 401 }
-      );
-    } else if (error.name === 'NotFoundError') {
-      // Not Found
-      return NextResponse.json(
-        { message: 'Not Found - The specified job ID does not exist' },
-        { status: 404 }
       );
     } else {
       // Other server error
