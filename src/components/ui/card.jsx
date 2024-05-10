@@ -60,6 +60,7 @@ const Card = React.forwardRef(
       validThrough,
       siteFlags,
       className,
+      onDelete,
       ...props
     },
     ref
@@ -78,7 +79,7 @@ const Card = React.forwardRef(
             <PencilIcon className="h-4 w-4" />
             <span className="sr-only">Edit</span>
           </Button>
-          <TrashButton jobPostingId={jobPostingId} />
+          <TrashButton jobPostingId={jobPostingId} onDelete={onDelete} />
         </div>
       </CardHeader>
       <CardContent>
