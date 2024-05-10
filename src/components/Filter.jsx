@@ -1,10 +1,6 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/HHxdFP9lbfv
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import ArrowDownIcon from './icons/arrowDownIcon';
 
 import React, { useState, useEffect } from 'react';
 
@@ -35,7 +31,7 @@ export default function Filter() {
         <div className="flex item-center">
           <h2 className="text-2xl font-bold mb-6 pr-4">Filters</h2>
           <button onClick={() => toggleFilters()} className="mb-6 lg:hidden">
-            <img src="/arrowdown.png" alt="logo" style={{ width: '30px' }} />
+            <ArrowDownIcon />
           </button>
         </div>
 
