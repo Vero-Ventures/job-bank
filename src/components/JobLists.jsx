@@ -34,7 +34,7 @@ export default function JobLists({ list }) {
                 {item.addressLocality}, {item.addressRegion}
               </p>
               <p className="text-gray-500 dark:text-gray-400">
-                Salary: {item.minCompValue} {maxWage} hourly
+                Salary: ${item.minCompValue} {maxWage} hourly
               </p>
             </Link>
           </div>
