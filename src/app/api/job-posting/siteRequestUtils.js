@@ -3,6 +3,16 @@ import { connectMongoDB } from '@/libs/mongodb';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
 
+// Function to get the total number of job postings
+export async function getTotalNumberOfPostings(siteCriteria) {
+  await connectMongoDB();
+
+  const Posting = mongoose.models.posting || mongoose.model('posting', posting);
+  const totalNumberOfPostings = await Posting.countDocuments(siteCriteria);
+
+  return totalNumberOfPostings;
+}
+
 // Function to extract pagination parameters
 export function getPaginationParams(req) {
   const pageSize = 25;
