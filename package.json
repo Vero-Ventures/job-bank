@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky",
-    "format": "prettier --write ."
+    "format": "eslint --fix . && prettier --write ."
   },
   "lint-staged": {
     "**/*": [
