@@ -7,7 +7,7 @@ import { checkSortFieldExist } from '@/app/api/job-posting/siteRequestUtils';
 export async function GET(req) {
   try {
     const email = req.nextUrl.searchParams.get('email');
-    const sortCriteria = JSON.parse(req.nextUrl.searchParams.get('sort-by'));
+    const sortCriteria = JSON.parse(req.nextUrl.searchParams.get('sort_by'));
 
     if (!email) {
       return NextResponse.json(

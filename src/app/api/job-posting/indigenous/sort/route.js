@@ -10,7 +10,7 @@ export async function GET(req) {
   try {
     //Todo: Update the site1 name to indigenous
     const siteCriteria = { site1: true };
-    const sortCriteria = JSON.parse(req.nextUrl.searchParams.get('sort-by'));
+    const sortCriteria = JSON.parse(req.nextUrl.searchParams.get('sort_by'));
 
     // Check if the requested sort field exists
     if (!(await checkSortFieldExist(sortCriteria))) {
