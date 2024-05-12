@@ -55,3 +55,22 @@ export function handleError(error) {
     );
   }
 }
+
+// Function to fetch and sort job postings by date
+export async function fetchSortedJobPostingsByDate(
+  siteCriteria,
+  skip,
+  pageSize
+) {
+  await connectMongoDB();
+
+  const Posting = mongoose.models.posting || mongoose.model('posting', posting);
+
+  // Query job postings with pagination
+  const jobPostings = await Posting.find(siteCriteria)
+    .sort({ datePosted: 1 }) // Sort by date in descending order
+    .skip(skip)
+    .limit(pageSize);
+
+  return jobPostings;
+}
