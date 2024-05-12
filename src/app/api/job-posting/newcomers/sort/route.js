@@ -1,21 +1,33 @@
 import { NextResponse } from 'next/server';
 import {
   getPaginationParams,
-  fetchSortedJobPostingsByDate,
+  fetchSortedJobPostings,
+  checkSortFieldExist,
   handleError,
 } from '../../siteRequestUtils';
 
 export async function GET(req) {
   try {
-    //Todo: Update the site4 name to students
-    const siteCriteria = { site4: true };
+    //Todo: Update the site2 name to newcomers
+    const siteCriteria = { site2: true };
+    const sortCriteria = JSON.parse(req.nextUrl.searchParams.get('sort-by'));
+
+    // Check if the requested sort field exists
+    if (!(await checkSortFieldExist(sortCriteria))) {
+      console.log('no field');
+      return NextResponse.json(
+        { message: 'Not Found - Requested sort field does not exist' },
+        { status: 404 }
+      );
+    }
 
     // Extract pagination parameters
     const { skip, pageSize } = getPaginationParams(req);
 
     // Query sorted job postings by posting date with pagination
-    const jobPostings = await fetchSortedJobPostingsByDate(
+    const jobPostings = await fetchSortedJobPostings(
       siteCriteria,
+      sortCriteria,
       skip,
       pageSize
     );
