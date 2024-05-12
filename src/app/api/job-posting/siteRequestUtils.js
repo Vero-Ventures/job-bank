@@ -57,8 +57,9 @@ export function handleError(error) {
 }
 
 // Function to fetch and sort job postings by date
-export async function fetchSortedJobPostingsByDate(
+export async function fetchSortedJobPostings(
   siteCriteria,
+  sortCriteria,
   skip,
   pageSize
 ) {
@@ -68,9 +69,20 @@ export async function fetchSortedJobPostingsByDate(
 
   // Query job postings with pagination
   const jobPostings = await Posting.find(siteCriteria)
-    .sort({ datePosted: 1 }) // Sort by date in descending order
+    .sort(sortCriteria) // Sort by date in descending order
     .skip(skip)
     .limit(pageSize);
 
   return jobPostings;
+}
+
+export async function checkSortFieldExist(sortCriteria) {
+  await connectMongoDB();
+
+  const Posting = mongoose.models.posting || mongoose.model('posting', posting);
+
+  const field = Object.keys(sortCriteria)[0];
+
+  // Check if the 'fieldName' field exists in the schema of YourModel
+  return Posting.schema.path(field) !== undefined;
 }
