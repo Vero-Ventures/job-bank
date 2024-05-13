@@ -76,13 +76,12 @@ export async function fetchSortedJobPostings(
   return jobPostings;
 }
 
-export async function checkSortFieldExist(sortCriteria) {
+// Function to check if the requested field exists in the schema
+export async function checkFieldExist(requestedObject) {
   await connectMongoDB();
 
   const Posting = mongoose.models.posting || mongoose.model('posting', posting);
+  const field = Object.keys(requestedObject)[0];
 
-  const field = Object.keys(sortCriteria)[0];
-
-  // Check if the 'fieldName' field exists in the schema of YourModel
   return Posting.schema.path(field) !== undefined;
 }

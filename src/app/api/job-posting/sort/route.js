@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { connectMongoDB } from '@/libs/mongodb';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
-import { checkSortFieldExist } from '@/app/api/job-posting/siteRequestUtils';
+import { checkFieldExist } from '@/app/api/job-posting/siteRequestUtils';
 
 export async function GET(req) {
   try {
@@ -17,7 +17,7 @@ export async function GET(req) {
     }
 
     // Check if the requested sort field exists
-    if (!(await checkSortFieldExist(sortCriteria))) {
+    if (!(await checkFieldExist(sortCriteria))) {
       console.log('no field');
       return NextResponse.json(
         { message: 'Not Found - Requested sort field does not exist' },

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import {
   getPaginationParams,
   fetchSortedJobPostings,
-  checkSortFieldExist,
+  checkFieldExist,
   handleError,
 } from '../../siteRequestUtils';
 
@@ -13,7 +13,7 @@ export async function GET(req) {
     const sortCriteria = JSON.parse(req.nextUrl.searchParams.get('sort_by'));
 
     // Check if the requested sort field exists
-    if (!(await checkSortFieldExist(sortCriteria))) {
+    if (!(await checkFieldExist(sortCriteria))) {
       console.log('no field');
       return NextResponse.json(
         { message: 'Not Found - Requested sort field does not exist' },
