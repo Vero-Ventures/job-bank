@@ -9,23 +9,26 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { redirect } from 'next/navigation';
 
-export default function Component() {
+export default function LandingPage() {
   const { user, error, isLoading } = useUser();
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
   if (user) {
-    return (
-      user && (
-        <div>
-          <Image src={user.picture} alt={user.name} />
-          <p>{user.email}</p>
-          <Link href="/api/auth/logout">Logout</Link>
-        </div>
-      )
-    );
+    redirect('/admin-panel/home');
+    // return (
+    //   user && (
+    //     <div>
+    //       <img src={user.picture} alt={user.name} />
+    //       <p>{user.email}</p>
+    //       <Link href="/admin-panel/home">Admin Panel</Link><br />
+    //       <Link href="/api/auth/logout">Logout</Link>
+    //     </div>
+    //   )
+    // );
   }
 
   return (
