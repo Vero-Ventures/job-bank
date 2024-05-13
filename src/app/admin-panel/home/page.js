@@ -10,6 +10,26 @@ export default function Home() {
   const [jobPostings, setJobPostings] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchUser = async () => {
+    try {
+      const response = await fetch('/api/auth/me');
+      if (response.ok) {
+        const user = await response.json();
+        // console.log(user);
+        return user;
+      } else {
+        console.error('Failed to fetch user:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching user:', error);
+    }
+  };
+
+  (async () => {
+    const user = await fetchUser(); // Wait for the user object
+    console.log(user);
+  })();
+
   // Function to fetch job postings from the API
   const fetchJobPostings = async () => {
     try {
@@ -72,6 +92,7 @@ export default function Home() {
           <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate mt-8 mb-4">
             My Job Postings
           </h2>
+          <a href="/api/auth/logout">Logout</a>
         </div>
         <div className="md:flex items-center justify-end md:flex-1 lg:w-0">
           <Button
