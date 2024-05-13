@@ -16,8 +16,13 @@ export default function Home() {
     <div className="flex flex-col gap-8 p-4 md:p-8 bg-[#f0f9ff] dark:bg-[#0a1929]">
       <SearchBar></SearchBar>
       <div className="flex flex-row flex-1 space-x-6">
-        <JobLists onClickJob={onClickJobPosting}></JobLists>
-        <JobDetail postingID={postingID}></JobDetail>
+        <div className="w-full sm:w-4/12">
+          <JobLists onClickJob={onClickJobPosting}></JobLists>
+        </div>
+
+        <div className="hidden sm:block sm:w-8/12">
+          <JobDetail postingID={postingID}></JobDetail>
+        </div>
       </div>
     </div>
   );

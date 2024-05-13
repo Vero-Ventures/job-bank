@@ -1,6 +1,7 @@
 'use client';
 import Axios from 'axios';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import Loading from '../ui/Loading';
 
 export default function JobLists({ onClickJob }) {
@@ -36,7 +37,7 @@ export default function JobLists({ onClickJob }) {
   };
 
   return (
-    <div className="w-4/12 max-h-dvh overflow-y-auto">
+    <div className="max-h-dvh overflow-y-auto">
       {isLoading && <Loading colour="blue" />}
       <div className="space-y-8">
         {list.map(item => {
@@ -46,7 +47,7 @@ export default function JobLists({ onClickJob }) {
             <div
               key={item._id}
               className="bg-white dark:bg-[#0f172a] rounded-lg shadow-lg p-4 space-y-3">
-              <div onClick={() => onClick(item._id)}>
+              <div>
                 <h5 className="text-xl font-bold titleCase text-[#0b5394] dark:text-white">
                   {item.jobTitle}
                 </h5>
@@ -66,10 +67,16 @@ export default function JobLists({ onClickJob }) {
                     ${item.minCompValue} {maxWage} hourly
                   </p>
                   <button
-                    className="text-sm p-3 font-bold titleCase text-[#0b5394] dark:text-white"
+                    className="text-sm p-3 font-bold titleCase text-[#0b5394] hidden sm:block dark:text-white"
                     onClick={() => onClick(item._id)}>
                     View
                   </button>
+                  <Link
+                    className="text-sm p-3 font-bold titleCase text-[#0b5394] block sm:hidden dark:text-white"
+                    href="/jobsite2/jobposting"
+                    as={`/jobsite2/jobposting/${item._id}`}>
+                    View
+                  </Link>
                 </div>
               </div>
             </div>
