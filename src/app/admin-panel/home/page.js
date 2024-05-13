@@ -105,10 +105,8 @@ export default function Home() {
           <div className="bg-white p-8 rounded shadow-lg max-h-[80vh] overflow-y-auto">
             <AddJobPostingForm onSubmit={handleFormSubmit} email={email} />
             <button
-              className="absolute top-0 right-0 p-2"
-              onClick={() => setShowForm(false)}>
-              Close
-            </button>
+              className="close-icon absolute top-0 right-0 p-2 text-gray-500 hover:text-gray-700"
+              onClick={() => setShowForm(false)}></button>
           </div>
         </div>
       )}
