@@ -15,7 +15,7 @@ export default function Top() {
             alt="Logo"
             className="h-12 w-12"
             height={32}
-            src="/placeholder-circle.png"
+            src="/placeholder.svg"
             style={{
               aspectRatio: '32/32',
               objectFit: 'cover',
