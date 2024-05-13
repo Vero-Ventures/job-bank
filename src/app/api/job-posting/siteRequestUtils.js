@@ -45,3 +45,33 @@ export function handleError(error) {
     );
   }
 }
+
+// Function to fetch and sort job postings by date
+export async function fetchSortedJobPostings(
+  siteCriteria,
+  sortCriteria,
+  skip,
+  pageSize
+) {
+  await connectMongoDB();
+
+  const Posting = mongoose.models.posting || mongoose.model('posting', posting);
+
+  // Query job postings with pagination
+  const jobPostings = await Posting.find(siteCriteria)
+    .sort(sortCriteria) // Sort by date in descending order
+    .skip(skip)
+    .limit(pageSize);
+
+  return jobPostings;
+}
+
+// Function to check if the requested field exists in the schema
+export async function checkFieldExist(requestedObject) {
+  await connectMongoDB();
+
+  const Posting = mongoose.models.posting || mongoose.model('posting', posting);
+  const field = Object.keys(requestedObject)[0];
+
+  return Posting.schema.path(field) !== undefined;
+}
