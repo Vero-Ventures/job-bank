@@ -19,12 +19,16 @@ export async function POST(req) {
       cancel_url: `${baseURL}/?paymentStatus=false`,
     });
 
-    return NextResponse.json({url: session.url}, {status: 303, headers: {
-      'Location': session.url
-    }});
-    
+    return NextResponse.json(
+      { url: session.url },
+      {
+        status: 303,
+        headers: {
+          Location: session.url,
+        },
+      }
+    );
   } catch (err) {
-    return NextResponse.json(err.message, {status: err.statusCode || 500});
+    return NextResponse.json(err.message, { status: err.statusCode || 500 });
   }
-
 }
