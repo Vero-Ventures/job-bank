@@ -30,6 +30,31 @@ export default function DetailsPage() {
     }));
   };
 
+  const handleSubmit = async event => {
+    event.preventDefault();
+    // Call the editJobPosting function from jobPostingService
+    try {
+      const apiURL = `http://localhost:3000/api/job-posting/?job-posting-id=${jobPostingId}`;
+      const response = await fetch(apiURL, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jobPosting),
+      });
+
+      if (response.ok) {
+        // If the job posting is successfully saved, redirect to the home page
+        window.location.href = '/admin-panel/home';
+      } else {
+        console.error('Failed to save job posting:', response.statusText);
+      }
+    } catch (error) {
+      // Handle the error
+      console.error('Error saving form data:', error);
+    }
+  };
+
   return (
     <div className="isolate bg-white px-2 py-2 sm:py-2 lg:px-2">
       <form className="mx-auto mt-16 max-w-xl sm:mt-2">
@@ -258,6 +283,7 @@ export default function DetailsPage() {
         <div className="mt-10">
           <button
             type="submit"
+            onClick={handleSubmit}
             className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
             Save Posting
           </button>
