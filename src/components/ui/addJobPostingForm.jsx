@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import DynamicTextarea from '@/components/ui/dynamicTextArea';
 
 const AddJobPostingForm = ({ onSubmit, email }) => {
   const [formData, setFormData] = useState({
@@ -198,6 +199,21 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
               />
             </div>
           </div>
+          <div className="sm:col-span-2">
+            <label className="block text-sm font-semibold leading-6 text-gray-900">
+              Benefits
+            </label>
+            <div className="mt-2.5">
+              <DynamicTextarea
+                name="benefits"
+                value={formData.benefits}
+                onChange={handleChange}
+                placeholder="Benefits"
+                required
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
           <div>
             <label
               hmtlFor="startTime"
@@ -235,14 +251,13 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
               Description
             </label>
             <div className="mt-2.5">
-              <textarea
+              <DynamicTextarea
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
                 placeholder="Description"
-                rows={30}
                 required
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 textarea-auto "
               />
             </div>
           </div>
