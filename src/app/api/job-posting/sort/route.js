@@ -7,7 +7,8 @@ import { checkFieldExist } from '@/app/api/job-posting/siteRequestUtils';
 export async function GET(req) {
   try {
     const email = req.nextUrl.searchParams.get('email');
-    const sortCriteria = JSON.parse(req.nextUrl.searchParams.get('sort_by'));
+    const sortBy = req.nextUrl.searchParams.get('sort');
+    const sortCriteria = sortBy ? JSON.parse(sortBy) : null;
 
     if (!email) {
       return NextResponse.json(
@@ -17,7 +18,7 @@ export async function GET(req) {
     }
 
     // Check if the requested sort field exists
-    if (!(await checkFieldExist(sortCriteria))) {
+    if (sortCriteria != null && !(await checkFieldExist(sortCriteria))) {
       console.log('no field');
       return NextResponse.json(
         { message: 'Not Found - Requested sort field does not exist' },
