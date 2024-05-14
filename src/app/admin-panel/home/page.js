@@ -18,8 +18,8 @@ export default function Home() {
   const fetchJobPostings = async () => {
     try {
       setLoading(true);
-      const sortCriteria = { _id: -1 };
-      const apiURL = `http://localhost:3000/api/job-posting/sort?email=${email}&sort_by=${JSON.stringify(sortCriteria)}`;
+      const sortCriteria = JSON.stringify({ _id: -1 });
+      const apiURL = `http://localhost:3000/api/job-posting/sort?email=${email}&sort_by=${sortCriteria}`;
       const response = await fetch(apiURL, {
         method: 'GET',
         headers: {
