@@ -1,13 +1,11 @@
-'use client';
-import Axios from 'axios';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Axios from 'axios';
 import Loading from '../ui/Loading';
 
-export default function JobLists({ onClickJob }) {
+export default function JobLists({ onClickJob, page }) {
   const [list, setList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [page] = useState(1);
   const API_URL = '/api/job-posting/newcomers?page_num=';
 
   function getData() {
@@ -15,7 +13,6 @@ export default function JobLists({ onClickJob }) {
 
     Axios.get(API_URL + page)
       .then(res => {
-        console.log(res.data);
         if (res.data.jobPostings.length != 0 && list.length == 0) {
           onClick(res.data.jobPostings[0]._id);
         }
@@ -23,18 +20,19 @@ export default function JobLists({ onClickJob }) {
       })
       .catch(error => {
         console.log(error.response);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-
-    setIsLoading(false);
   }
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   const onClick = postingId => {
     onClickJob(postingId);
   };
+
+  useEffect(() => {
+    getData();
+  }, [page]);
 
   return (
     <div className="max-h-dvh overflow-y-auto">
