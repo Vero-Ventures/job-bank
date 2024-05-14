@@ -1,15 +1,23 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 function DynamicTextarea({ value, onChange, ...rest }) {
   const textareaRef = useRef(null);
 
-  const handleChange = event => {
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [value]);
+
+  const adjustTextareaHeight = () => {
     const textarea = textareaRef.current;
     textarea.style.height = 'auto'; // Reset height
     textarea.style.height = `${textarea.scrollHeight}px`; // Set new height
+  };
+
+  const handleChange = event => {
     if (onChange) {
       onChange(event);
     }
+    adjustTextareaHeight();
   };
 
   return (
