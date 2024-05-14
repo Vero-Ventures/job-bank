@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { AddJobPostingForm } from '@/components/ui/addJobPostingForm';
+import jobPostingService from './jobPostingService';
 
 // Define your component
 export default function Home() {
@@ -24,12 +26,15 @@ export default function Home() {
       console.error('Error fetching user:', error);
     }
   };
+  const [showForm, setShowForm] = useState(false);
+  const email = 'rajpaldhillon46@outlook.com';
 
   // Function to fetch job postings from the API
   const fetchJobPostings = async () => {
     try {
-      const email = 'rajpaldhillon46@outlook.com';
-      const apiURL = `http://localhost:3000/api/job-posting?email=${email}`;
+      setLoading(true);
+      const sortCriteria = JSON.stringify({ _id: -1 });
+      const apiURL = `http://localhost:3000/api/job-posting/sort?email=${email}&sort_by=${sortCriteria}`;
       const response = await fetch(apiURL, {
         method: 'GET',
         headers: {
@@ -81,6 +86,25 @@ export default function Home() {
     }
   };
 
+  const handleFormSubmit = async formData => {
+    try {
+      // Call the service to save the job posting
+      const response = await jobPostingService.saveJobPosting(formData);
+
+      // Update the jobPostings state with the newly created job posting
+      setJobPostings(prevJobPostings => [
+        response.jobPosting,
+        ...prevJobPostings,
+      ]);
+
+      // Close the form modal
+      setShowForm(false);
+    } catch (error) {
+      console.error('Error saving form data:', error);
+      // Handle error if form submission fails
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
       <div className="flex items-center justify-between border-b-2 border-gray-200 py-6 md:justify-start md:space-x-10">
@@ -96,12 +120,23 @@ export default function Home() {
         <div className="md:flex items-center justify-end md:flex-1 lg:w-0">
           <Button
             className="whitespace-nowrap text-base leading-6 font-medium"
-            variant="secondary">
+            variant="secondary"
+            onClick={() => setShowForm(true)}>
             Add New Job Posting
           </Button>
         </div>
       </div>
-
+      {/* Render the form as a modal */}
+      {showForm && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="bg-white p-8 rounded shadow-lg max-h-[80vh] overflow-y-auto">
+            <AddJobPostingForm onSubmit={handleFormSubmit} email={email} />
+            <button
+              className="close-icon absolute top-0 right-0 p-2 text-gray-500 hover:text-gray-700"
+              onClick={() => setShowForm(false)}></button>
+          </div>
+        </div>
+      )}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {loading ? (
           <p>Loading...</p>

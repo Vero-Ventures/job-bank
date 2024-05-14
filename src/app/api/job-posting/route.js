@@ -86,8 +86,14 @@ export async function POST(req) {
       createdJobPostings.push(newJobPosting);
     }
 
+    // Extract the IDs of the created job postings
+    const createdJobPostingIds = createdJobPostings.map(posting => posting._id);
+
     return NextResponse.json(
-      { message: 'Job postings created successfully' },
+      {
+        message: 'Job postings created successfully',
+        createdJobPostingIds: createdJobPostingIds,
+      },
       { status: 200 }
     );
   } catch (error) {

@@ -12,7 +12,7 @@ export default new mongoose.Schema({
   workHours: String,
   specialCommitments: String,
   email: { type: String, required: true },
-  jobPageId: { type: String, index: { unique: true } },
+  jobPageId: String,
   employmentType: String,
   employmentSubType: String,
   startTime: String,
