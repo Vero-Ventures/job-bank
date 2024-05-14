@@ -1,9 +1,12 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import ArrowDownIcon from './icons/arrowDownIcon';
+import ArrowDownIcon from '../icons/arrowDownIcon';
 
 import React, { useState, useEffect } from 'react';
 
+/**
+ * Toggle filters when screen is small.
+ */
 function toggleFilters() {
   const filters = document.querySelector('.filters');
   filters.classList.toggle('hidden');
