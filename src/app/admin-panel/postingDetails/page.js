@@ -34,16 +34,12 @@ export default function DetailsPage() {
     event.preventDefault();
     // Call the editJobPosting function from jobPostingService
     try {
-      const apiURL = `http://localhost:3000/api/job-posting/?job-posting-id=${jobPostingId}`;
-      const response = await fetch(apiURL, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(jobPosting),
-      });
+      const response = await jobPostingService.editJobPosting(
+        jobPostingId,
+        jobPosting
+      );
 
-      if (response.ok) {
+      if (response.success) {
         // If the job posting is successfully saved, redirect to the home page
         window.location.href = '/admin-panel/home';
       } else {

@@ -58,9 +58,41 @@ const getJobPostingDetails = async jobId => {
   }
 };
 
+//edit job posting with ID passed in and new data
+const editJobPosting = async (jobPostingId, data) => {
+  try {
+    // Convert formData to JSON
+    const jobPosting = data;
+
+    // Send the job posting to the backend API
+    const response = await fetch(
+      `http://localhost:3000/api/job-posting/?job-posting-id=${jobPostingId}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jobPosting),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to edit job posting. Status: ${response.status}`);
+    }
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    console.error('Error editing job posting:', error);
+    throw new Error('Failed to edit job posting');
+  }
+};
+
 const jobPostingService = {
   saveJobPosting,
   getJobPostingDetails,
+  editJobPosting,
 };
 
 export default jobPostingService;
