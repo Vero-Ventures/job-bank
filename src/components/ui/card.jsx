@@ -75,10 +75,14 @@ const Card = React.forwardRef(
       <CardHeader>
         <CardTitle className="title-case">{title}</CardTitle>
         <div className="flex space-x-2">
-          <Button size="icon" variant="outline">
-            <PencilIcon className="h-4 w-4" />
-            <span className="sr-only">Edit</span>
-          </Button>
+          <a
+            href={`/admin-panel/postingDetails?job-posting-id=${jobPostingId}`}
+            key={jobPostingId}>
+            <Button size="icon" variant="outline">
+              <PencilIcon className="h-4 w-4" />
+              <span className="sr-only">Edit</span>
+            </Button>
+          </a>
           <TrashButton jobPostingId={jobPostingId} onDelete={onDelete} />
         </div>
       </CardHeader>

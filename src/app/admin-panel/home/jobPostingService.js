@@ -38,4 +38,29 @@ const saveJobPosting = async formData => {
     throw new Error('Failed to save form data');
   }
 };
-export default { saveJobPosting };
+
+const getJobPostingDetails = async jobId => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/job-posting/by-id?job-posting-id=${jobId}`
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch job posting details. Status: ${response.status}`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching job posting details:', error);
+    throw new Error('Failed to fetch job posting details');
+  }
+};
+
+const jobPostingService = {
+  saveJobPosting,
+  getJobPostingDetails,
+};
+
+export default jobPostingService;
