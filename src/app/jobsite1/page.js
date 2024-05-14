@@ -10,27 +10,26 @@ export default function Home() {
   const [list, setList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [lastPage, setLastPage] = useState(0);
 
-  const API_URL = '/api/job-posting/indigenous?page_num=';
+  const API_URL = '/api/job-posting/indigenous';
 
   function getData() {
     setIsLoading(true);
-    console.log('New Page ' + page);
-    Axios.get(API_URL + page)
+    console.log('Current Page ' + page);
+    Axios.get(API_URL + '?page_num=' + page)
       .then(res => {
         console.log(res.data);
-        const newPage = page + 1;
         const fetchedData = res.data.jobPostings;
         const mergedData = list.concat(fetchedData);
         setList(mergedData);
-        setPage(newPage);
       })
       .catch(error => {
         console.log(error.response);
-        //todo: handle error
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-
-    setIsLoading(false);
   }
 
   // Set scroll event
@@ -40,13 +39,30 @@ export default function Home() {
     const clientHeight = document.documentElement.clientHeight;
     if (scrollTop + clientHeight >= scrollHeight && isLoading === false) {
       // get new data when scroll gets to the end of page
-      getData();
+      if (page < lastPage) {
+        const newPage = page + 1;
+        setPage(newPage);
+      }
     }
   };
 
   useEffect(() => {
-    getData();
+    const getTotalPages = () => {
+      Axios.get(API_URL + '/total-posts')
+        .then(res => {
+          setLastPage(Math.ceil(res.data.jobPostings / 25));
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
+    };
+
+    getTotalPages();
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [page]);
 
   useEffect(() => {
     // scroll event listener 등록
