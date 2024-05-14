@@ -23,7 +23,16 @@ const saveJobPosting = async formData => {
       );
     }
 
-    return { success: true }; // Example response
+    //added addJobPosting.createdJobPostingIds to jobPosting
+    const response = await addJobPosting.json();
+
+    // Update the job posting object with the ID of the newly created job posting
+    jobPosting._id = response.createdJobPostingIds[0];
+
+    return {
+      success: true,
+      jobPosting: jobPosting,
+    };
   } catch (error) {
     console.error('Error saving form data:', error);
     throw new Error('Failed to save form data');

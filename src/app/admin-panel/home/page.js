@@ -74,8 +74,14 @@ export default function Home() {
     try {
       // Call the service to save the job posting
       const response = await jobPostingService.saveJobPosting(formData);
-      // Handle response as needed
-      console.log('Form submission response:', response);
+
+      // Update the jobPostings state with the newly created job posting
+      setJobPostings(prevJobPostings => [
+        response.jobPosting,
+        ...prevJobPostings,
+      ]);
+
+      // Close the form modal
       setShowForm(false);
     } catch (error) {
       console.error('Error saving form data:', error);
