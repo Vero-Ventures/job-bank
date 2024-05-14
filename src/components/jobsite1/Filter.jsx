@@ -4,6 +4,9 @@ import ArrowDownIcon from '../icons/arrowDownIcon';
 
 import React, { useState, useEffect } from 'react';
 
+/**
+ * Toggle filters when screen is small.
+ */
 function toggleFilters() {
   const filters = document.querySelector('.filters');
   filters.classList.toggle('hidden');

@@ -15,11 +15,12 @@ export default function JobPosting({ params }) {
   const postID = params.id;
   const [jobDetail, setJobDetail] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [maxWage, setMaxWage] = useState('');
-  const [streetAddress, setStreetAddress] = useState('');
 
   const API_URL = '/api/job-posting/by-id?job-posting-id=';
 
+  /**
+   * Fetch Jobpost detail from database.
+   */
   function getDetailData() {
     setIsLoading(true);
 
@@ -27,12 +28,6 @@ export default function JobPosting({ params }) {
       .then(res => {
         console.log(res.data.jobPostings);
         setJobDetail(res.data.jobPostings[0]);
-        res.data.jobPostings[0].maxCompValue
-          ? setMaxWage(`to $${res.data.jobPostings[0].maxCompValue}`)
-          : '';
-        res.data.jobPostings[0].streetAddress
-          ? setStreetAddress(`${res.data.jobPostings[0].streetAddress}, `)
-          : '';
       })
       .catch(error => {
         console.log(error.response);
@@ -73,14 +68,20 @@ export default function JobPosting({ params }) {
               <div className="flex items-center gap-2">
                 <MapPinIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                 <span className="text-gray-500 dark:text-gray-400">
-                  {streetAddress}
+                  {jobDetail.streetAddress
+                    ? `${jobDetail.streetAddress}, `
+                    : ''}
                   {jobDetail.addressLocality}, {jobDetail.addressRegion}
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <MoneyIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                 <span className="text-gray-500 dark:text-gray-400">
-                  ${jobDetail.minCompValue} {maxWage} hourly
+                  ${jobDetail.minCompValue}{' '}
+                  {jobDetail.maxCompValue
+                    ? `to $${jobDetail.maxCompValue}`
+                    : ''}{' '}
+                  hourly
                 </span>
               </div>
             </div>
