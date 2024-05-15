@@ -2,12 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import jobPostingService from '../home/jobPostingService';
 import DynamicTextarea from '@/components/ui/dynamicTextArea';
+import CheckboxGroup from '@/components/ui/checkboxGroup';
 
 export default function DetailsPage() {
   const [jobPosting, setJobPosting] = useState({});
   const jobPostingId = new URLSearchParams(window.location.search).get(
     'job-posting-id'
   );
+  const sites = ['Indigenous', 'New Comers', 'Site 3', 'Site 4', 'Site 5'];
 
   useEffect(() => {
     const fetchJobPosting = async () => {
@@ -23,10 +25,12 @@ export default function DetailsPage() {
   }, [jobPostingId]);
 
   const handleChange = e => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+    const newValue = type === 'checkbox' ? checked : value;
+
     setJobPosting(prevJobPosting => ({
       ...prevJobPosting,
-      [name]: value,
+      [name]: newValue,
     }));
   };
 
@@ -276,6 +280,17 @@ export default function DetailsPage() {
             </div>
           </div>
         </div>
+        <CheckboxGroup
+          formData={{
+            site1: jobPosting.site1,
+            site2: jobPosting.site2,
+            site3: jobPosting.site3,
+            site4: jobPosting.site4,
+            site5: jobPosting.site5,
+          }}
+          handleChange={handleChange}
+          siteNames={sites}
+        />
         <div className="mt-10">
           <button
             type="submit"
