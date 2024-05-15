@@ -17,6 +17,7 @@
     ]
   },
   "dependencies": {
+    "@stripe/stripe-js": "^3.4.0",
     "@heroicons/react": "^2.1.3",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-icons": "^1.3.0",
@@ -31,6 +32,8 @@
     "mongoose": "^8.3.4",
     "next": "14.2.3",
     "react": "^18",
+    "react-dom": "^18",
+    "stripe": "^15.5.0",
     "react-dom": "^18",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"
