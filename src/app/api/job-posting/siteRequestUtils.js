@@ -21,21 +21,6 @@ export function getPaginationParams(req) {
   return { skip, pageSize };
 }
 
-// Function to fetch job postings with pagination
-export async function fetchJobPostings(siteCriteria, skip, pageSize) {
-  // Connect to MongoDB
-  await connectMongoDB();
-
-  const Posting = mongoose.models.posting || mongoose.model('posting', posting);
-
-  // Query job postings with pagination
-  const jobPostings = await Posting.find(siteCriteria)
-    .skip(skip)
-    .limit(pageSize);
-
-  return jobPostings;
-}
-
 // Function to handle errors
 export function handleError(error) {
   console.error('Error fetching job postings:', error);
@@ -54,4 +39,34 @@ export function handleError(error) {
       { status: 500 }
     );
   }
+}
+
+// Function to fetch and sort job postings by date
+export async function fetchJobPostings(
+  siteCriteria,
+  sortCriteria,
+  skip,
+  pageSize
+) {
+  await connectMongoDB();
+
+  const Posting = mongoose.models.posting || mongoose.model('posting', posting);
+
+  // Query job postings with pagination
+  const jobPostings = await Posting.find(siteCriteria)
+    .sort(sortCriteria)
+    .skip(skip)
+    .limit(pageSize);
+
+  return jobPostings;
+}
+
+// Function to check if the requested field exists in the schema
+export async function checkFieldExist(requestedObject) {
+  await connectMongoDB();
+
+  const Posting = mongoose.models.posting || mongoose.model('posting', posting);
+  const field = Object.keys(requestedObject)[0];
+
+  return Posting.schema.path(field) !== undefined;
 }

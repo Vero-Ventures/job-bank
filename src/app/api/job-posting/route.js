@@ -2,10 +2,13 @@ import { NextResponse } from 'next/server';
 import { connectMongoDB } from '@/libs/mongodb';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
+import { checkFieldExist } from '@/app/api/job-posting/siteRequestUtils';
 
 export async function GET(req) {
   try {
     const email = req.nextUrl.searchParams.get('email');
+    const sortBy = req.nextUrl.searchParams.get('sort');
+    const sortCriteria = sortBy ? JSON.parse(sortBy) : null;
 
     if (!email) {
       return NextResponse.json(
@@ -14,12 +17,21 @@ export async function GET(req) {
       );
     }
 
+    // Check if the requested sort field exists
+    if (sortCriteria != null && !(await checkFieldExist(sortCriteria))) {
+      console.log('no field');
+      return NextResponse.json(
+        { message: 'Not Found - Requested sort field does not exist' },
+        { status: 404 }
+      );
+    }
+
     await connectMongoDB();
 
     const Posting =
       mongoose.models.posting || mongoose.model('posting', posting);
 
-    const jobPostings = await Posting.find({ email });
+    const jobPostings = await Posting.find({ email }).sort(sortCriteria);
 
     // Check if job postings were found
     if (jobPostings.length === 0) {
@@ -86,8 +98,14 @@ export async function POST(req) {
       createdJobPostings.push(newJobPosting);
     }
 
+    // Extract the IDs of the created job postings
+    const createdJobPostingIds = createdJobPostings.map(posting => posting._id);
+
     return NextResponse.json(
-      { message: 'Job postings created successfully' },
+      {
+        message: 'Job postings created successfully',
+        createdJobPostingIds: createdJobPostingIds,
+      },
       { status: 200 }
     );
   } catch (error) {
