@@ -12,31 +12,28 @@ import Loading from '@/components/ui/Loading';
 export default function JobDetail(job) {
   const [jobDetail, setJobDetail] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [maxWage, setMaxWage] = useState('');
-  const [streetAddress, setStreetAddress] = useState('');
 
   const API_URL = '/api/job-posting/by-id?job-posting-id=';
 
-  function getDetailData() {
+  /**
+   * Fetch Job detail data from database.
+   */
+  const getDetailData = () => {
     setIsLoading(true);
 
     Axios.get(API_URL + job.postingID)
       .then(res => {
         console.log(res.data.jobPostings);
         setJobDetail(res.data.jobPostings[0]);
-        res.data.jobPostings[0].maxCompValue
-          ? setMaxWage(`to $${res.data.jobPostings[0].maxCompValue}`)
-          : '';
-        res.data.jobPostings[0].streetAddress
-          ? setStreetAddress(`${res.data.jobPostings[0].streetAddress}, `)
-          : '';
       })
       .catch(error => {
         console.log(error.response);
         //todo: handle error
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-    setIsLoading(false);
-  }
+  };
 
   useEffect(() => {
     if (job.postingID) {
@@ -46,7 +43,6 @@ export default function JobDetail(job) {
 
   return (
     <div className="bg-white max-h-dvh overflow-y-auto dark:bg-[#0f172a] rounded-lg shadow-lg p-5 md:p-10 flex-1 space-y-4">
-      {isLoading && <Loading colour="blue"></Loading>}
       {Object.keys(jobDetail).length !== 0 && (
         <div className="space-y-4">
           <div>
@@ -71,14 +67,20 @@ export default function JobDetail(job) {
               <div className="flex items-center gap-2">
                 <MapPinIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                 <span className="text-gray-500 dark:text-gray-400">
-                  {streetAddress}
+                  {jobDetail.streetAddress
+                    ? `${jobDetail.streetAddress}, `
+                    : ''}
                   {jobDetail.addressLocality}, {jobDetail.addressRegion}
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <MoneyIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                 <span className="text-gray-500 dark:text-gray-400">
-                  ${jobDetail.minCompValue} {maxWage} hourly
+                  ${jobDetail.minCompValue}{' '}
+                  {jobDetail.maxCompValue
+                    ? `to $${jobDetail.maxCompValue}`
+                    : ''}{' '}
+                  hourly
                 </span>
               </div>
             </div>
@@ -141,6 +143,7 @@ export default function JobDetail(job) {
           </div>
         </div>
       )}
+      {isLoading && <Loading colour="blue"></Loading>}
     </div>
   );
 }

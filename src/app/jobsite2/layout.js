@@ -14,10 +14,8 @@ const cormorant_garamond = Cormorant_Garamond({
   weight: ['400', '500', '600'],
 });
 
-// Todo: Change metadata
 export const metadata = {
-  title: 'Job Site #2',
-  description: 'Generate Job listings',
+  title: 'New Comers Job Site',
 };
 
 export default function RootLayout({ children }) {

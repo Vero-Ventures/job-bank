@@ -10,14 +10,20 @@ import { useEffect, useState } from 'react';
 const API_URL = '/api/job-posting/newcomers/total-posts';
 
 export default function Home() {
-  const [postingID, setPostingID] = useState(null);
-  const [page, setPage] = useState(1);
-  const [maxPage, setMaxPage] = useState(0);
+  const [postingID, setPostingID] = useState(null); //displayed jobposting id
+  const [page, setPage] = useState(1); // current page
+  const [maxPage, setMaxPage] = useState(0); // total number of Pages
 
+  /**
+   * Set jobposting id to display
+   */
   const onClickJobPosting = itemId => {
     setPostingID(itemId);
   };
 
+  /**
+   * Set page number to populate selected page's jobpostings
+   */
   const onClickPage = pageNum => {
     setPage(pageNum);
   };

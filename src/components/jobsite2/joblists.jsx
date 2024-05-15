@@ -1,14 +1,19 @@
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import Axios from 'axios';
+import { useEffect, useState } from 'react';
+
 import Loading from '../ui/Loading';
+import JobListCard from './jobListCard';
 
 export default function JobLists({ onClickJob, page }) {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState([]); // jobPosts list that will be displayed
   const [isLoading, setIsLoading] = useState(true);
+
   const API_URL = '/api/job-posting/newcomers?page_num=';
 
-  function getData() {
+  /**
+   * Fetch Jobposts list of page from database.
+   */
+  const getData = () => {
     setIsLoading(true);
 
     Axios.get(API_URL + page)
@@ -24,8 +29,12 @@ export default function JobLists({ onClickJob, page }) {
       .finally(() => {
         setIsLoading(false);
       });
-  }
+  };
 
+  /**
+   * Pass postingId to Home to display selected post.
+   * @param {string} postingId selected Posting Id.
+   */
   const onClick = postingId => {
     onClickJob(postingId);
   };
@@ -39,45 +48,11 @@ export default function JobLists({ onClickJob, page }) {
       {isLoading && <Loading colour="blue" />}
       <div className="space-y-8">
         {list.map(item => {
-          const maxWage = item.maxCompValue ? `to $${item.maxCompValue}` : '';
-          const postedDate = item.datePosted.split(' ').slice(2).join(' ');
           return (
-            <div
+            <JobListCard
               key={item._id}
-              className="bg-white dark:bg-[#0f172a] rounded-lg shadow-lg p-4 space-y-3">
-              <div>
-                <h5 className="text-xl font-bold titleCase text-[#0b5394] dark:text-white">
-                  {item.jobTitle}
-                </h5>
-                <p className="pl-2 text-gray-500 dark:text-gray-400">
-                  {item.hiringOrganization}
-                </p>
-                <div className="pl-2 flex justify-between">
-                  <div className="text-gray-500 dark:text-gray-400">
-                    {item.addressLocality}, {item.addressRegion}
-                  </div>
-                  <div className="text-xs text-gray-400 dark:text-gray-300 mb-4">
-                    {postedDate}
-                  </div>
-                </div>
-                <div className="flex justify-between">
-                  <p className="pl-2 text-sm text-gray-500 dark:text-gray-400">
-                    ${item.minCompValue} {maxWage} hourly
-                  </p>
-                  <button
-                    className="text-sm p-3 font-bold titleCase text-[#0b5394] hidden sm:block dark:text-white"
-                    onClick={() => onClick(item._id)}>
-                    View
-                  </button>
-                  <Link
-                    className="text-sm p-3 font-bold titleCase text-[#0b5394] block sm:hidden dark:text-white"
-                    href="/jobsite2/jobposting"
-                    as={`/jobsite2/jobposting/${item._id}`}>
-                    View
-                  </Link>
-                </div>
-              </div>
-            </div>
+              item={item}
+              onClick={onClick}></JobListCard>
           );
         })}
       </div>

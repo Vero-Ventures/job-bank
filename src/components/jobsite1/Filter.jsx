@@ -7,10 +7,10 @@ import React, { useState, useEffect } from 'react';
 /**
  * Toggle filters when screen is small.
  */
-function toggleFilters() {
+const toggleFilters = () => {
   const filters = document.querySelector('.filters');
   filters.classList.toggle('hidden');
-}
+};
 
 export default function Filter() {
   const [isLargeScreen, setIsLargeScreen] = useState(true);

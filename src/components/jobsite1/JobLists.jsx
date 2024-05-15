@@ -5,7 +5,7 @@ import { Button } from '../ui/button';
 import { useEffect, useState } from 'react';
 
 export default function JobLists() {
-  const [list, setList] = useState([]); // jobPosts list displayed
+  const [list, setList] = useState([]); // jobPosts list that will be displayed
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1); // current page
   const [lastPage, setLastPage] = useState(0); // total number of pages

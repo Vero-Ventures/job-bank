@@ -5,6 +5,10 @@ export default function Pagination({ onClickPageNum, maxPage }) {
   const [pageList, setPageList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
+  /**
+   * Set page number and pass page number to Home when user clicks page button.
+   * @param {int} pageNum - selected page number.
+   */
   const onClick = pageNum => {
     if (pageNum != currentPage) {
       onClickPageNum(pageNum);
@@ -12,6 +16,10 @@ export default function Pagination({ onClickPageNum, maxPage }) {
     }
   };
 
+  /**
+   * Set page numbers list to re-display page button when user clicks next or previous button.
+   * @param {int} startPage - first page number to be display.
+   */
   const setNewbuttons = startPage => {
     const length = Math.min(maxPage - startPage + 1, 5);
     const newList = Array.from({ length: length }, (_, i) => startPage + i);

@@ -21,7 +21,7 @@ export default function JobPosting({ params }) {
   /**
    * Fetch Jobpost detail from database.
    */
-  function getDetailData() {
+  const getDetailData = () => {
     setIsLoading(true);
 
     Axios.get(API_URL + postID)
@@ -34,7 +34,7 @@ export default function JobPosting({ params }) {
         //todo: handle error
       });
     setIsLoading(false);
-  }
+  };
 
   useEffect(() => {
     getDetailData();
