@@ -13,7 +13,8 @@ function Checkbox({ name, checked, onChange }) {
   );
 }
 
-function CheckboxGroup({ formData, handleChange, siteNames }) {
+function CheckboxGroup({ formData, handleChange }) {
+  const siteNames = ['Indigenous', 'New Comers', 'Site 3', 'Site 4', 'Site 5'];
   const siteKeys = Object.keys(formData).filter(key => key.startsWith('site'));
 
   return (
