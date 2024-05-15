@@ -112,7 +112,6 @@ const Card = React.forwardRef(
             Expires: {new Date(posting.validThrough).toLocaleDateString()}
           </p>
           <div className="mt-3 text-gray-900">
-            Display on sites:
             <CheckboxGroup
               formData={checkboxState}
               handleChange={handleChange}
