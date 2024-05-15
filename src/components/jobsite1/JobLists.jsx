@@ -4,10 +4,10 @@ import JobListCard from './jobListCard';
 import { Button } from '../ui/button';
 import { useEffect, useState } from 'react';
 
-export default function JobLists() {
+export default function JobLists({ sortByDate }) {
   const [list, setList] = useState([]); // jobPosts list that will be displayed
   const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(1); // current page
+  const [page, setPage] = useState(0); // current page
   const [lastPage, setLastPage] = useState(0); // total number of pages
 
   const API_URL = '/api/job-posting/indigenous';
@@ -18,11 +18,17 @@ export default function JobLists() {
   const getData = () => {
     setIsLoading(true);
     console.log('Current Page ' + page);
-    Axios.get(API_URL + '?page_num=' + page)
+    const page_param = '?page_num=' + page;
+    const sort_param = sortByDate ? '&sort={"datePosted": -1}' : '';
+    console.log(API_URL + page_param + sort_param);
+    Axios.get(API_URL + page_param + sort_param)
       .then(res => {
         console.log(res.data);
-        const mergedData = list.concat(res.data.jobPostings);
-        setList(mergedData);
+        if (page == 1) {
+          setList(res.data.jobPostings);
+        } else {
+          setList(list.concat(res.data.jobPostings));
+        }
       })
       .catch(error => {
         console.log(error.response);
@@ -60,8 +66,18 @@ export default function JobLists() {
   }, []);
 
   useEffect(() => {
-    getData();
+    if (page !== 0) {
+      getData();
+    }
   }, [page]);
+
+  useEffect(() => {
+    if (page == 1) {
+      getData();
+    } else {
+      setPage(1);
+    }
+  }, [sortByDate]);
 
   return (
     <div className="grid gap-6 max-h-dvh overflow-y-auto">
