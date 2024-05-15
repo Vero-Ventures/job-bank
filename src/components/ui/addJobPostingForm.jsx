@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DynamicTextarea from '@/components/ui/dynamicTextArea';
+import CheckboxGroup from './CheckboxGroup';
 
 const AddJobPostingForm = ({ onSubmit, email }) => {
   const [formData, setFormData] = useState({
@@ -22,13 +23,18 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
     site2: false,
     site3: false,
     site4: false,
+    site5: false,
   });
 
+  const sites = ['Indigenous', 'New Comers', 'Site 3', 'Site 4', 'Site 5'];
+
   const handleChange = e => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+    const newValue = type === 'checkbox' ? checked : value;
+
     setFormData(prevFormData => ({
       ...prevFormData,
-      [name]: value,
+      [name]: newValue,
     }));
   };
 
@@ -260,6 +266,13 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 textarea-auto "
               />
             </div>
+          </div>
+          <div>
+            <CheckboxGroup
+              formData={formData}
+              handleChange={handleChange}
+              siteNames={sites}
+            />
           </div>
         </div>
         <div className="mt-10">
