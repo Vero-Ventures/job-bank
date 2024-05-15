@@ -9,7 +9,6 @@ export default function DetailsPage() {
   const jobPostingId = new URLSearchParams(window.location.search).get(
     'job-posting-id'
   );
-  const sites = ['Indigenous', 'New Comers', 'Site 3', 'Site 4', 'Site 5'];
 
   useEffect(() => {
     const fetchJobPosting = async () => {
@@ -289,7 +288,6 @@ export default function DetailsPage() {
             site5: jobPosting.site5,
           }}
           handleChange={handleChange}
-          siteNames={sites}
         />
         <div className="mt-10">
           <button
