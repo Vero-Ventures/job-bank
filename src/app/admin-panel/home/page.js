@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { AddJobPostingForm } from '@/components/ui/addJobPostingForm';
 import jobPostingService from './jobPostingService';
+import { useCallback } from 'react';
 
 // Define your component
 export default function Home() {
@@ -13,28 +14,32 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
+    console.log('fetchUser called');
     try {
       const response = await fetch('/api/auth/me');
       if (response.ok) {
         const userData = await response.json();
         setUser(userData);
+        console.log(userData);
+        // setTimeout(fetchJobPostings, 10000);
+        // await fetchJobPostings();
       } else {
         console.error('Failed to fetch user:', response.statusText);
       }
     } catch (error) {
       console.error('Error fetching user:', error);
     }
-  };
+  }, []);
   const [showForm, setShowForm] = useState(false);
-  const email = 'rajpaldhillon46@outlook.com';
 
   // Function to fetch job postings from the API
-  const fetchJobPostings = async () => {
+  const fetchJobPostings = useCallback(async () => {
     try {
       setLoading(true);
       const sortCriteria = JSON.stringify({ _id: -1 });
-      const apiURL = `http://localhost:3000/api/job-posting/sort?email=${email}&sort_by=${sortCriteria}`;
+      const apiURL = `http://localhost:3000/api/job-posting/sort?email=${user.email}&sort_by=${sortCriteria}`;
+      console.log(apiURL);
       const response = await fetch(apiURL, {
         method: 'GET',
         headers: {
@@ -53,12 +58,17 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
   useEffect(() => {
     fetchUser();
-    fetchJobPostings();
   }, []); // Fetch job postings when the component mounts
+
+  useEffect(() => {
+    if (user) {
+      fetchJobPostings();
+    }
+  }, [user]);
 
   // Function to handle deletion of job posting
   const handleDelete = async jobPostingId => {
@@ -130,7 +140,7 @@ export default function Home() {
       {showForm && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="bg-white p-8 rounded shadow-lg max-h-[80vh] overflow-y-auto">
-            <AddJobPostingForm onSubmit={handleFormSubmit} email={email} />
+            <AddJobPostingForm onSubmit={handleFormSubmit} email={user.email} />
             <button
               className="close-icon absolute top-0 right-0 p-2 text-gray-500 hover:text-gray-700"
               onClick={() => setShowForm(false)}></button>
