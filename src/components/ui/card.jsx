@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import TrashButton from '@/components/ui/trashbutton';
-import { Checkbox } from '@/components/ui/checkbox';
+import CheckboxGroup from './CheckboxGroup';
 import { PencilIcon } from '@/components/icons';
 import { cn } from '@/libs/utils';
+import jobPostingService from '@/app/admin-panel/home/jobPostingService';
 
 const CardHeader = React.forwardRef(({ className, ...props }, ref) => (
   <div
@@ -50,62 +51,77 @@ const CardFooter = React.forwardRef(({ className, ...props }, ref) => (
 CardFooter.displayName = 'CardFooter';
 
 const Card = React.forwardRef(
-  (
-    {
-      jobPostingId,
-      title,
-      organization,
-      locality,
-      region,
-      validThrough,
-      siteFlags,
-      className,
-      onDelete,
-      ...props
-    },
-    ref
-  ) => (
-    <div
-      ref={ref}
-      className={cn(
-        'rounded-lg border border-gray-200 bg-white text-gray-950 shadow-sm dark:border-gray-800 dark:bg-gray-950 dark:text-gray-50',
-        className
-      )}
-      {...props}>
-      <CardHeader>
-        <CardTitle className="title-case">{title}</CardTitle>
-        <div className="flex space-x-2">
-          <a
-            href={`/admin-panel/postingDetails?job-posting-id=${jobPostingId}`}
-            key={jobPostingId}>
-            <Button size="icon" variant="outline">
-              <PencilIcon className="h-4 w-4" />
-              <span className="sr-only">Edit</span>
-            </Button>
-          </a>
-          <TrashButton jobPostingId={jobPostingId} onDelete={onDelete} />
-        </div>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm text-gray-600">
-          {organization} - {locality}, {region}
-        </p>
-        <p className="text-sm text-gray-600">
-          Expires: {new Date(validThrough).toLocaleDateString()}
-        </p>
-        <div className="mt-4">
-          {siteFlags.map(({ id, checked, label }) => (
-            <div key={id}>
-              <Checkbox id={id} checked={checked} />
-              <label className="ml-2 text-sm" htmlFor={id}>
-                {label}
-              </label>
-            </div>
-          ))}
-        </div>
-      </CardContent>
-    </div>
-  )
+  ({ jobPostingId, posting, className, onDelete, ...props }, ref) => {
+    const [checkboxState, setCheckboxState] = React.useState({
+      site1: posting.site1,
+      site2: posting.site2,
+      site3: posting.site3,
+      site4: posting.site4,
+      site5: posting.site5,
+    });
+
+    const handleChange = async e => {
+      const site = e.target.name;
+      const value = e.target.checked;
+
+      try {
+        const response = await jobPostingService.editJobPosting(jobPostingId, {
+          [site]: value,
+        });
+        // update the UI after successful API call
+        if (response.success) {
+          setCheckboxState({
+            ...checkboxState,
+            [site]: value,
+          });
+        }
+      } catch (error) {
+        console.error('Error updating job posting:', error);
+        // Handle error
+      }
+    };
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          'rounded-lg border border-gray-200 bg-white text-gray-950 shadow-sm dark:border-gray-800 dark:bg-gray-950 dark:text-gray-50',
+          className
+        )}
+        {...props}>
+        <CardHeader>
+          <CardTitle className="title-case">{posting.jobTitle}</CardTitle>
+          <div className="flex space-x-2">
+            <a
+              href={`/admin-panel/postingDetails?job-posting-id=${jobPostingId}`}
+              key={jobPostingId}>
+              <Button size="icon" variant="outline">
+                <PencilIcon className="h-4 w-4" />
+                <span className="sr-only">Edit</span>
+              </Button>
+            </a>
+            <TrashButton jobPostingId={jobPostingId} onDelete={onDelete} />
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-gray-600">
+            {posting.hiringOrganization} - {posting.addressLocality},{' '}
+            {posting.addressRegion}
+          </p>
+          <p className="text-sm text-gray-600">
+            Expires: {new Date(posting.validThrough).toLocaleDateString()}
+          </p>
+          <div className="mt-3 text-gray-900">
+            Display on sites:
+            <CheckboxGroup
+              formData={checkboxState}
+              handleChange={handleChange}
+            />
+          </div>
+        </CardContent>
+      </div>
+    );
+  }
 );
 Card.displayName = 'Card';
 

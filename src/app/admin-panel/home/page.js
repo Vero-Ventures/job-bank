@@ -125,19 +125,8 @@ export default function Home() {
             <div key={posting._id}>
               <Card
                 jobPostingId={posting._id}
-                title={posting.jobTitle}
-                organization={posting.hiringOrganization}
-                locality={posting.addressLocality}
-                region={posting.addressRegion}
-                validThrough={posting.validThrough}
+                posting={posting}
                 onDelete={handleDelete}
-                siteFlags={Array.from({ length: 4 }, (_, i) => i + 1).map(
-                  site => ({
-                    id: `site${site}-software`,
-                    checked: posting[`site${site}`],
-                    label: `Display on Site ${site}`,
-                  })
-                )}
               />
             </div>
           ))
