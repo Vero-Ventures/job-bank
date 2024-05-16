@@ -16,6 +16,9 @@ export async function getTotalNumberOfPostings(siteCriteria) {
 export async function getEmailAddressesWithSentField(params) {
   const sortBy = params.get('sort');
   const sortCriteria = sortBy ? JSON.parse(sortBy) : null;
+
+  await connectMongoDB();
+
   const Posting = mongoose.models.posting || mongoose.model('posting', posting);
 
   let aggregationPipeline = [
