@@ -3,6 +3,48 @@ import { connectMongoDB } from '@/libs/mongodb';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
 
+// Function to get email addresses with the 'sent' field
+export async function getEmailAddressesWithSentField(params) {
+  const sortBy = params.get('sort');
+  const sortCriteria = sortBy ? JSON.parse(sortBy) : null;
+
+  await connectMongoDB();
+
+  const Posting = mongoose.models.posting || mongoose.model('posting', posting);
+
+  // Define the aggregation pipeline to perform operations on the documents
+  let aggregationPipeline = [
+    {
+      // Group documents by the 'email' field, and for each group,
+      // create a new field 'sent' containing the value of the 'sent' field
+      $group: {
+        _id: '$email',
+        sent: { $first: '$sent' }, // Include the 'sent' field from the first document in each group
+      },
+    },
+    {
+      // Project stage: Reshape the documents to include only the 'email' and 'sent' fields,
+      // while replacing the '_id' field name to 'email'
+      $project: {
+        email: '$_id', // Rename '_id' to 'email'
+        sent: 1,
+        _id: 0,
+      },
+    },
+  ];
+
+  if (sortCriteria) {
+    aggregationPipeline.push({
+      $sort: { sent: sortCriteria },
+    });
+  }
+
+  // Execute the aggregation pipeline
+  let emailAddresses = await Posting.aggregate(aggregationPipeline);
+
+  return emailAddresses;
+}
+
 // Function to extract pagination parameters
 export function getPaginationParams(req) {
   const pageSize = 25;
