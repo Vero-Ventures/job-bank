@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 export default new mongoose.Schema({
-  jobTitle: { type: String, required: true },
-  datePosted: { type: String, required: true },
-  hiringOrganization: { type: String, required: true },
+  jobTitle: String,
+  datePosted: String,
+  hiringOrganization: String,
   streetAddress: String,
   addressLocality: String,
   addressRegion: String,
