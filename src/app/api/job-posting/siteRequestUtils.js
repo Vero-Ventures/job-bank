@@ -13,6 +13,7 @@ export async function getTotalNumberOfPostings(siteCriteria) {
   return totalNumberOfPostings;
 }
 
+// Function to get email addresses with the 'sent' field
 export async function getEmailAddressesWithSentField(params) {
   const sortBy = params.get('sort');
   const sortCriteria = sortBy ? JSON.parse(sortBy) : null;
@@ -21,16 +22,21 @@ export async function getEmailAddressesWithSentField(params) {
 
   const Posting = mongoose.models.posting || mongoose.model('posting', posting);
 
+  // Define the aggregation pipeline to perform operations on the documents
   let aggregationPipeline = [
     {
+      // Group documents by the 'email' field, and for each group,
+      // create a new field 'sent' containing the value of the 'sent' field
       $group: {
         _id: '$email',
-        sent: { $first: '$sent' },
+        sent: { $first: '$sent' }, // Include the 'sent' field from the first document in each group
       },
     },
     {
+      // Project stage: Reshape the documents to include only the 'email' and 'sent' fields,
+      // while replacing the '_id' field name to 'email'
       $project: {
-        email: '$_id',
+        email: '$_id', // Rename '_id' to 'email'
         sent: 1,
         _id: 0,
       },
