@@ -13,6 +13,7 @@ export default function Home() {
   const [postingID, setPostingID] = useState(null); //displayed jobposting id
   const [page, setPage] = useState(1); // current page
   const [maxPage, setMaxPage] = useState(0); // total number of Pages
+  const [sortByDate, setSortByDate] = useState(false);
 
   /**
    * Set jobposting id to display
@@ -47,10 +48,25 @@ export default function Home() {
       <div className="flex flex-row flex-1 space-x-6">
         <div className="w-full sm:w-4/12">
           <div id="joblists" className="max-h-dvh overflow-y-auto">
-            <JobLists onClickJob={onClickJobPosting} page={page}></JobLists>
+            <div className="flex ml-auto mb-2 justify-end">
+              <button
+                onClick={() => {
+                  sortByDate ? setSortByDate(false) : setSortByDate(true);
+                  setPage(1);
+                }}
+                className={`px-4 text-sm ${sortByDate ? 'font-semibold' : 'font-normals'}`}>
+                Sort by date
+              </button>
+            </div>
+            <JobLists
+              onClickJob={onClickJobPosting}
+              page={page}
+              sortByDate={sortByDate}></JobLists>
             <Pagination
               onClickPageNum={onClickPage}
-              maxPage={maxPage}></Pagination>
+              maxPage={maxPage}
+              page={page}
+              sortByDate={sortByDate}></Pagination>
           </div>
         </div>
 
