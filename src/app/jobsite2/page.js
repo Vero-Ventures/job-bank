@@ -26,6 +26,10 @@ export default function Home() {
    */
   const onClickPage = pageNum => {
     setPage(pageNum);
+    document.getElementById('joblists').scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   useEffect(() => {
@@ -42,10 +46,12 @@ export default function Home() {
       <SearchBar></SearchBar>
       <div className="flex flex-row flex-1 space-x-6">
         <div className="w-full sm:w-4/12">
-          <JobLists onClickJob={onClickJobPosting} page={page}></JobLists>
-          <Pagination
-            onClickPageNum={onClickPage}
-            maxPage={maxPage}></Pagination>
+          <div id="joblists" className="max-h-dvh overflow-y-auto">
+            <JobLists onClickJob={onClickJobPosting} page={page}></JobLists>
+            <Pagination
+              onClickPageNum={onClickPage}
+              maxPage={maxPage}></Pagination>
+          </div>
         </div>
 
         <div className="hidden sm:block sm:w-8/12">

@@ -44,7 +44,7 @@ export default function JobLists({ onClickJob, page }) {
   }, [page]);
 
   return (
-    <div className="max-h-dvh overflow-y-auto">
+    <div>
       {isLoading && <Loading colour="blue" />}
       <div className="space-y-8">
         {list.map(item => {
