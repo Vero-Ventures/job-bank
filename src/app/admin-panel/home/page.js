@@ -38,7 +38,7 @@ export default function Home() {
     try {
       setLoading(true);
       const sortCriteria = JSON.stringify({ _id: -1 });
-      const apiURL = `http://localhost:3000/api/job-posting/sort?email=${user.email}&sort_by=${sortCriteria}`;
+      const apiURL = `http://localhost:3000/api/job-posting/?email=${user.email}&sort_by=${sortCriteria}`;
       console.log(apiURL);
       const response = await fetch(apiURL, {
         method: 'GET',
