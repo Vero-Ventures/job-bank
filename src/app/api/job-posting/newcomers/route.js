@@ -3,6 +3,7 @@ import {
   getPaginationParams,
   fetchJobPostings,
   handleError,
+  checkFieldExist,
 } from '../siteRequestUtils';
 
 export async function GET(req) {
@@ -12,9 +13,25 @@ export async function GET(req) {
 
     // Extract pagination parameters
     const { skip, pageSize } = getPaginationParams(req);
+    const sortBy = req.nextUrl.searchParams.get('sort');
+    const sortCriteria = sortBy ? JSON.parse(sortBy) : null;
 
-    // Query job postings with pagination
-    const jobPostings = await fetchJobPostings(siteCriteria, skip, pageSize);
+    // Check if the requested sort field exists
+    if (sortCriteria != null && !(await checkFieldExist(sortCriteria))) {
+      console.log('no field');
+      return NextResponse.json(
+        { message: 'Not Found - Requested sort field does not exist' },
+        { status: 404 }
+      );
+    }
+
+    // Query job postings with pagination and sort criteria if provided
+    const jobPostings = await fetchJobPostings(
+      siteCriteria,
+      sortCriteria,
+      skip,
+      pageSize
+    );
 
     if (jobPostings.length === 0) {
       return NextResponse.json(
