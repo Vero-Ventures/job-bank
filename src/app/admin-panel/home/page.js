@@ -21,14 +21,15 @@ export default function Home() {
       if (response.ok) {
         const userData = await response.json();
         setUser(userData);
-        console.log(userData);
-        // setTimeout(fetchJobPostings, 10000);
-        // await fetchJobPostings();
       } else {
         console.error('Failed to fetch user:', response.statusText);
       }
     } catch (error) {
       console.error('Error fetching user:', error);
+    }
+
+    if (!user) {
+      window.location.href = '/'; // Redirect to login page if user is not logged in
     }
   }, []);
   const [showForm, setShowForm] = useState(false);
