@@ -19,16 +19,6 @@ export default function LandingPage() {
 
   if (user) {
     redirect('/admin-panel/home');
-    // return (
-    //   user && (
-    //     <div>
-    //       <img src={user.picture} alt={user.name} />
-    //       <p>{user.email}</p>
-    //       <Link href="/admin-panel/home">Admin Panel</Link><br />
-    //       <Link href="/api/auth/logout">Logout</Link>
-    //     </div>
-    //   )
-    // );
   }
 
   return (
