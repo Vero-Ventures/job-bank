@@ -4,6 +4,8 @@ import {
   fetchJobPostings,
   handleError,
   checkFieldExist,
+  parseSortCriteria,
+  parseFilterCriteria,
 } from '../siteRequestUtils';
 
 export async function GET(req) {
@@ -14,7 +16,11 @@ export async function GET(req) {
     // Extract pagination parameters
     const { skip, pageSize } = getPaginationParams(req);
     const sortBy = req.nextUrl.searchParams.get('sort');
-    const sortCriteria = sortBy ? JSON.parse(sortBy) : null;
+    const filterBy = req.nextUrl.searchParams.get('filter');
+
+    // Parse sort and filter criteria
+    const sortCriteria = await parseSortCriteria(sortBy);
+    const filterCriteria = await parseFilterCriteria(filterBy);
 
     // Check if the requested sort field exists
     if (sortCriteria != null && !(await checkFieldExist(sortCriteria))) {
@@ -29,6 +35,7 @@ export async function GET(req) {
     const jobPostings = await fetchJobPostings(
       siteCriteria,
       sortCriteria,
+      filterCriteria,
       skip,
       pageSize
     );
