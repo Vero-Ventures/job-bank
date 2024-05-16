@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import posting from '../posting.js';
+import posting from '../../src/app/api/posting.js';
 import mongoose from 'mongoose';
 
 const BASE_URL = `https://www.jobbank.gc.ca/jobsearch`;
