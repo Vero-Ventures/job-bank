@@ -2,13 +2,20 @@ import { NextResponse } from 'next/server';
 import { connectMongoDB } from '@/libs/mongodb';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
-import { checkFieldExist } from '@/app/api/job-posting/siteRequestUtils';
+import {
+  checkFieldExist,
+  parseSortCriteria,
+  parseFilterCriteria,
+} from '@/app/api/job-posting/siteRequestUtils';
 
 export async function GET(req) {
   try {
     const email = req.nextUrl.searchParams.get('email');
     const sortBy = req.nextUrl.searchParams.get('sort');
-    const sortCriteria = sortBy ? JSON.parse(sortBy) : null;
+    const filterBy = req.nextUrl.searchParams.get('filter');
+
+    const sortCriteria = await parseSortCriteria(sortBy);
+    const filterCriteria = await parseFilterCriteria(filterBy);
 
     if (!email) {
       return NextResponse.json(
@@ -31,7 +38,15 @@ export async function GET(req) {
     const Posting =
       mongoose.models.posting || mongoose.model('posting', posting);
 
-    const jobPostings = await Posting.find({ email }).sort(sortCriteria);
+    // Construct the filter object based on filterCriteria array
+    const filterObject = filterCriteria.reduce((acc, filter) => {
+      // Merge each filter object into the accumulator
+      return { ...acc, ...filter };
+    }, {});
+
+    const jobPostings = await Posting.find({ email, ...filterObject }).sort(
+      sortCriteria
+    );
 
     // Check if job postings were found
     if (jobPostings.length === 0) {
