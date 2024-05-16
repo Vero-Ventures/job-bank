@@ -1,18 +1,6 @@
-import { Libre_Franklin, Cormorant_Garamond } from 'next/font/google';
+import { libre_franklin, cormorant_garamond } from '@/components/fontstyle';
 import Top2 from '@/components/jobsite2/Top2';
 import Footer from '@/components/Footer';
-
-const libre_franklin = Libre_Franklin({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-libre_franklin',
-});
-const cormorant_garamond = Cormorant_Garamond({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-cormorant_garamond',
-  weight: ['400', '500', '600'],
-});
 
 export const metadata = {
   title: 'New Comers Job Site',
