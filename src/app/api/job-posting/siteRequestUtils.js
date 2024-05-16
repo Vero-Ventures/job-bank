@@ -11,21 +11,6 @@ export function getPaginationParams(req) {
   return { skip, pageSize };
 }
 
-// Function to fetch job postings with pagination
-export async function fetchJobPostings(siteCriteria, skip, pageSize) {
-  // Connect to MongoDB
-  await connectMongoDB();
-
-  const Posting = mongoose.models.posting || mongoose.model('posting', posting);
-
-  // Query job postings with pagination
-  const jobPostings = await Posting.find(siteCriteria)
-    .skip(skip)
-    .limit(pageSize);
-
-  return jobPostings;
-}
-
 // Function to handle errors
 export function handleError(error) {
   console.error('Error fetching job postings:', error);
@@ -47,7 +32,7 @@ export function handleError(error) {
 }
 
 // Function to fetch and sort job postings by date
-export async function fetchSortedJobPostings(
+export async function fetchJobPostings(
   siteCriteria,
   sortCriteria,
   skip,
@@ -59,7 +44,7 @@ export async function fetchSortedJobPostings(
 
   // Query job postings with pagination
   const jobPostings = await Posting.find(siteCriteria)
-    .sort(sortCriteria) // Sort by date in descending order
+    .sort(sortCriteria)
     .skip(skip)
     .limit(pageSize);
 
