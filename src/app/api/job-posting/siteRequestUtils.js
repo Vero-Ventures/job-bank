@@ -13,6 +13,39 @@ export async function getTotalNumberOfPostings(siteCriteria) {
   return totalNumberOfPostings;
 }
 
+export async function getEmailAddressesWithSentField(params) {
+  const sortBy = params.get('sort');
+  const sortCriteria = sortBy ? JSON.parse(sortBy) : null;
+  const Posting = mongoose.models.posting || mongoose.model('posting', posting);
+
+  let aggregationPipeline = [
+    {
+      $group: {
+        _id: '$email',
+        sent: { $first: '$sent' },
+      },
+    },
+    {
+      $project: {
+        email: '$_id',
+        sent: 1,
+        _id: 0,
+      },
+    },
+  ];
+
+  if (sortCriteria) {
+    aggregationPipeline.push({
+      $sort: { sent: sortCriteria },
+    });
+  }
+
+  // Execute the aggregation pipeline
+  let emailAddresses = await Posting.aggregate(aggregationPipeline);
+
+  return emailAddresses;
+}
+
 // Function to extract pagination parameters
 export function getPaginationParams(req) {
   const pageSize = 25;
