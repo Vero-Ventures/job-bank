@@ -45,6 +45,7 @@ export function handleError(error) {
 export async function fetchJobPostings(
   siteCriteria,
   sortCriteria,
+  filterCriteria,
   skip,
   pageSize
 ) {
@@ -52,8 +53,14 @@ export async function fetchJobPostings(
 
   const Posting = mongoose.models.posting || mongoose.model('posting', posting);
 
+  // Construct the filter object based on filterCriteria array
+  const filterObject = filterCriteria.reduce((acc, filter) => {
+    // Merge each filter object into the accumulator
+    return { ...acc, ...filter };
+  }, {});
+
   // Query job postings with pagination
-  const jobPostings = await Posting.find(siteCriteria)
+  const jobPostings = await Posting.find({ ...siteCriteria, ...filterObject })
     .sort(sortCriteria)
     .skip(skip)
     .limit(pageSize);
@@ -69,4 +76,26 @@ export async function checkFieldExist(requestedObject) {
   const field = Object.keys(requestedObject)[0];
 
   return Posting.schema.path(field) !== undefined;
+}
+
+// Function to parse sort criteria
+export async function parseSortCriteria(sortBy) {
+  return sortBy ? JSON.parse(sortBy) : null;
+}
+
+// Function to parse filter criteria
+export async function parseFilterCriteria(filterBy) {
+  const filterCriteria = [];
+
+  if (filterBy) {
+    const filters = filterBy.split('|');
+    filters.forEach(filter => {
+      const [field, value] = filter.split(':');
+      const filterObject = {};
+      filterObject[field] = value;
+      filterCriteria.push(filterObject);
+    });
+  }
+
+  return filterCriteria;
 }
