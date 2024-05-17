@@ -31,7 +31,6 @@ export default function Component() {
   const links = [
     { text: 'Pricing', url: '/pricing' },
     { text: 'About', url: '/about' },
-    { text: 'Contact', url: '/contact' },
   ];
 
   return (
