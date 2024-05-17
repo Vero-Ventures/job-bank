@@ -28,9 +28,15 @@ export default function Component() {
     redirect('/admin-panel/home');
   }
 
+  const links = [
+    { text: 'Pricing', url: '/pricing' },
+    { text: 'About', url: '/about' },
+    { text: 'Contact', url: '/contact' },
+  ];
+
   return (
     <div className="flex flex-col min-h-[100dvh]">
-      <Navbar />
+      <Navbar links={links} />
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 border-y">
           <div className="container px-4 md:px-6 space-y-10 xl:space-y-16">
