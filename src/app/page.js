@@ -126,13 +126,6 @@ export default function Component() {
             <Link href="#">Asylum-Refugees</Link>
           </div>
           <div className="grid gap-1">
-            <h3 className="font-semibold">Resources</h3>
-            <Link href="#">Blog</Link>
-            <Link href="#">Help Center</Link>
-            <Link href="#">Webinars</Link>
-            <Link href="#">Templates</Link>
-          </div>
-          <div className="grid gap-1">
             <h3 className="font-semibold">Legal</h3>
             <Link href="#">Privacy Policy</Link>
             <Link href="#">Terms of Service</Link>
