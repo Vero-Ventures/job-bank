@@ -3,6 +3,7 @@ import { connectMongoDB } from '@/libs/mongodb';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
 import {
+  fetchJobPostings,
   checkFieldExist,
   parseSortCriteria,
   parseFilterCriteria,
@@ -12,10 +13,13 @@ export async function GET(req) {
   try {
     const email = req.nextUrl.searchParams.get('email');
     const sortBy = req.nextUrl.searchParams.get('sort');
-    const filterBy = req.nextUrl.searchParams.get('filter');
+    const etFilters = req.nextUrl.searchParams.getAll('et');
+    const pFilters = req.nextUrl.searchParams.getAll('p');
 
+    // Parse sort and filter criteria
     const sortCriteria = await parseSortCriteria(sortBy);
-    const filterCriteria = await parseFilterCriteria(filterBy);
+    // Parse filter criteria
+    const filterCriteria = await parseFilterCriteria(etFilters, pFilters);
 
     if (!email) {
       return NextResponse.json(
@@ -35,28 +39,26 @@ export async function GET(req) {
 
     await connectMongoDB();
 
-    const Posting =
-      mongoose.models.posting || mongoose.model('posting', posting);
+    const siteCriteria = { email };
+    const skip = 0;
+    const pageSize = 0;
 
-    // Construct the filter object based on filterCriteria array
-    const filterObject = filterCriteria.reduce((acc, filter) => {
-      // Merge each filter object into the accumulator
-      return { ...acc, ...filter };
-    }, {});
-
-    const jobPostings = await Posting.find({ email, ...filterObject }).sort(
-      sortCriteria
+    // Query job postings with pagination and sort criteria if provided
+    const jobPostings = await fetchJobPostings(
+      siteCriteria,
+      sortCriteria,
+      filterCriteria,
+      skip,
+      pageSize
     );
 
     // Check if job postings were found
-    if (jobPostings.length === 0) {
-      return NextResponse.json(
-        {
-          message:
-            'Not Found - No job postings were found associated with the provided email',
-        },
-        { status: 404 }
-      );
+    if (jobPostings.length < 1) {
+      return new Response(null, {
+        status: 204,
+        statusText:
+          'No job postings were found associated with the provided email',
+      });
     }
 
     return NextResponse.json({ jobPostings }, { status: 200 });
