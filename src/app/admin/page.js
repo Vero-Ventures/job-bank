@@ -1,35 +1,61 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
+import { AdminPage } from '@/components/component/adminPage';
 
-export default function Admin() {
+export default function Home() {
+  const JOB_POSTING_API_URL = process.env.NEXT_PUBLIC_JOB_POSTING_API_URL;
   const [emails, setEmails] = useState([]);
 
   // Function to fetch emails from an API endpoint
-  // const fetchEmails = async () => {
-  //   try {
-  //     const response = await fetch('YOUR_API_ENDPOINT'); // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
-  //     const data = await response.json();
-  //     return data.emails; // Assuming the API response contains an array of emails
-  //   } catch (error) {
-  //     console.error('Error fetching emails:', error);
-  //     return [];
-  //   }
-  // };
+  const fetchEmails = async () => {
+    try {
+      const response = await fetch(`${JOB_POSTING_API_URL}email-sent?sort=-1`);
+      const data = await response.json();
+      setEmails(data.emailAddresses);
+    } catch (error) {
+      console.error('Error fetching emails:', error);
+      return [];
+    }
+  };
+
+  const updateSentStatus = async (email, sent) => {
+    try {
+      const apiUrl = `${JOB_POSTING_API_URL}/update-sent/`;
+      const response = await fetch(apiUrl, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, sent }),
+      });
+
+      if (response.ok) {
+        // Update the status of the email in the data array
+        setEmails(prevEmails =>
+          prevEmails.map(emailObj =>
+            emailObj.email === email ? { ...emailObj, sent } : emailObj
+          )
+        );
+
+        const data = await response.json();
+        console.log(data.message);
+      } else {
+        throw new Error('Failed to update sent status');
+      }
+    } catch (error) {
+      console.error('Error updating sent status:', error);
+    }
+  };
 
   // Fetch emails when component mounts
   useEffect(() => {
-    const getEmails = async () => {
-      const fetchedEmails = ['vhmai3007@gmail.com'];
-      setEmails(fetchedEmails);
-    };
-    getEmails();
+    fetchEmails();
   }, []);
 
   const sendEmail = async recipient => {
     try {
-      const apiUrl = `http://localhost:3000/api/send-email`;
+      const apiUrl = process.env.NEXT_PUBLIC_SEND_EMAIL_API_URL;
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -44,8 +70,7 @@ export default function Admin() {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        console.log(data.message);
+        updateSentStatus(recipient, true);
       } else {
         throw new Error('Failed to send email');
       }
@@ -54,22 +79,5 @@ export default function Admin() {
     }
   };
 
-  return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-4">Emails</h1>
-      <ul className="grid gap-4">
-        {emails.map((email, index) => (
-          <li key={index} className="bg-gray-100 p-4 rounded-md shadow">
-            <div className="text-lg font-semibold">{email}</div>
-            <Button
-              className="mt-2"
-              variant="secondary"
-              onClick={() => sendEmail(email)}>
-              Send Email
-            </Button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  return <AdminPage data={emails} sendEmail={sendEmail} />;
 }
