@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // assuming you're using React Router for navigation
+import { Link } from 'next/link';
 
 function Navbar() {
   return (
