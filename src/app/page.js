@@ -11,9 +11,16 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { redirect } from 'next/navigation';
 
 export default function Component() {
-  const { user, error, isLoading } = useUser();
+  const { user, error } = useUser();
 
-  if (isLoading) return <div>Loading...</div>;
+  // Displaying a loading page is kind of unnecessary but if you want to do it, you can uncomment the code below and add "isLoading" to the const above.
+  // if (isLoading) return (
+  //   <div class="flex justify-center items-center h-screen">
+  //     <div class="flex flex-col items-center">
+  //       <h1 className="lg:leading-tighter text-3xl tracking-tighter sm:text-4xl md:text-5xl xl:text-[2rem] 2xl:text-[2rem]">Loading...</h1>
+  //     </div>
+  //   </div>
+  // );
   if (error) return <div>{error.message}</div>;
 
   if (user) {
