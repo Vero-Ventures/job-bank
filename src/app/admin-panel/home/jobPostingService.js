@@ -1,3 +1,5 @@
+const JOB_POSTING_API_URL = process.env.NEXT_PUBLIC_JOB_POSTING_API_URL;
+
 const saveJobPosting = async formData => {
   try {
     console.log('Form data:', formData);
@@ -9,7 +11,7 @@ const saveJobPosting = async formData => {
     const jobPostings = Array.isArray(jobPosting) ? jobPosting : [jobPosting];
 
     // Send the array of job postings to the backend API
-    const addJobPosting = await fetch('http://localhost:3000/api/job-posting', {
+    const addJobPosting = await fetch(JOB_POSTING_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -42,7 +44,7 @@ const saveJobPosting = async formData => {
 const getJobPostingDetails = async jobId => {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/job-posting/by-id?job-posting-id=${jobId}`
+      `${JOB_POSTING_API_URL}by-id?job-posting-id=${jobId}`
     );
 
     if (!response.ok) {
@@ -66,7 +68,7 @@ const editJobPosting = async (jobPostingId, data) => {
 
     // Send the job posting to the backend API
     const response = await fetch(
-      `http://localhost:3000/api/job-posting/?job-posting-id=${jobPostingId}`,
+      `${JOB_POSTING_API_URL}?job-posting-id=${jobPostingId}`,
       {
         method: 'PATCH',
         headers: {
