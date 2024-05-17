@@ -9,7 +9,7 @@ import CalendarIcon from '@/components/icons/calendarIcon';
 import UserIcon from '@/components/icons/userIcon';
 import EmailIcon from '@/components/icons/emailIcon';
 import Loading from '@/components/ui/Loading';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export default function JobPosting({ params }) {
   const postID = params.id;
@@ -19,15 +19,15 @@ export default function JobPosting({ params }) {
   /**
    * Fetch Jobpost detail from database.
    */
-  const getDetailData = async () => {
+  const getDetailData = useCallback(async () => {
     setIsLoading(true);
     setJobDetail(await fetchJobDetail(postID));
     setIsLoading(false);
-  };
+  }, [postID]);
 
   useEffect(() => {
     getDetailData();
-  }, []);
+  }, [getDetailData]);
 
   //Todo: getting job post detail from database
   return (

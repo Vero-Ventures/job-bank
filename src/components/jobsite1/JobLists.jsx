@@ -2,7 +2,7 @@ import Loading from '@/components/ui/Loading';
 import JobListCard from './jobListCard';
 import { fetchJobPostList, fetchTotalPages } from '../jobsiteAPIrequest';
 import { Button } from '../ui/button';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 
 export default function JobLists() {
   const [list, setList] = useState([]); // jobPosts list that will be displayed
@@ -11,23 +11,24 @@ export default function JobLists() {
   const [totalPage, setTotalPage] = useState(0); // total number of pages
 
   const JOBSITE_NAME = 'indigenous';
+  const hasSetInitialJob = useRef(false); // track mount status
 
   /**
    * Get Jobposts list of page from database.
    */
-  const getJobPostings = async () => {
+  const getJobPostings = useCallback(async () => {
     setIsLoading(true);
     const jobpostings = await fetchJobPostList(JOBSITE_NAME, page);
-    setList(list.concat(jobpostings));
+    setList(prevList => prevList.concat(jobpostings));
     setIsLoading(false);
-  };
+  }, [page]);
 
   /**
    * Set new page number when user clicks load more button.
    */
   const onClickLoadMore = () => {
     if (page < totalPage && !isLoading) {
-      setPage(page + 1);
+      setPage(prevPage => prevPage + 1);
     }
   };
 
@@ -36,14 +37,18 @@ export default function JobLists() {
   }, []);
 
   useEffect(() => {
-    getJobPostings();
-  }, [page]);
+    if (hasSetInitialJob.current) {
+      getJobPostings();
+    } else {
+      hasSetInitialJob.current = true;
+    }
+  }, [getJobPostings]);
 
   return (
     <div className="grid gap-6 max-h-dvh overflow-y-auto">
-      {list.map(item => {
-        return <JobListCard key={item._id} item={item}></JobListCard>;
-      })}
+      {list.map(item => (
+        <JobListCard key={item._id} item={item} />
+      ))}
       {isLoading && <Loading />}
       <Button
         className={`${isLoading ? 'hidden' : 'block'}`}

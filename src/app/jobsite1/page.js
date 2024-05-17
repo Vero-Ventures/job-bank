@@ -2,8 +2,8 @@
 
 import JobLists from '@/components/jobsite1/JobLists';
 import Filter from '@/components/jobsite1/Filter';
-import { Input } from '@/components/ui/input';
 import SearchIcon from '@/components/icons/searcIcon';
+import { Input } from '@/components/ui/input';
 
 export default function Home() {
   return (

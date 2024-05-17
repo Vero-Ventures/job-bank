@@ -1,30 +1,38 @@
 import { fetchJobPostList } from '../jobsiteAPIrequest';
 import Loading from '../ui/Loading';
 import JobListCard from './jobListCard';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 
 export default function JobLists({ onClickJob, page }) {
   const [list, setList] = useState([]); // jobPosts list that will be displayed
   const [isLoading, setIsLoading] = useState(true);
+  const hasSetInitialJob = useRef(false);
 
   const JOBSITE_NAME = 'newcomers';
 
   /**
    * Fetch Jobposts list of page from database.
    */
-  const getJobPostings = async () => {
+  const getJobPostings = useCallback(async () => {
     setIsLoading(true);
     const jobpostings = await fetchJobPostList(JOBSITE_NAME, page);
-    if (jobpostings.length != 0 && list.length == 0) {
-      onClickJob(jobpostings[0]._id);
-    }
-    setList(jobpostings);
+    setList(prevList => {
+      if (
+        !hasSetInitialJob.current &&
+        jobpostings.length !== 0 &&
+        prevList.length === 0
+      ) {
+        onClickJob(jobpostings[0]._id);
+        hasSetInitialJob.current = true;
+      }
+      return jobpostings;
+    });
     setIsLoading(false);
-  };
+  }, [onClickJob, page]);
 
   useEffect(() => {
     getJobPostings();
-  }, [page]);
+  }, [getJobPostings]);
 
   return (
     <div className="max-h-dvh overflow-y-auto">

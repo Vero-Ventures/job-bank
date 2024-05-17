@@ -1,5 +1,5 @@
 import { fetchJobDetail } from '../jobsiteAPIrequest';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import MapPinIcon from '@/components/icons/mapPinIcon';
 import ClockIcon from '@/components/icons/clockIcon';
 import BriefcaseIcon from '@/components/icons/briefCaseIcon';
@@ -16,17 +16,17 @@ export default function JobDetail(job) {
   /**
    * Fetch Jobpost detail from database.
    */
-  const getDetailData = async () => {
-    setIsLoading(true);
-    setJobDetail(await fetchJobDetail(job.postingID));
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
+  const getDetailData = useCallback(async () => {
     if (job.postingID) {
-      getDetailData();
+      setIsLoading(true);
+      setJobDetail(await fetchJobDetail(job.postingID));
+      setIsLoading(false);
     }
   }, [job]);
+
+  useEffect(() => {
+    getDetailData();
+  }, [getDetailData]);
 
   return (
     <div className="bg-white max-h-dvh overflow-y-auto dark:bg-[#0f172a] rounded-lg shadow-lg p-5 md:p-10 flex-1 space-y-4">
