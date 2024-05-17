@@ -26,4 +26,5 @@ export default new mongoose.Schema({
   site3: Boolean,
   site4: Boolean,
   site5: Boolean,
+  sent: Boolean,
 });
