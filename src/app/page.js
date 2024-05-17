@@ -68,7 +68,7 @@ export default function Component() {
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 flex justify-center items-center">
+        <section className="w-full py-12 md:py-24 lg:py-32 flex justify-center items-center bg-gray-100">
           <div className="container space-y-12 px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -131,7 +131,7 @@ export default function Component() {
           </div>
         </section>
       </main>
-      <footer className="bg-gray-100 p-6 md:py-12 w-full">
+      <footer className="bg-gray-900 p-6 md:py-12 w-full text-gray-50">
         <div className="container max-w-7xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 text-sm">
           <div className="grid gap-1">
             <h3 className="font-semibold">Company</h3>
