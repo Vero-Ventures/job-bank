@@ -1,31 +1,31 @@
 import React from 'react';
-import { Link } from 'next/link';
+import Link from 'next/link';
 
 function Navbar() {
   return (
     <header className="px-4 lg:px-6 h-14 flex items-center">
-      <Link className="flex items-center justify-center" to="/">
-        <BriefcaseIcon className="h-6 w-6" />
-        <span className="sr-only">Job Posting Site</span>
+      <Link href="#" passHref>
+        <a className="flex items-center justify-center">
+          <BriefcaseIcon className="h-6 w-6" />
+          <span className="sr-only">Job Posting Site</span>
+        </a>
       </Link>
       <nav className="ml-auto flex gap-4 sm:gap-6">
-        <Link
-          className="text-sm font-medium hover:underline underline-offset-4"
-          to="/pricing">
-          Pricing
-        </Link>
-        <Link
-          className="text-sm font-medium hover:underline underline-offset-4"
-          to="/about">
-          About
-        </Link>
-        <Link
-          className="text-sm font-medium hover:underline underline-offset-4"
-          to="/contact">
-          Contact
-        </Link>
+        <NavLink href="#">Pricing</NavLink>
+        <NavLink href="#">About</NavLink>
+        <NavLink href="#">Contact</NavLink>
       </nav>
     </header>
+  );
+}
+
+function NavLink({ href, children }) {
+  return (
+    <Link href={href} passHref>
+      <a className="text-sm font-medium hover:underline underline-offset-4">
+        {children}
+      </a>
+    </Link>
   );
 }
 
