@@ -35,6 +35,26 @@ export default function DetailsPage() {
 
   const handleSubmit = async event => {
     event.preventDefault();
+    // Check if any required fields are empty
+    const requiredFields = [
+      'jobTitle',
+      'hiringOrganization',
+      'streetAddress',
+      'addressLocality',
+      'addressRegion',
+      'language',
+      'employmentType',
+      'employmentSubType',
+      'minCompValue',
+      'validThrough',
+      'description',
+    ];
+    const isEmptyField = requiredFields.some(field => !jobPosting[field]);
+
+    if (isEmptyField) {
+      alert('Please fill in all required fields marked with (*).');
+      return;
+    }
     // Call the editJobPosting function from jobPostingService
     try {
       const response = await jobPostingService.editJobPosting(
@@ -60,7 +80,7 @@ export default function DetailsPage() {
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Job Title
+              Job Title*
             </label>
             <div className="mt-2.5">
               <input
@@ -76,7 +96,7 @@ export default function DetailsPage() {
           </div>
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Hiring Organization
+              Hiring Organization*
             </label>
             <div className="mt-2.5">
               <input
@@ -92,7 +112,7 @@ export default function DetailsPage() {
           </div>
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Street Address
+              Street Address*
             </label>
             <div className="mt-2.5">
               <input
@@ -108,7 +128,7 @@ export default function DetailsPage() {
           </div>
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              City
+              City*
             </label>
             <div className="mt-2.5">
               <input
@@ -124,7 +144,7 @@ export default function DetailsPage() {
           </div>
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Province
+              Province*
             </label>
             <div className="mt-2.5">
               <select
@@ -154,7 +174,7 @@ export default function DetailsPage() {
           </div>
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Language
+              Language*
             </label>
             <div className="mt-2.5">
               <input
@@ -170,7 +190,7 @@ export default function DetailsPage() {
           </div>
           <div className="sm:col-span-2">
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Employment Type
+              Employment Type*
             </label>
             <div className="mt-2.5">
               <input
@@ -186,7 +206,7 @@ export default function DetailsPage() {
           </div>
           <div className="sm:col-span-2">
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Employment Category
+              Employment Category*
             </label>
             <div className="mt-2.5">
               <input
@@ -202,7 +222,7 @@ export default function DetailsPage() {
           </div>
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Minimum Hourly Wage Offer
+              Minimum Hourly Wage Offer*
             </label>
             <div className="mt-2.5">
               <input
@@ -233,7 +253,7 @@ export default function DetailsPage() {
           </div>
           <div className="sm:col-span-2">
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Benefits
+              Benefits*
             </label>
             <div className="mt-2.5">
               <DynamicTextarea
@@ -250,7 +270,7 @@ export default function DetailsPage() {
             <label
               hmtlFor="startTime"
               className="block text-sm font-semibold leading-6 text-gray-900">
-              Start Date
+              Start Date*
             </label>
             <div className="mt-2.5">
               <input
@@ -265,7 +285,7 @@ export default function DetailsPage() {
           </div>
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Posting is Valid Through
+              Posting is Valid Through*
             </label>
             <div className="mt-2.5">
               <input
@@ -280,7 +300,7 @@ export default function DetailsPage() {
           </div>
           <div className="sm:col-span-2">
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Description
+              Description*
             </label>
             <div className="mt-2.5">
               <DynamicTextarea

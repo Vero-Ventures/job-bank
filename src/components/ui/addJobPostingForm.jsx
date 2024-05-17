@@ -50,7 +50,7 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Job Title
+              Job Title*
             </label>
             <div className="mt-2.5">
               <input
@@ -66,7 +66,7 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
           </div>
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Hiring Organization
+              Hiring Organization*
             </label>
             <div className="mt-2.5">
               <input
@@ -82,7 +82,7 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
           </div>
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Street Address
+              Street Address*
             </label>
             <div className="mt-2.5">
               <input
@@ -98,7 +98,7 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
           </div>
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              City
+              City*
             </label>
             <div className="mt-2.5">
               <input
@@ -114,7 +114,7 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
           </div>
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Province
+              Province*
             </label>
             <div className="mt-2.5">
               <select
@@ -144,7 +144,7 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
           </div>
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Language
+              Language*
             </label>
             <div className="mt-2.5">
               <input
@@ -160,7 +160,7 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
           </div>
           <div className="sm:col-span-2">
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Employment Type
+              Employment Type*
             </label>
             <div className="mt-2.5">
               <input
@@ -176,7 +176,7 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
           </div>
           <div className="sm:col-span-2">
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Employment Category
+              Employment Category*
             </label>
             <div className="mt-2.5">
               <input
@@ -192,7 +192,7 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
           </div>
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Minimum Hourly Wage Offer
+              Minimum Hourly Wage Offer*
             </label>
             <div className="mt-2.5">
               <input
@@ -223,7 +223,7 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
           </div>
           <div className="sm:col-span-2">
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Benefits
+              Benefits*
             </label>
             <div className="mt-2.5">
               <DynamicTextarea
@@ -240,7 +240,7 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
             <label
               hmtlFor="startTime"
               className="block text-sm font-semibold leading-6 text-gray-900">
-              Start Date
+              Start Date*
             </label>
             <div className="mt-2.5">
               <input
@@ -255,7 +255,7 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
           </div>
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Posting is Valid Through
+              Posting is Valid Through*
             </label>
             <div className="mt-2.5">
               <input
@@ -270,7 +270,7 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
           </div>
           <div className="sm:col-span-2">
             <label className="block text-sm font-semibold leading-6 text-gray-900">
-              Description
+              Description*
             </label>
             <div className="mt-2.5">
               <DynamicTextarea
