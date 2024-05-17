@@ -14,6 +14,8 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
+  const JOB_POSTING_API_URL = process.env.NEXT_PUBLIC_JOB_POSTING_API_URL;
+
   const fetchUser = useCallback(async () => {
     console.log('fetchUser called');
     try {
@@ -39,7 +41,7 @@ export default function Home() {
     try {
       setLoading(true);
       const sortCriteria = JSON.stringify({ _id: -1 });
-      const apiURL = `http://localhost:3000/api/job-posting/?email=${user.email}&sort=${sortCriteria}`;
+      const apiURL = `${JOB_POSTING_API_URL}?email=${user.email}&sort=${sortCriteria}`;
       const response = await fetch(apiURL, {
         method: 'GET',
         headers: {
@@ -74,7 +76,7 @@ export default function Home() {
   const handleDelete = async jobPostingId => {
     try {
       // Make API call to delete the job posting
-      const apiUrl = `http://localhost:3000/api/job-posting/?job-posting-id=${jobPostingId}`;
+      const apiUrl = `${JOB_POSTING_API_URL}?job-posting-id=${jobPostingId}`;
       const response = await fetch(apiUrl, {
         method: 'DELETE',
         headers: {
