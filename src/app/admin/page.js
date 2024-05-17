@@ -21,7 +21,7 @@ export default function Home() {
 
   const updateSentStatus = async (email, sent) => {
     try {
-      const apiUrl = `${JOB_POSTING_API_URL}/update-sent/`;
+      const apiUrl = `${JOB_POSTING_API_URL}/email-sent/`;
       const response = await fetch(apiUrl, {
         method: 'PATCH',
         headers: {
