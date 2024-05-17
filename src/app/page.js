@@ -53,13 +53,13 @@ export default function Component() {
                 <h1 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
                   Find the perfect candidate for your business
                 </h1>
-                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
+                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
                   Our job posting platform makes it easy to find and hire the
                   best talent for your team.
                 </p>
                 <div className="space-x-4 mt-6">
                   <Link
-                    className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
+                    className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
                     href="/api/auth/login">
                     Login / Sign Up
                   </Link>
@@ -72,13 +72,13 @@ export default function Component() {
           <div className="container space-y-12 px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800">
+                <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm">
                   Key Features
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                   Streamline your hiring process
                 </h2>
-                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Our platform offers a suite of tools to help you find, manage,
                   and hire the best candidates for your team.
                 </p>
@@ -87,42 +87,42 @@ export default function Component() {
             <div className="mx-auto grid items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3">
               <div className="grid gap-1">
                 <h3 className="text-lg font-bold">Easy Job Posting</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500">
                   Post your job openings in minutes and reach a wide pool of
                   qualified candidates.
                 </p>
               </div>
               <div className="grid gap-1">
                 <h3 className="text-lg font-bold">Candidate Management</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500">
                   Easily track and manage your applicants with our intuitive
                   dashboard.
                 </p>
               </div>
               <div className="grid gap-1">
                 <h3 className="text-lg font-bold">Powerful Analytics</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500">
                   Get insights into your hiring process with our comprehensive
                   analytics.
                 </p>
               </div>
               <div className="grid gap-1">
                 <h3 className="text-lg font-bold">Seamless Collaboration</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500">
                   Invite your team to collaborate on the hiring process and make
                   better decisions together.
                 </p>
               </div>
               <div className="grid gap-1">
                 <h3 className="text-lg font-bold">Customizable Branding</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500">
                   Personalize your job postings with your brand&apos;s look and
                   feel to attract the right candidates.
                 </p>
               </div>
               <div className="grid gap-1">
                 <h3 className="text-lg font-bold">Automated Screening</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500">
                   Use our AI-powered screening tools to quickly identify the
                   best candidates for your roles.
                 </p>
@@ -131,7 +131,7 @@ export default function Component() {
           </div>
         </section>
       </main>
-      <footer className="bg-gray-100 p-6 md:py-12 w-full dark:bg-gray-800">
+      <footer className="bg-gray-100 p-6 md:py-12 w-full">
         <div className="container max-w-7xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 text-sm">
           <div className="grid gap-1">
             <h3 className="font-semibold">Company</h3>
