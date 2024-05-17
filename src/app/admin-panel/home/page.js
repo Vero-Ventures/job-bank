@@ -23,11 +23,11 @@ export default function Home() {
         setUser(userData);
       } else {
         console.error('Failed to fetch user:', response.statusText);
-        window.location.href = '../';
+        window.location.href = '/';
       }
     } catch (error) {
       console.error('Error fetching user:', error);
-      window.location.href = '../';
+      window.location.href = '/';
     }
   }, []);
   const [showForm, setShowForm] = useState(false);
@@ -67,13 +67,6 @@ export default function Home() {
       fetchJobPostings();
     }
   }, [user]);
-
-  useEffect(() => {
-    if (!jobPostings) {
-      console.log('User not found');
-      // window.location.href = '../';
-    }
-  }, [jobPostings]);
 
   // Function to handle deletion of job posting
   const handleDelete = async jobPostingId => {
