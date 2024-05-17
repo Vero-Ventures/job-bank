@@ -24,6 +24,7 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
     site3: false,
     site4: false,
     site5: false,
+    sent: true,
   });
 
   const sites = ['Indigenous', 'New Comers', 'Site 3', 'Site 4', 'Site 5'];
