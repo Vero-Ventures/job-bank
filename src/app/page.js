@@ -53,7 +53,7 @@ export default function Component() {
                 <h1 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
                   Find the perfect candidate for your business
                 </h1>
-                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
+                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl mt-5">
                   Our job posting platform makes it easy to find and hire the
                   best talent for your team.
                 </p>
@@ -84,7 +84,7 @@ export default function Component() {
                 </p>
               </div>
             </div>
-            <div className="mx-auto grid items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3">
+            <div className="mx-auto grid items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-2">
               <div className="grid gap-1">
                 <h3 className="text-lg font-bold">Easy Job Posting</h3>
                 <p className="text-sm text-gray-500">
@@ -111,20 +111,6 @@ export default function Component() {
                 <p className="text-sm text-gray-500">
                   Invite your team to collaborate on the hiring process and make
                   better decisions together.
-                </p>
-              </div>
-              <div className="grid gap-1">
-                <h3 className="text-lg font-bold">Customizable Branding</h3>
-                <p className="text-sm text-gray-500">
-                  Personalize your job postings with your brand&apos;s look and
-                  feel to attract the right candidates.
-                </p>
-              </div>
-              <div className="grid gap-1">
-                <h3 className="text-lg font-bold">Automated Screening</h3>
-                <p className="text-sm text-gray-500">
-                  Use our AI-powered screening tools to quickly identify the
-                  best candidates for your roles.
                 </p>
               </div>
             </div>
