@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import { fetchJobDetail } from '../jobsiteAPIrequest';
 import { useEffect, useState } from 'react';
 import MapPinIcon from '@/components/icons/mapPinIcon';
 import ClockIcon from '@/components/icons/clockIcon';
@@ -13,26 +13,13 @@ export default function JobDetail(job) {
   const [jobDetail, setJobDetail] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
-  const API_URL = '/api/job-posting/by-id?job-posting-id=';
-
   /**
-   * Fetch Job detail data from database.
+   * Fetch Jobpost detail from database.
    */
-  const getDetailData = () => {
+  const getDetailData = async () => {
     setIsLoading(true);
-
-    Axios.get(API_URL + job.postingID)
-      .then(res => {
-        console.log(res.data.jobPostings);
-        setJobDetail(res.data.jobPostings[0]);
-      })
-      .catch(error => {
-        console.log(error.response);
-        //todo: handle error
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    setJobDetail(await fetchJobDetail(job.postingID));
+    setIsLoading(false);
   };
 
   useEffect(() => {

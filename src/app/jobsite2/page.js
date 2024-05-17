@@ -1,40 +1,21 @@
 'use client';
 
-import Axios from 'axios';
+import { fetchTotalPages } from '@/components/jobsiteAPIrequest';
 import JobDetail from '@/components/jobsite2/jobdetail';
 import SearchBar from '@/components/jobsite2/searchBar';
 import JobLists from '@/components/jobsite2/joblists';
 import Pagination from '@/components/ui/pagination';
 import { useEffect, useState } from 'react';
 
-const API_URL = '/api/job-posting/newcomers/total-posts';
+const JOBSITE_NAME = 'newcomers';
 
 export default function Home() {
-  const [postingID, setPostingID] = useState(null); //displayed jobposting id
+  const [postingID, setPostingID] = useState(null); //jobposting id that will be displayed
   const [page, setPage] = useState(1); // current page
-  const [maxPage, setMaxPage] = useState(0); // total number of Pages
-
-  /**
-   * Set jobposting id to display
-   */
-  const onClickJobPosting = itemId => {
-    setPostingID(itemId);
-  };
-
-  /**
-   * Set page number to populate selected page's jobpostings
-   */
-  const onClickPage = pageNum => {
-    setPage(pageNum);
-  };
+  const [totalPage, setTotalPage] = useState(0); // total number of pages
 
   useEffect(() => {
-    Axios.get(API_URL)
-      .then(res => {
-        const lastPage = Math.ceil(res.data.jobPostings / 25);
-        setMaxPage(lastPage);
-      })
-      .catch(error => console.log(error.response));
+    fetchTotalPages(setTotalPage, JOBSITE_NAME);
   }, []);
 
   return (
@@ -42,10 +23,10 @@ export default function Home() {
       <SearchBar></SearchBar>
       <div className="flex flex-row flex-1 space-x-6">
         <div className="w-full sm:w-4/12">
-          <JobLists onClickJob={onClickJobPosting} page={page}></JobLists>
+          <JobLists onClickJob={setPostingID} page={page}></JobLists>
           <Pagination
-            onClickPageNum={onClickPage}
-            maxPage={maxPage}></Pagination>
+            onClickPageNum={setPage}
+            totalPage={totalPage}></Pagination>
         </div>
 
         <div className="hidden sm:block sm:w-8/12">

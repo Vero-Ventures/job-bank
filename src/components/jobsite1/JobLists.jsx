@@ -1,6 +1,6 @@
-import Axios from 'axios';
 import Loading from '@/components/ui/Loading';
 import JobListCard from './jobListCard';
+import { fetchJobPostList, fetchTotalPages } from '../jobsiteAPIrequest';
 import { Button } from '../ui/button';
 import { useEffect, useState } from 'react';
 
@@ -8,59 +8,35 @@ export default function JobLists() {
   const [list, setList] = useState([]); // jobPosts list that will be displayed
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1); // current page
-  const [lastPage, setLastPage] = useState(0); // total number of pages
+  const [totalPage, setTotalPage] = useState(0); // total number of pages
 
-  const API_URL = '/api/job-posting/indigenous';
+  const JOBSITE_NAME = 'indigenous';
 
   /**
-   * Fetch Jobposts list of page from database.
+   * Get Jobposts list of page from database.
    */
-  const getData = () => {
+  const getJobPostings = async () => {
     setIsLoading(true);
-    console.log('Current Page ' + page);
-    Axios.get(API_URL + '?page_num=' + page)
-      .then(res => {
-        console.log(res.data);
-        const mergedData = list.concat(res.data.jobPostings);
-        setList(mergedData);
-      })
-      .catch(error => {
-        console.log(error.response);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    const jobpostings = await fetchJobPostList(JOBSITE_NAME, page);
+    setList(list.concat(jobpostings));
+    setIsLoading(false);
   };
 
   /**
    * Set new page number when user clicks load more button.
    */
   const onClickLoadMore = () => {
-    if (page < lastPage && !isLoading) {
-      const newPage = page + 1;
-      setPage(newPage);
+    if (page < totalPage && !isLoading) {
+      setPage(page + 1);
     }
   };
 
   useEffect(() => {
-    /**
-     * Fetch total number of pages for pagination.
-     */
-    const getTotalPages = () => {
-      Axios.get(API_URL + '/total-posts')
-        .then(res => {
-          setLastPage(Math.ceil(res.data.jobPostings / 25));
-        })
-        .catch(error => {
-          console.log(error.response);
-        });
-    };
-
-    getTotalPages();
+    fetchTotalPages(setTotalPage, JOBSITE_NAME);
   }, []);
 
   useEffect(() => {
-    getData();
+    getJobPostings();
   }, [page]);
 
   return (
