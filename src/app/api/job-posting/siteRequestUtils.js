@@ -3,6 +3,11 @@ import { connectMongoDB } from '@/libs/mongodb';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
 
+const employmentSubTypeMap = {
+  ft: 'Full time',
+  pt: 'Part time',
+};
+
 // Function to get the total number of job postings
 export async function getTotalNumberOfPostings(siteCriteria) {
   await connectMongoDB();
@@ -53,10 +58,16 @@ export async function fetchJobPostings(
 
   const Posting = mongoose.models.posting || mongoose.model('posting', posting);
 
-  // Construct the filter object based on filterCriteria array
   const filterObject = filterCriteria.reduce((acc, filter) => {
-    // Merge each filter object into the accumulator
-    return { ...acc, ...filter };
+    // Check if the key already exists in the accumulator
+    if (Object.prototype.hasOwnProperty.call(acc, Object.keys(filter)[0])) {
+      // If the key exists, push the value to an array
+      acc[Object.keys(filter)[0]].push(Object.values(filter)[0]);
+    } else {
+      // If the key doesn't exist, initialize it as an array with the value
+      acc[Object.keys(filter)[0]] = [Object.values(filter)[0]];
+    }
+    return acc;
   }, {});
 
   // Query job postings with pagination
@@ -84,18 +95,12 @@ export async function parseSortCriteria(sortBy) {
 }
 
 // Function to parse filter criteria
-export async function parseFilterCriteria(filterBy) {
-  const filterCriteria = [];
+export async function parseFilterCriteria(etFilters, pFilters) {
+  const etFilterCriteria = etFilters.map(et => ({
+    employmentSubType: employmentSubTypeMap[et],
+  }));
 
-  if (filterBy) {
-    const filters = filterBy.split('|');
-    filters.forEach(filter => {
-      const [field, value] = filter.split(':');
-      const filterObject = {};
-      filterObject[field] = value;
-      filterCriteria.push(filterObject);
-    });
-  }
+  const pFilterCriteria = pFilters.map(p => ({ addressRegion: p }));
 
-  return filterCriteria;
+  return [...etFilterCriteria, ...pFilterCriteria];
 }
