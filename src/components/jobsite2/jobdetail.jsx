@@ -1,4 +1,4 @@
-import { fetchJobDetail } from '../jobsiteAPIrequest';
+import { fetchJobDetail } from '../../libs/jobsiteAPIrequest';
 import { useCallback, useEffect, useState } from 'react';
 import MapPinIcon from '@/components/icons/mapPinIcon';
 import ClockIcon from '@/components/icons/clockIcon';

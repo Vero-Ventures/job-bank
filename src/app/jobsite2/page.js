@@ -1,6 +1,6 @@
 'use client';
 
-import { fetchTotalPages } from '@/components/jobsiteAPIrequest';
+import { fetchTotalPages } from '@/libs/jobsiteAPIrequest';
 import JobDetail from '@/components/jobsite2/jobdetail';
 import SearchBar from '@/components/jobsite2/searchBar';
 import JobLists from '@/components/jobsite2/joblists';

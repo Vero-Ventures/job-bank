@@ -1,4 +1,4 @@
-import { fetchJobPostList } from '../jobsiteAPIrequest';
+import { fetchJobPostList } from '../../libs/jobsiteAPIrequest';
 import Loading from '../ui/Loading';
 import JobListCard from './jobListCard';
 import { useCallback, useEffect, useState, useRef } from 'react';

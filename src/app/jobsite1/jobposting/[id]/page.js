@@ -1,6 +1,6 @@
 'use client';
 
-import { fetchJobDetail } from '@/components/jobsiteAPIrequest';
+import { fetchJobDetail } from '@/libs/jobsiteAPIrequest';
 import MapPinIcon from '@/components/icons/mapPinIcon';
 import ClockIcon from '@/components/icons/clockIcon';
 import BriefcaseIcon from '@/components/icons/briefCaseIcon';

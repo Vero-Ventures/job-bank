@@ -1,6 +1,9 @@
 import Loading from '@/components/ui/Loading';
 import JobListCard from './jobListCard';
-import { fetchJobPostList, fetchTotalPages } from '../jobsiteAPIrequest';
+import {
+  fetchJobPostList,
+  fetchTotalPages,
+} from '../../libs/jobsiteAPIrequest';
 import { Button } from '../ui/button';
 import { useCallback, useEffect, useState, useRef } from 'react';
 
