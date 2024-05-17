@@ -1,17 +1,16 @@
 /**
  * v0 by Vercel.
- * @see https://v0.dev/t/W1xL6NDG9sh
+ * @see https://v0.dev/t/LtRZRMgmaMl
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { redirect } from 'next/navigation';
 
-export default function LandingPage() {
+export default function Component() {
   const { user, error, isLoading } = useUser();
 
   if (isLoading) return <div>Loading...</div>;
@@ -26,19 +25,9 @@ export default function LandingPage() {
       <header className="px-4 lg:px-6 h-14 flex items-center">
         <Link className="flex items-center justify-center" href="#">
           <BriefcaseIcon className="h-6 w-6" />
-          <span className="sr-only">Job Listing Portal</span>
+          <span className="sr-only">Job Posting Site</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
-            href="/api/auth/login">
-            Login / Sign Up
-          </Link>
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
-            href="#">
-            Browse Jobs
-          </Link>
           <Link
             className="text-sm font-medium hover:underline underline-offset-4"
             href="#">
@@ -49,42 +38,37 @@ export default function LandingPage() {
             href="#">
             About
           </Link>
+          <Link
+            className="text-sm font-medium hover:underline underline-offset-4"
+            href="#">
+            Contact
+          </Link>
         </nav>
       </header>
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
-              <div className="flex flex-col justify-center space-y-4">
-                <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                    Find the perfect candidate for your business
-                  </h1>
-                  <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
-                    Our job listing portal connects you with a vast pool of
-                    talented candidates, making it easy to find the right fit
-                    for your organization.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
+        <section className="w-full py-12 md:py-24 lg:py-32 border-y">
+          <div className="container px-4 md:px-6 space-y-10 xl:space-y-16">
+            <div className="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
+              <div>
+                <h1 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
+                  Find the perfect candidate for your business
+                </h1>
+                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
+                  Our job posting platform makes it easy to find and hire the
+                  best talent for your team.
+                </p>
+                <div className="space-x-4 mt-6">
                   <Link
-                    className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
+                    className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
                     href="/api/auth/login">
                     Login / Sign Up
                   </Link>
                 </div>
               </div>
-              <Image
-                alt="Hero"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-bottom sm:w-full lg:order-last lg:aspect-square"
-                height="550"
-                src="/placeholder.svg"
-                width="550"
-              />
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
+        <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container space-y-12 px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -92,55 +76,55 @@ export default function LandingPage() {
                   Key Features
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Streamline Your Hiring Process
+                  Streamline your hiring process
                 </h2>
                 <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                  Our job listing portal offers a range of features to help you
-                  find the perfect candidate for your business.
+                  Our platform offers a suite of tools to help you find, manage,
+                  and hire the best candidates for your team.
                 </p>
               </div>
             </div>
-            <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3">
+            <div className="mx-auto grid items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3">
               <div className="grid gap-1">
                 <h3 className="text-lg font-bold">Easy Job Posting</h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Quickly and easily post job listings to reach a wide pool of
+                  Post your job openings in minutes and reach a wide pool of
                   qualified candidates.
                 </p>
               </div>
               <div className="grid gap-1">
-                <h3 className="text-lg font-bold">Detailed Analytics</h3>
+                <h3 className="text-lg font-bold">Candidate Management</h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Track the performance of your job postings and gain insights
-                  into your hiring process.
+                  Easily track and manage your applicants with our intuitive
+                  dashboard.
                 </p>
               </div>
               <div className="grid gap-1">
-                <h3 className="text-lg font-bold">Access to Talent Pool</h3>
+                <h3 className="text-lg font-bold">Powerful Analytics</h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Tap into our extensive database of job seekers to find the
-                  best candidates for your needs.
+                  Get insights into your hiring process with our comprehensive
+                  analytics.
                 </p>
               </div>
               <div className="grid gap-1">
-                <h3 className="text-lg font-bold">Candidate Screening</h3>
+                <h3 className="text-lg font-bold">Seamless Collaboration</h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Easily review and evaluate candidates with our comprehensive
-                  screening tools.
-                </p>
-              </div>
-              <div className="grid gap-1">
-                <h3 className="text-lg font-bold">Automated Workflows</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Streamline your hiring process with automated workflows and
-                  notifications.
+                  Invite your team to collaborate on the hiring process and make
+                  better decisions together.
                 </p>
               </div>
               <div className="grid gap-1">
                 <h3 className="text-lg font-bold">Customizable Branding</h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Personalize your job listings with your company&apos;s
-                  branding and style.
+                  Personalize your job postings with your brand&apos;s look and
+                  feel to attract the right candidates.
+                </p>
+              </div>
+              <div className="grid gap-1">
+                <h3 className="text-lg font-bold">Automated Screening</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Use our AI-powered screening tools to quickly identify the
+                  best candidates for your roles.
                 </p>
               </div>
             </div>
@@ -159,16 +143,16 @@ export default function LandingPage() {
           <div className="grid gap-1">
             <h3 className="font-semibold">Products</h3>
             <Link href="#">Job Posting</Link>
-            <Link href="#">Candidate Search</Link>
-            <Link href="#">Hiring Analytics</Link>
-            <Link href="#">Applicant Tracking</Link>
+            <Link href="#">Candidate Management</Link>
+            <Link href="#">Analytics</Link>
+            <Link href="#">Integrations</Link>
           </div>
           <div className="grid gap-1">
             <h3 className="font-semibold">Resources</h3>
             <Link href="#">Blog</Link>
             <Link href="#">Help Center</Link>
             <Link href="#">Webinars</Link>
-            <Link href="#">Case Studies</Link>
+            <Link href="#">Templates</Link>
           </div>
           <div className="grid gap-1">
             <h3 className="font-semibold">Legal</h3>
@@ -181,7 +165,6 @@ export default function LandingPage() {
             <Link href="#">Support</Link>
             <Link href="#">Sales</Link>
             <Link href="#">Partnerships</Link>
-            <Link href="#">Press</Link>
           </div>
         </div>
       </footer>
