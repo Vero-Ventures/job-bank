@@ -4,28 +4,28 @@ import Link from 'next/link';
 function Navbar() {
   return (
     <header className="px-4 lg:px-6 h-14 flex items-center">
-      <Link href="#" passHref>
-        <a className="flex items-center justify-center">
-          <BriefcaseIcon className="h-6 w-6" />
-          <span className="sr-only">Job Posting Site</span>
-        </a>
+      <Link className="flex items-center justify-center" href="#">
+        <BriefcaseIcon className="h-6 w-6" />
+        <span className="sr-only">Job Posting Site</span>
       </Link>
       <nav className="ml-auto flex gap-4 sm:gap-6">
-        <NavLink href="#">Pricing</NavLink>
-        <NavLink href="#">About</NavLink>
-        <NavLink href="#">Contact</NavLink>
+        <Link
+          className="text-sm font-medium hover:underline underline-offset-4"
+          href="#">
+          Pricing
+        </Link>
+        <Link
+          className="text-sm font-medium hover:underline underline-offset-4"
+          href="#">
+          About
+        </Link>
+        <Link
+          className="text-sm font-medium hover:underline underline-offset-4"
+          href="#">
+          Contact
+        </Link>
       </nav>
     </header>
-  );
-}
-
-function NavLink({ href, children }) {
-  return (
-    <Link href={href} passHref>
-      <a className="text-sm font-medium hover:underline underline-offset-4">
-        {children}
-      </a>
-    </Link>
   );
 }
 
