@@ -134,11 +134,12 @@ export default function Component() {
             <Link href="#">News</Link>
           </div>
           <div className="grid gap-1">
-            <h3 className="font-semibold">Products</h3>
-            <Link href="#">Job Posting</Link>
-            <Link href="#">Candidate Management</Link>
-            <Link href="#">Analytics</Link>
-            <Link href="#">Integrations</Link>
+            <h3 className="font-semibold">Job Sites</h3>
+            <Link href="#">Indigenous</Link>
+            <Link href="#">New Comers</Link>
+            <Link href="#">People with Disabilities</Link>
+            <Link href="#">Vulnerable Youth</Link>
+            <Link href="#">Asylum-Refugees</Link>
           </div>
           <div className="grid gap-1">
             <h3 className="font-semibold">Resources</h3>
