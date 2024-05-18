@@ -3,6 +3,13 @@ import { connectMongoDB } from '@/libs/mongodb';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
 
+// Sort type map to sort job postings by date
+const sortTypeMap = {
+  d: -1,
+  a: 1,
+};
+
+// Employment sub-type map to filter job postings by employment sub-type
 const employmentSubTypeMap = {
   ft: 'Full time',
   pt: 'Part time',
@@ -133,7 +140,11 @@ export async function checkFieldExist(requestedObject) {
 
 // Function to parse sort criteria
 export async function parseSortCriteria(sortBy) {
-  return sortBy ? JSON.parse(sortBy) : null;
+  const sortCriteria = {
+    datePosted: sortTypeMap[sortBy],
+  };
+
+  return sortCriteria;
 }
 
 // Function to parse filter criteria
