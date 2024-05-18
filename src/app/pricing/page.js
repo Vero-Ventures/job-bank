@@ -3,7 +3,9 @@
  * @see https://v0.dev/t/XhNYwJIUqC2
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
-import { Button } from '@/components/ui/button';
+'use client';
+
+import Link from 'next/link';
 import Navbar from '@/components/ui/navbar';
 
 export default function Component() {
@@ -39,7 +41,11 @@ export default function Component() {
                   <span className="text-4xl font-bold">$10</span>
                   <span className="text-gray-500">/position</span>
                 </div>
-                <Button className="w-full">Get Started</Button>
+                <Link
+                  href="/payment"
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gray-900 text-gray-50 hover:bg-gray-900/90 h-10 px-4 py-2 w-full">
+                  Get Started
+                </Link>
               </div>
             </div>
           </div>
