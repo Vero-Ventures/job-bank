@@ -7,6 +7,7 @@
 
 import Link from 'next/link';
 import Navbar from '@/components/ui/navbar';
+import Footer from '@/components/ui/footer';
 
 export default function Component() {
   const links = [
@@ -18,7 +19,7 @@ export default function Component() {
   return (
     <section className="w-full h-dvh">
       <Navbar links={links} />
-      <div className="flex items-center h-4/5">
+      <div className="flex items-center h-5/6">
         <div className="container px-4 md:px-6">
           <div className="mx-auto max-w-md space-y-6 text-center">
             <div className="space-y-2">
@@ -51,6 +52,7 @@ export default function Component() {
           </div>
         </div>
       </div>
+      <Footer />
     </section>
   );
 }
