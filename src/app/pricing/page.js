@@ -27,7 +27,7 @@ export default function Component() {
                 Simple Pricing
               </h2>
               <p className="text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Get started with our simple pricing. No hidden fees.
+                Prices made simple. No hidden fees.
               </p>
             </div>
             <div className="rounded-xl border bg-white p-6 shadow-sm">
