@@ -15,20 +15,20 @@ export default function Component() {
               Simple Pricing
             </h2>
             <p className="text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Get started with our basic plan.
+              Get started with our simple pricing. No hidden fees.
             </p>
           </div>
           <div className="rounded-xl border bg-white p-6 shadow-sm">
             <div className="space-y-4">
               <div className="space-y-2">
-                <h3 className="text-2xl font-bold">Starter</h3>
+                <h3 className="text-2xl font-bold">6 months</h3>
                 <p className="text-gray-500">
-                  Perfect for individuals and small teams.
+                  Advertise your opportunity across multiple sites
                 </p>
               </div>
               <div className="flex items-baseline justify-center space-x-2">
-                <span className="text-4xl font-bold">$9</span>
-                <span className="text-gray-500">/mo</span>
+                <span className="text-4xl font-bold">$10</span>
+                <span className="text-gray-500">/position</span>
               </div>
               <Button className="w-full">Get Started</Button>
             </div>
