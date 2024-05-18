@@ -39,7 +39,7 @@ export default function Component() {
     <div className="flex flex-col min-h-[100dvh]">
       <Navbar links={links} />
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 border-y">
+        <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6 space-y-10 xl:space-y-16">
             <div className="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
               <div>
