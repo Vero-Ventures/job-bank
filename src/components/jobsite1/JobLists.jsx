@@ -5,7 +5,7 @@ import {
   fetchTotalPages,
 } from '../../libs/jobsiteAPIrequest';
 import { Button } from '../ui/button';
-import { useCallback, useEffect, useState, useRef } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export default function JobLists() {
   const [list, setList] = useState([]); // jobPosts list that will be displayed
@@ -14,7 +14,6 @@ export default function JobLists() {
   const [totalPage, setTotalPage] = useState(0); // total number of pages
 
   const JOBSITE_NAME = 'indigenous';
-  const hasSetInitialJob = useRef(false); // track mount status
 
   /**
    * Get Jobposts list of page from database.
@@ -40,11 +39,7 @@ export default function JobLists() {
   }, []);
 
   useEffect(() => {
-    if (hasSetInitialJob.current) {
-      getJobPostings();
-    } else {
-      hasSetInitialJob.current = true;
-    }
+    getJobPostings();
   }, [getJobPostings]);
 
   return (

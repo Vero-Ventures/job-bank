@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { connectMongoDB } from '@/libs/mongodb';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
-import { checkFieldExist } from '@/app/api/job-posting/siteRequestUtils';
 import {
   fetchJobPostings,
   checkFieldExist,
