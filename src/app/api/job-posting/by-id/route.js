@@ -22,14 +22,11 @@ export async function GET(req) {
     const jobPostings = await Posting.find({ _id: jobPostingId });
 
     // Check if job postings were found
-    if (jobPostings.length === 0) {
-      return NextResponse.json(
-        {
-          message:
-            'Not Found - No job postings were found associated with the provided ID',
-        },
-        { status: 404 }
-      );
+    if (jobPostings.length < 1) {
+      return new Response(null, {
+        status: 204,
+        statusText: 'No job postings were found',
+      });
     }
 
     return NextResponse.json({ jobPostings }, { status: 200 });
