@@ -5,12 +5,12 @@ import {
   fetchTotalPages,
 } from '../../libs/jobsiteAPIrequest';
 import { Button } from '../ui/button';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function JobLists() {
+export default function JobLists({ sortByDate }) {
   const [list, setList] = useState([]); // jobPosts list that will be displayed
   const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(1); // current page
+  const [page, setPage] = useState(0); // current page
   const [totalPage, setTotalPage] = useState(0); // total number of pages
 
   const JOBSITE_NAME = 'indigenous';
@@ -18,12 +18,32 @@ export default function JobLists() {
   /**
    * Get Jobposts list of page from database.
    */
-  const getJobPostings = useCallback(async () => {
+  const getJobPostings = async () => {
     setIsLoading(true);
-    const jobpostings = await fetchJobPostList(JOBSITE_NAME, page);
-    setList(prevList => prevList.concat(jobpostings));
+    const jobpostings = await fetchJobPostList(JOBSITE_NAME, page, sortByDate);
+    setList(prevList =>
+      page === 1 ? jobpostings : prevList.concat(jobpostings)
+    );
     setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchTotalPages(setTotalPage, JOBSITE_NAME);
+  }, []);
+
+  useEffect(() => {
+    if (page != 0) {
+      getJobPostings();
+    }
   }, [page]);
+
+  useEffect(() => {
+    if (page !== 1) {
+      setPage(1);
+    } else {
+      getJobPostings();
+    }
+  }, [sortByDate]);
 
   /**
    * Set new page number when user clicks load more button.
@@ -33,14 +53,6 @@ export default function JobLists() {
       setPage(prevPage => prevPage + 1);
     }
   };
-
-  useEffect(() => {
-    fetchTotalPages(setTotalPage, JOBSITE_NAME);
-  }, []);
-
-  useEffect(() => {
-    getJobPostings();
-  }, [getJobPostings]);
 
   return (
     <div className="grid gap-6 max-h-dvh overflow-y-auto">

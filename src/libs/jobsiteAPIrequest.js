@@ -26,11 +26,16 @@ export const fetchTotalPages = async (setTotalPage, jobsiteName) => {
  * @param {string} page - page number to fetch
  * @returns jobpostings as a list
  */
-export const fetchJobPostList = async (jobsiteName, page) => {
+export const fetchJobPostList = async (jobsiteName, page, sortByDate) => {
   console.log('Current Page ' + page);
+  console.log('sort by date', sortByDate);
+  const pageParam = `page_num=${page}`;
+  const sortParam = sortByDate ? '&sort=d' : '';
 
   try {
-    const response = await fetch(`${API_URL}${jobsiteName}?page_num=${page}`);
+    const response = await fetch(
+      `${API_URL}${jobsiteName}?${pageParam}${sortParam}`
+    );
     if (!response.ok) {
       throw new Error('Fail to fetch postings');
     }
