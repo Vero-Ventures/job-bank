@@ -119,10 +119,9 @@ export async function fetchJobPostings(
     return acc;
   }, {});
 
-  const sorting = sortCriteria.datePosted == undefined ? null : sortCriteria;
   // Query job postings with pagination
   const jobPostings = await Posting.find({ ...siteCriteria, ...filterObject })
-    .sort(sorting)
+    .sort(sortCriteria)
     .skip(skip)
     .limit(pageSize);
 
