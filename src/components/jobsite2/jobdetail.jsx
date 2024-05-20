@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import MapPinIcon from '@/components/icons/mapPinIcon';
 import ClockIcon from '@/components/icons/clockIcon';
 import BriefcaseIcon from '@/components/icons/briefCaseIcon';
-import MoneyIcon from '@/components/icons/moneyIcon';
+import MoneyIcon from '@/components/icons/moneyIcon';
 import CalendarIcon from '@/components/icons/calendarIcon';
 import UserIcon from '@/components/icons/userIcon';
 import EmailIcon from '@/components/icons/emailIcon';
