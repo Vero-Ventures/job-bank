@@ -13,6 +13,13 @@ export default function Home() {
   const [postingID, setPostingID] = useState(null); //jobposting id that will be displayed
   const [page, setPage] = useState(1); // current page
   const [totalPage, setTotalPage] = useState(0); // total number of pages
+  const onClickPage = pageNum => {
+    setPage(pageNum);
+    document.getElementById('joblists').scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
 
   useEffect(() => {
     fetchTotalPages(setTotalPage, JOBSITE_NAME);
@@ -23,10 +30,12 @@ export default function Home() {
       <SearchBar></SearchBar>
       <div className="flex flex-row flex-1 space-x-6">
         <div className="w-full sm:w-4/12">
-          <JobLists onClickJob={setPostingID} page={page}></JobLists>
-          <Pagination
-            onClickPageNum={setPage}
-            totalPage={totalPage}></Pagination>
+          <div id="joblists" className="max-h-dvh overflow-y-auto">
+            <JobLists onClickJob={setPostingID} page={page}></JobLists>
+            <Pagination
+              onClickPageNum={onClickPage}
+              totalPage={totalPage}></Pagination>
+          </div>
         </div>
 
         <div className="hidden sm:block sm:w-8/12">
