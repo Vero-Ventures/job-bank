@@ -24,7 +24,6 @@ export default function Home() {
           <button
             onClick={() => {
               sortByDate ? setSortByDate(false) : setSortByDate(true);
-              console.log(sortByDate);
             }}
             className={`px-4 text-sm ${sortByDate ? 'font-semibold' : 'font-normals'}`}>
             Sort by date

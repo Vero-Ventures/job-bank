@@ -38,6 +38,9 @@ export default function JobLists({ sortByDate }) {
   }, [page]);
 
   useEffect(() => {
+    document
+      .getElementById('joblists')
+      .scrollTo({ top: 0, behavior: 'smooth' });
     if (page !== 1) {
       setPage(1);
     } else {
@@ -55,7 +58,7 @@ export default function JobLists({ sortByDate }) {
   };
 
   return (
-    <div className="grid gap-6 max-h-dvh overflow-y-auto">
+    <div id="joblists" className="grid gap-6 max-h-dvh overflow-y-auto">
       {list.map(item => (
         <JobListCard key={item._id} item={item} />
       ))}
