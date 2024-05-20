@@ -3,7 +3,7 @@ import Loading from '../ui/Loading';
 import JobListCard from './jobListCard';
 import { useCallback, useEffect, useState, useRef } from 'react';
 
-export default function JobLists({ onClickJob, page }) {
+export default function JobLists({ onClickJob, page, sortByDate }) {
   const [list, setList] = useState([]); // jobPosts list that will be displayed
   const [isLoading, setIsLoading] = useState(true);
   const hasSetInitialJob = useRef(false);
@@ -15,7 +15,7 @@ export default function JobLists({ onClickJob, page }) {
    */
   const getJobPostings = useCallback(async () => {
     setIsLoading(true);
-    const jobpostings = await fetchJobPostList(JOBSITE_NAME, page);
+    const jobpostings = await fetchJobPostList(JOBSITE_NAME, page, sortByDate);
     setList(prevList => {
       if (
         !hasSetInitialJob.current &&
@@ -28,7 +28,7 @@ export default function JobLists({ onClickJob, page }) {
       return jobpostings;
     });
     setIsLoading(false);
-  }, [onClickJob, page]);
+  }, [onClickJob, page, sortByDate]);
 
   useEffect(() => {
     getJobPostings();
