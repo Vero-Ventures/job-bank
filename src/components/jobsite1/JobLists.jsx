@@ -7,7 +7,7 @@ import {
 import { Button } from '../ui/button';
 import { useEffect, useState } from 'react';
 
-export default function JobLists({ sortByDate }) {
+export default function JobLists({ sortByDate, filterValues }) {
   const [list, setList] = useState([]); // jobPosts list that will be displayed
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0); // current page
@@ -20,7 +20,12 @@ export default function JobLists({ sortByDate }) {
    */
   const getJobPostings = async () => {
     setIsLoading(true);
-    const jobpostings = await fetchJobPostList(JOBSITE_NAME, page, sortByDate);
+    const jobpostings = await fetchJobPostList(
+      JOBSITE_NAME,
+      page,
+      sortByDate,
+      filterValues
+    );
     setList(prevList =>
       page === 1 ? jobpostings : prevList.concat(jobpostings)
     );
@@ -46,7 +51,7 @@ export default function JobLists({ sortByDate }) {
     } else {
       getJobPostings();
     }
-  }, [sortByDate]);
+  }, [sortByDate, filterValues]);
 
   /**
    * Set new page number when user clicks load more button.
