@@ -14,13 +14,22 @@ export default function Home() {
   const [page, setPage] = useState(1); // current page
   const [totalPage, setTotalPage] = useState(0); // total number of pages
   const [sortByDate, setSortByDate] = useState(false);
-
-  const onClickPage = pageNum => {
-    setPage(pageNum);
-    document.getElementById('joblists').scrollTo({
+  const [filterValues, setFilterValues] = useState({});
+  const scrollToTop = id => {
+    document.getElementById(id).scrollTo({
       top: 0,
       behavior: 'smooth',
     });
+  };
+  const onChangeFilter = values => {
+    setFilterValues(values);
+    setPage(1);
+    scrollToTop('joblists');
+  };
+
+  const onClickPage = pageNum => {
+    setPage(pageNum);
+    scrollToTop('joblists');
   };
 
   useEffect(() => {
@@ -29,7 +38,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-8 p-4 md:p-8 bg-[#f0f9ff] dark:bg-[#0a1929]">
-      <SearchBar></SearchBar>
+      <SearchBar onChangeFilter={onChangeFilter}></SearchBar>
       <div className="flex flex-row justify-center flex-1 space-x-6 sm:ml-10 sm:mr-10">
         <div className="w-full sm:w-4/12">
           <div id="joblists" className="max-h-dvh overflow-y-auto">
@@ -46,12 +55,14 @@ export default function Home() {
             <JobLists
               onClickJob={setPostingID}
               page={page}
-              sortByDate={sortByDate}></JobLists>
+              sortByDate={sortByDate}
+              filterValues={filterValues}></JobLists>
             <Pagination
               onClickPageNum={onClickPage}
               totalPage={totalPage}
               page={page}
-              sortByDate={sortByDate}></Pagination>
+              sortByDate={sortByDate}
+              filterValues={filterValues}></Pagination>
           </div>
         </div>
 

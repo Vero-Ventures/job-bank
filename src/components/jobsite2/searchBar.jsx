@@ -8,8 +8,45 @@ import {
   SelectContent,
   Select,
 } from '@/components/ui/select';
+import React, { useState, useEffect } from 'react';
 
-export default function SearchBar() {
+export default function SearchBar({ onChangeFilter }) {
+  const [selectedValue, setSelectedValue] = useState({});
+  const PROVINCES = [
+    'Alberta',
+    'British Columbia',
+    'Manitoba',
+    'New Brunswick',
+    'Newfoundland and Labrador',
+    'Northwest Territories',
+    'Nova Scotia',
+    'Nunavut',
+    'Ontario',
+    'Prince Edward Island',
+    'Québec',
+    'Saskatchewan',
+    'Yukon',
+  ];
+  const handleLocationChange = value => {
+    setSelectedValue(prev => ({
+      ...prev,
+      locations: value === 'All' ? [] : [value],
+    }));
+    onChangeFilter(selectedValue);
+  };
+
+  const handleJobTypeChange = value => {
+    setSelectedValue(prev => ({
+      ...prev,
+      jobType: value === 'All' ? [] : [value],
+    }));
+    onChangeFilter(selectedValue);
+  };
+
+  useEffect(() => {
+    onChangeFilter(selectedValue);
+  }, [onChangeFilter, selectedValue]);
+
   return (
     <div className="bg-white dark:bg-[#0f172a] rounded-lg shadow-lg p-4 md:p-6">
       <div className="flex items-center space-x-4">
@@ -33,38 +70,40 @@ export default function SearchBar() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           <Select
             className="bg-[#f0f9ff] dark:bg-[#0f172a] dark:text-white"
-            defaultValue="location">
+            defaultValue="jobType"
+            onValueChange={handleJobTypeChange}>
             <SelectTrigger>
-              <SelectValue placeholder="Location" />
+              <SelectValue>
+                {!selectedValue.jobType || selectedValue.jobType.length === 0
+                  ? 'Choose job type'
+                  : `${selectedValue.jobType[0]}`}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="new-york">New York</SelectItem>
-              <SelectItem value="san-francisco">San Francisco</SelectItem>
-              <SelectItem value="london">London</SelectItem>
+              <SelectItem value="All">All</SelectItem>
+              <SelectItem value="fullTime">Full Time</SelectItem>
+              <SelectItem value="partTime">Part Time</SelectItem>
             </SelectContent>
           </Select>
           <Select
             className="bg-[#f0f9ff] dark:bg-[#0f172a] dark:text-white"
-            defaultValue="job-type">
+            defaultValue="Loactions"
+            onValueChange={handleLocationChange}>
             <SelectTrigger>
-              <SelectValue placeholder="Job Type" />
+              <SelectValue>
+                {!selectedValue.locations ||
+                selectedValue.locations.length === 0
+                  ? 'Choose location'
+                  : `${selectedValue.locations[0]}`}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="full-time">Full-Time</SelectItem>
-              <SelectItem value="part-time">Part-Time</SelectItem>
-              <SelectItem value="contract">Contract</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select
-            className="bg-[#f0f9ff] dark:bg-[#0f172a] dark:text-white"
-            defaultValue="salary-range">
-            <SelectTrigger>
-              <SelectValue placeholder="Salary Range" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="0-50k">$0 - $50,000</SelectItem>
-              <SelectItem value="50k-100k">$50,000 - $100,000</SelectItem>
-              <SelectItem value="100k-plus">$100,000+</SelectItem>
+              <SelectItem value="All">All</SelectItem>
+              {PROVINCES.map(province => (
+                <SelectItem key={province} value={province}>
+                  {province}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

@@ -3,7 +3,12 @@ import Loading from '../ui/Loading';
 import JobListCard from './jobListCard';
 import { useCallback, useEffect, useState, useRef } from 'react';
 
-export default function JobLists({ onClickJob, page, sortByDate }) {
+export default function JobLists({
+  onClickJob,
+  page,
+  sortByDate,
+  filterValues,
+}) {
   const [list, setList] = useState([]); // jobPosts list that will be displayed
   const [isLoading, setIsLoading] = useState(true);
   const hasSetInitialJob = useRef(false);
@@ -15,7 +20,12 @@ export default function JobLists({ onClickJob, page, sortByDate }) {
    */
   const getJobPostings = useCallback(async () => {
     setIsLoading(true);
-    const jobpostings = await fetchJobPostList(JOBSITE_NAME, page, sortByDate);
+    const jobpostings = await fetchJobPostList(
+      JOBSITE_NAME,
+      page,
+      sortByDate,
+      filterValues
+    );
     setList(prevList => {
       if (
         !hasSetInitialJob.current &&
@@ -28,7 +38,7 @@ export default function JobLists({ onClickJob, page, sortByDate }) {
       return jobpostings;
     });
     setIsLoading(false);
-  }, [onClickJob, page, sortByDate]);
+  }, [onClickJob, page, sortByDate, filterValues]);
 
   useEffect(() => {
     getJobPostings();
@@ -37,16 +47,18 @@ export default function JobLists({ onClickJob, page, sortByDate }) {
   return (
     <div>
       {isLoading && <Loading colour="blue" />}
-      <div className="space-y-8">
-        {list.map(item => {
-          return (
-            <JobListCard
-              key={item._id}
-              item={item}
-              onClick={onClickJob}></JobListCard>
-          );
-        })}
-      </div>
+      {!isLoading && (
+        <div className="space-y-8">
+          {list.map(item => {
+            return (
+              <JobListCard
+                key={item._id}
+                item={item}
+                onClick={onClickJob}></JobListCard>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

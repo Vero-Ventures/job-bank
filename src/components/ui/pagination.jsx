@@ -6,6 +6,7 @@ export default function Pagination({
   totalPage,
   page,
   sortByDate,
+  filterValues,
 }) {
   const [pageList, setPageList] = useState([]);
 
@@ -31,7 +32,7 @@ export default function Pagination({
 
   useEffect(() => {
     setNewbuttons(1);
-  }, [totalPage, sortByDate]);
+  }, [totalPage, sortByDate, filterValues]);
 
   return (
     <div className="flex items-center justify-center border-t border-gray-200 bg-white py-3">
