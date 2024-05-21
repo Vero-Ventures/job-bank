@@ -119,17 +119,19 @@ export async function fetchJobPostings(
     return acc;
   }, {});
 
-  const sortedDocuments = await sortDocuments(
-    Posting,
-    siteCriteria,
-    filterObject,
-    sortCriteria
-  );
-  const paginatedDocuments = skipAndLimitDocuments(
-    sortedDocuments,
-    skip,
-    pageSize
-  );
+  let query = Posting.find({ ...siteCriteria, ...filterObject });
+
+  // Check if sortCriteria is defined before sorting
+  if (sortCriteria && sortCriteria.datePosted !== undefined) {
+    query = query.sort(sortCriteria);
+  }
+  query = query.skip(skip);
+
+  const documents = await query.exec();
+
+  // Split the process and used slice instead of chaining with .limit() to avoid sorted order bug
+  // Todo: Investigate the bug and fix it
+  const paginatedDocuments = documents.slice(0, pageSize);
 
   return paginatedDocuments;
 }
@@ -162,30 +164,4 @@ export async function parseFilterCriteria(etFilters, pFilters) {
   const pFilterCriteria = pFilters.map(p => ({ addressRegion: p }));
 
   return [...etFilterCriteria, ...pFilterCriteria];
-}
-
-async function sortDocuments(
-  Posting,
-  siteCriteria,
-  filterObject,
-  sortCriteria
-) {
-  let query = Posting.find({ ...siteCriteria, ...filterObject });
-
-  // Check if sortCriteria is defined before sorting
-  if (sortCriteria.datePosted) {
-    query = query.sort(sortCriteria);
-  }
-
-  return await query;
-}
-
-// Separate function to skip and limit documents
-function skipAndLimitDocuments(sortedDocuments, skip, limit) {
-  // When user did not set page number, return all documents
-  if (skip == 0 && limit == 0) {
-    return sortedDocuments.slice();
-  }
-
-  return sortedDocuments.slice(skip, skip + limit);
 }
