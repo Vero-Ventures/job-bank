@@ -17,6 +17,35 @@ const PROVINCES_SHORT = {
 };
 
 /**
+ * Set Parameters for fetching data
+ * @param {string} jobsiteName - name of jobsite
+ * @param {int} page - page number
+ * @param {boolean} sortByDate - wether sort by date or not
+ * @param {object} filterValues - filter values as dictionary, keys as filter catogories, values as options user selected
+ * @return params as a string that will be sent to API call
+ */
+const setParams = (jobsiteName, page, sortByDate, filterValues) => {
+  const pageParam = `page_num=${page}`;
+  const sortParam = sortByDate ? '&sort=d' : '';
+  let filterEParam = '';
+  let filterPParam = '';
+  if (filterValues.jobType && filterValues.jobType.length > 0) {
+    for (let i = 0; i < filterValues.jobType.length; i++) {
+      filterEParam += '&';
+      filterEParam += `e=${filterValues.jobType[i]}`;
+    }
+  }
+  if (filterValues.locations && filterValues.locations.length > 0) {
+    for (let i = 0; i < filterValues.locations.length; i++) {
+      filterPParam += '&';
+      filterPParam += `p=${PROVINCES_SHORT[filterValues.locations[i]]}`;
+    }
+  }
+
+  return `${pageParam}${sortParam}${filterEParam}${filterPParam}`;
+};
+
+/**
  * Fetch total number of pages for pagination.
  * @param {object} setTotalPage - function object to setPage
  * @param {string} jobsiteName - name of jobsite
@@ -47,31 +76,11 @@ export const fetchJobPostList = async (
   sortByDate,
   filterValues
 ) => {
-  const pageParam = `page_num=${page}`;
-  const sortParam = sortByDate ? '&sort=d' : '';
-  let filterEParam = '';
-  let filterPParam = '';
-  if (filterValues.jobType && filterValues.jobType.length > 0) {
-    for (let i = 0; i < filterValues.jobType.length; i++) {
-      filterEParam += '&';
-      filterEParam += `e=${filterValues.jobType[i]}`;
-    }
-  }
-  if (filterValues.locations && filterValues.locations.length > 0) {
-    for (let i = 0; i < filterValues.locations.length; i++) {
-      filterPParam += '&';
-      filterPParam += `p=${PROVINCES_SHORT[filterValues.locations[i]]}`;
-    }
-  }
-
-  console.log(
-    `${API_URL}${jobsiteName}?${pageParam}${sortParam}${filterEParam}${filterPParam}`
-  );
+  const newParams = setParams(jobsiteName, page, sortByDate, filterValues);
+  console.log(`${API_URL}${jobsiteName}?${newParams}`);
 
   try {
-    const response = await fetch(
-      `${API_URL}${jobsiteName}?${pageParam}${sortParam}${filterEParam}${filterPParam}`
-    );
+    const response = await fetch(`${API_URL}${jobsiteName}?${newParams}`);
     if (!response.ok) {
       throw new Error('Fail to fetch postings');
     }
