@@ -46,6 +46,13 @@ export const fetchTotalPages = async (
     const response = await fetch(
       `${API_URL}${jobsiteName}/total-posts?${newParams}`
     );
+
+    // posting doesn't exist, setTotalPage as 0
+    if (response.status === 204) {
+      setTotalPage(0);
+      return;
+    }
+
     if (!response.ok) {
       throw new Error('Fail to fetch total number of postings.');
     }
@@ -74,6 +81,12 @@ export const fetchJobPostList = async (
 
   try {
     const response = await fetch(`${API_URL}${jobsiteName}?${newParams}`);
+
+    // posting doesn't exist, return empty list.
+    if (response.status === 204) {
+      return [];
+    }
+
     if (!response.ok) {
       throw new Error('Fail to fetch postings');
     }
@@ -95,10 +108,12 @@ export const fetchJobPostList = async (
 export const fetchJobDetail = async postID => {
   try {
     const response = await fetch(`${API_URL}by-id?job-posting-id=${postID}`);
+    // given id posting doesn't exist, return 404 status.
+    if (response.status === 404) {
+      return { error: 'Job detail not found (404)', status: 404 };
+    }
+
     if (!response.ok) {
-      if (response.status === 404) {
-        return { error: 'Job detail not found (404)', status: 404 };
-      }
       return {
         error: `Failed to fetch job detail (status: ${response.status})`,
       };

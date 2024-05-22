@@ -4,13 +4,13 @@ import {
   fetchJobPostList,
   fetchTotalPages,
 } from '../../libs/jobsiteAPIrequest';
+import ErrorNoJobLists from '../errorNoJobLists';
 import { Button } from '../ui/button';
 import { useEffect, useState } from 'react';
 
 export default function JobLists({ page, setPage, sortByDate, filterValues }) {
   const [list, setList] = useState([]); // jobPosts list that will be displayed
   const [isLoading, setIsLoading] = useState(true);
-  // const [page, setPage] = useState(0); // current page
   const [totalPage, setTotalPage] = useState(0); // total number of pages
 
   const JOBSITE_NAME = 'indigenous';
@@ -68,11 +68,14 @@ export default function JobLists({ page, setPage, sortByDate, filterValues }) {
         <JobListCard key={item._id} item={item} />
       ))}
       {isLoading && <Loading />}
-      <Button
-        className={`${isLoading ? 'hidden' : 'block'}`}
-        onClick={onClickLoadMore}>
-        Load More
-      </Button>
+      {page < totalPage && !isLoading && (
+        <Button
+          className={`${isLoading ? 'hidden' : 'block'}`}
+          onClick={onClickLoadMore}>
+          Load More
+        </Button>
+      )}
+      {totalPage == 0 && <ErrorNoJobLists colourTheme={'gray'} />}
     </div>
   );
 }

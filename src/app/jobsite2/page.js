@@ -5,6 +5,7 @@ import JobDetail from '@/components/jobsite2/jobdetail';
 import SearchBar from '@/components/jobsite2/searchBar';
 import JobLists from '@/components/jobsite2/joblists';
 import Pagination from '@/components/ui/pagination';
+import ErrorNoJobLists from '@/components/errorNoJobLists';
 import { useEffect, useState } from 'react';
 
 const JOBSITE_NAME = 'newcomers';
@@ -12,7 +13,7 @@ const JOBSITE_NAME = 'newcomers';
 export default function Home() {
   const [postingID, setPostingID] = useState(null); //jobposting id that will be displayed
   const [page, setPage] = useState(1); // current page
-  const [totalPage, setTotalPage] = useState(0); // total number of pages
+  const [totalPage, setTotalPage] = useState(-1); // total number of pages
   const [sortByDate, setSortByDate] = useState(false);
   const [filterValues, setFilterValues] = useState({});
 
@@ -54,23 +55,28 @@ export default function Home() {
                 Sort by date
               </button>
             </div>
-            <JobLists
-              onClickJob={setPostingID}
-              page={page}
-              sortByDate={sortByDate}
-              filterValues={filterValues}></JobLists>
-            <Pagination
-              onClickPageNum={onClickPage}
-              totalPage={totalPage}
-              page={page}
-              sortByDate={sortByDate}></Pagination>
+            {totalPage > 0 && (
+              <>
+                <JobLists
+                  onClickJob={setPostingID}
+                  page={page}
+                  totalPage={totalPage}
+                  sortByDate={sortByDate}
+                  filterValues={filterValues}></JobLists>
+                <Pagination
+                  onClickPageNum={onClickPage}
+                  totalPage={totalPage}
+                  page={page}
+                  sortByDate={sortByDate}></Pagination>
+              </>
+            )}
           </div>
         </div>
-
         <div className="hidden sm:block sm:w-8/12">
-          <JobDetail postingID={postingID}></JobDetail>
+          {totalPage > 0 && <JobDetail postingID={postingID}></JobDetail>}
         </div>
       </div>
+      {totalPage == 0 && <ErrorNoJobLists colourTheme={'blue'} />}
     </div>
   );
 }
