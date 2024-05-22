@@ -17,7 +17,7 @@ export default function Home() {
 
   const links = [
     { text: 'Pricing', url: '/pricing' },
-    { text: 'About', url: '/about' },
+    { text: 'About', url: '/wip' },
     { text: 'Logout', url: '/api/auth/logout' },
   ];
 
@@ -125,7 +125,7 @@ export default function Home() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
       <Navbar links={links} />
-      <div className="flex items-center justify-between border-b-2 border-gray-200 py-6 md:justify-start md:space-x-10 border-y">
+      <div className="flex items-center justify-between border-b-2 border-gray-200 py-6 md:justify-start md:space-x-10">
         <div className="flex justify-start lg:w-0 lg:flex-1">
           <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate mb-4">
             My Job Postings
