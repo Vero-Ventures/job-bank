@@ -14,9 +14,9 @@ function Footer() {
         </div>
         <div className="grid gap-1">
           <h3 className="font-semibold">Job Sites</h3>
-          <Link href="/jobsite1">Indigenous</Link>
-          <Link href="/jobsite2">New Comers</Link>
-          <Link href="/wip">People with Disabilities</Link>
+          <Link href="/jobsite1">Indigenous People</Link>
+          <Link href="/jobsite2">Newcomers</Link>
+          <Link href="/wip">Persons with Disabilities</Link>
           <Link href="/wip">Vulnerable Youth</Link>
           <Link href="/wip">Asylum-Refugees</Link>
         </div>
