@@ -16,11 +16,15 @@ const employmentSubTypeMap = {
 };
 
 // Function to get the total number of job postings
-export async function getTotalNumberOfPostings(siteCriteria) {
+export async function getTotalNumberOfPostings(siteCriteria, filterCriteria) {
   await connectMongoDB();
 
   const Posting = mongoose.models.posting || mongoose.model('posting', posting);
-  const totalNumberOfPostings = await Posting.countDocuments(siteCriteria);
+  const filterObject = await createFilterObject(filterCriteria);
+  const totalNumberOfPostings = await Posting.countDocuments({
+    ...siteCriteria,
+    ...filterObject,
+  });
 
   return totalNumberOfPostings;
 }
@@ -106,18 +110,7 @@ export async function fetchJobPostings(
   await connectMongoDB();
 
   const Posting = mongoose.models.posting || mongoose.model('posting', posting);
-
-  const filterObject = filterCriteria.reduce((acc, filter) => {
-    // Check if the key already exists in the accumulator
-    if (Object.prototype.hasOwnProperty.call(acc, Object.keys(filter)[0])) {
-      // If the key exists, push the value to an array
-      acc[Object.keys(filter)[0]].push(Object.values(filter)[0]);
-    } else {
-      // If the key doesn't exist, initialize it as an array with the value
-      acc[Object.keys(filter)[0]] = [Object.values(filter)[0]];
-    }
-    return acc;
-  }, {});
+  const filterObject = await createFilterObject(filterCriteria);
 
   let query = Posting.find({ ...siteCriteria, ...filterObject });
 
@@ -164,4 +157,19 @@ export async function parseFilterCriteria(etFilters, pFilters) {
   const pFilterCriteria = pFilters.map(p => ({ addressRegion: p }));
 
   return [...etFilterCriteria, ...pFilterCriteria];
+}
+
+// Function to create a filter object
+export async function createFilterObject(filterCriteria) {
+  return filterCriteria.reduce((acc, filter) => {
+    // Check if the key already exists in the accumulator
+    if (Object.prototype.hasOwnProperty.call(acc, Object.keys(filter)[0])) {
+      // If the key exists, push the value to an array
+      acc[Object.keys(filter)[0]].push(Object.values(filter)[0]);
+    } else {
+      // If the key doesn't exist, initialize it as an array with the value
+      acc[Object.keys(filter)[0]] = [Object.values(filter)[0]];
+    }
+    return acc;
+  }, {});
 }
