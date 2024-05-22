@@ -31,7 +31,7 @@ export default function Component() {
 
   const links = [
     { text: 'Pricing', url: '/pricing' },
-    { text: 'About', url: '/about' },
+    { text: 'About', url: '/wip' },
     { text: 'Login / Signup', url: '/api/auth/login' },
   ];
 
