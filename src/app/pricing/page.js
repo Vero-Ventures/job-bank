@@ -19,7 +19,7 @@ export default function Component() {
   return (
     <section className="w-full h-dvh">
       <Navbar links={links} />
-      <div className="flex items-center h-5/6">
+      <div className="flex items-center justify-center h-5/6">
         <div className="container px-4 md:px-6">
           <div className="mx-auto max-w-md space-y-6 text-center">
             <div className="space-y-2">
