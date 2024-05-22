@@ -1,13 +1,15 @@
 // to run this file, copy the content to index.mjs at root level and use the command: node index.mjs in the terminal
-//To send out marketing email, update the schedule for the cron job by uncommenting line 55 & 67 and uncommenting line 51
+//To send out marketing email, update the schedule for the cron job by uncommenting line 6, 122 to 124 and commenting out line 127 to 130
 import cron from 'node-cron';
 import fetch from 'node-fetch';
 
-const JOB_POSTING_API_URL = 'http://localhost:3000/api/job-posting/';
+// const JOB_POSTING_API_URL = 'http://localhost:3000/api/job-posting/';
 const SEND_EMAIL_API_URL = 'http://localhost:3000/api/send-email/';
+const CONTACT_STAT_API_URL = 'http://localhost:3000/api/contact-stat/';
 // Function to send emails
 const sendEmail = async recipient => {
   try {
+    console.log(`Sending email to ${recipient}`);
     const apiUrl = SEND_EMAIL_API_URL;
     const response = await fetch(apiUrl, {
       method: 'POST',
@@ -37,11 +39,72 @@ const sendEmail = async recipient => {
 
     if (response.ok) {
       console.log(`Email sent to ${recipient}`);
+      // Update the status of the email in the contactStat collection
+      await updateSentStatus(recipient, true);
     } else {
       throw new Error('Failed to send email');
     }
   } catch (error) {
     console.error('Error sending email:', error);
+  }
+};
+
+const getContactStat = async () => {
+  try {
+    const response = await fetch(CONTACT_STAT_API_URL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+    return data.contactStats;
+  } catch (error) {
+    console.error('Error fetching contact stats:', error);
+    return [];
+  }
+};
+
+const updateContactStat = async emailObjects => {
+  try {
+    const response = await fetch(CONTACT_STAT_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(emailObjects),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data.message);
+    } else {
+      throw new Error('Failed to update contact stats');
+    }
+  } catch (error) {
+    console.error('Error updating contact stats:', error);
+  }
+};
+
+const updateSentStatus = async (email, sent) => {
+  try {
+    const response = await fetch(CONTACT_STAT_API_URL, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, sent }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data.message);
+    } else {
+      throw new Error('Failed to update sent status');
+    }
+  } catch (error) {
+    console.error('Error updating sent status:', error);
   }
 };
 
@@ -51,20 +114,21 @@ cron.schedule('*/5 * * * * *', async () => {
   // in the future, we can adjust the timing and adding interval to avoid being blocked
   // cron.schedule('0 8 * * *', async () => {
   try {
-    const response = await fetch(`${JOB_POSTING_API_URL}/email-sent?sort=-1`);
-    const data = await response.json();
+    // const response = await fetch(`${JOB_POSTING_API_URL}/email-sent?sort=-1`);
+    // const data = await response.json();
+    // const emailAddresses = data.emailAddresses;
 
-    // //mock data
-    // const emailData = [
-    //   { email: 'vhmai3007@gmail.com', sent: false },
-    //   { email: 'hvu28@mybcit.ca', sent: false },
-    // ];
+    //mock data
+    const emailAddresses = [
+      { email: 'vhmai3007@gmail.com', sent: true },
+      { email: 'hvu28@mybcit.ca', sent: false },
+    ];
 
-    // Extract email addresses from data - be careful with this line during testing
-    const emailData = data.emailAddresses.map(emailObj => ({
-      email: emailObj.email,
-      sent: emailObj.sent,
-    }));
+    //call the updateContactStat function to update the contactStat collection
+    await updateContactStat(emailAddresses);
+
+    // fetch contactStat data
+    const emailData = await getContactStat();
 
     // // Filter out emails that have not been sent yet - be careful with this line during testing
     const unsentEmails = emailData.filter(emailObj => !emailObj.sent);
