@@ -16,7 +16,9 @@ const AdminPage = ({ data, sendEmail, massSendEmails }) => {
       <header className="bg-gray-900 text-white py-4 px-6">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-          <Button className="px-6 py-2 bg-blue-500" onClick={massSendEmails}>
+          <Button
+            className="px-6 py-2 bg-blue-500 hover:bg-blue-600"
+            onClick={massSendEmails}>
             Mass Send Emails
           </Button>
         </div>
