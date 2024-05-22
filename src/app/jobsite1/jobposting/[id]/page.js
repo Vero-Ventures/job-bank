@@ -9,19 +9,29 @@ import CalendarIcon from '@/components/icons/calendarIcon';
 import UserIcon from '@/components/icons/userIcon';
 import EmailIcon from '@/components/icons/emailIcon';
 import Loading from '@/components/ui/Loading';
+import Error from '@/components/error';
 import { useCallback, useEffect, useState } from 'react';
 
 export default function JobPosting({ params }) {
   const postID = params.id;
   const [jobDetail, setJobDetail] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-
+  const [isExist, setIsExist] = useState(true); // whether given jobpost exists or not
   /**
    * Fetch Jobpost detail from database.
    */
   const getDetailData = useCallback(async () => {
     setIsLoading(true);
-    setJobDetail(await fetchJobDetail(postID));
+    const result = await fetchJobDetail(postID);
+    if (result.error) {
+      if (result.status == 404) {
+        setIsExist(false);
+      } else {
+        console.log(result.error);
+      }
+    } else {
+      setJobDetail(result);
+    }
     setIsLoading(false);
   }, [postID]);
 
@@ -33,7 +43,7 @@ export default function JobPosting({ params }) {
   return (
     <main className="w-full max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-16">
       {isLoading && <Loading />}
-      {!isLoading && (
+      {!isLoading && isExist && (
         <div className="grid gap-8">
           <div>
             <h1 className="text-3xl font-bold titleCase">
@@ -120,6 +130,9 @@ export default function JobPosting({ params }) {
             </div>
           </div>
         </div>
+      )}
+      {!isLoading && !isExist && (
+        <Error colourTheme={'gray'} redirectURL={'/jobsite1'} />
       )}
     </main>
   );

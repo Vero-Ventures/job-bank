@@ -94,13 +94,16 @@ export const fetchJobDetail = async postID => {
   try {
     const response = await fetch(`${API_URL}by-id?job-posting-id=${postID}`);
     if (!response.ok) {
-      throw new Error('Fail to fetch job detail');
+      if (response.status === 404) {
+        return { error: 'Job detail not found (404)', status: 404 };
+      }
+      return {
+        error: `Failed to fetch job detail (status: ${response.status})`,
+      };
     }
     const res = await response.json();
-
     return res.jobPostings[0];
   } catch (error) {
-    console.error('Error fetching job detail:', error);
-    throw new Error('Failed to fetch job detail');
+    return { error: 'Failed to fetch job detail', details: error.message };
   }
 };
