@@ -2,7 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+body {
+  font-family: var(--font-inter), sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-inter), sans-serif;
+}
+
+.loading {
+  text-align: center;
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.titleCase {
+  text-transform: capitalize;
+}
+
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -30,4 +54,4 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-}
+} */

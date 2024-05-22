@@ -6,6 +6,7 @@ export default new mongoose.Schema({
   streetAddress: String,
   addressLocality: String,
   addressRegion: String,
+  language: String,
   minCompValue: String,
   maxCompValue: String,
   compTimeUnit: String,

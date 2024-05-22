@@ -3,6 +3,21 @@ import { connectMongoDB } from '@/libs/mongodb';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
 
+const employmentSubTypeMap = {
+  ft: 'Full time',
+  pt: 'Part time',
+};
+
+// Function to get the total number of job postings
+export async function getTotalNumberOfPostings(siteCriteria) {
+  await connectMongoDB();
+
+  const Posting = mongoose.models.posting || mongoose.model('posting', posting);
+  const totalNumberOfPostings = await Posting.countDocuments(siteCriteria);
+
+  return totalNumberOfPostings;
+}
+
 // Function to get email addresses with the 'sent' field
 export async function getEmailAddressesWithSentField(params) {
   const sortBy = params.get('sort');
@@ -77,6 +92,7 @@ export function handleError(error) {
 export async function fetchJobPostings(
   siteCriteria,
   sortCriteria,
+  filterCriteria,
   skip,
   pageSize
 ) {
@@ -84,8 +100,20 @@ export async function fetchJobPostings(
 
   const Posting = mongoose.models.posting || mongoose.model('posting', posting);
 
+  const filterObject = filterCriteria.reduce((acc, filter) => {
+    // Check if the key already exists in the accumulator
+    if (Object.prototype.hasOwnProperty.call(acc, Object.keys(filter)[0])) {
+      // If the key exists, push the value to an array
+      acc[Object.keys(filter)[0]].push(Object.values(filter)[0]);
+    } else {
+      // If the key doesn't exist, initialize it as an array with the value
+      acc[Object.keys(filter)[0]] = [Object.values(filter)[0]];
+    }
+    return acc;
+  }, {});
+
   // Query job postings with pagination
-  const jobPostings = await Posting.find(siteCriteria)
+  const jobPostings = await Posting.find({ ...siteCriteria, ...filterObject })
     .sort(sortCriteria)
     .skip(skip)
     .limit(pageSize);
@@ -101,4 +129,20 @@ export async function checkFieldExist(requestedObject) {
   const field = Object.keys(requestedObject)[0];
 
   return Posting.schema.path(field) !== undefined;
+}
+
+// Function to parse sort criteria
+export async function parseSortCriteria(sortBy) {
+  return sortBy ? JSON.parse(sortBy) : null;
+}
+
+// Function to parse filter criteria
+export async function parseFilterCriteria(etFilters, pFilters) {
+  const etFilterCriteria = etFilters.map(et => ({
+    employmentSubType: employmentSubTypeMap[et],
+  }));
+
+  const pFilterCriteria = pFilters.map(p => ({ addressRegion: p }));
+
+  return [...etFilterCriteria, ...pFilterCriteria];
 }

@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card';
 import { AddJobPostingForm } from '@/components/ui/addJobPostingForm';
 import jobPostingService from './jobPostingService';
 import { useCallback } from 'react';
+import Navbar from '@/components/ui/navbar';
 
 // Define your component
 export default function Home() {
@@ -13,6 +14,12 @@ export default function Home() {
   const [jobPostings, setJobPostings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+
+  const links = [
+    { text: 'Pricing', url: '/pricing' },
+    { text: 'About', url: '/about' },
+    { text: 'Logout', url: '/api/auth/logout' },
+  ];
 
   const JOB_POSTING_API_URL = process.env.NEXT_PUBLIC_JOB_POSTING_API_URL;
 
@@ -117,14 +124,12 @@ export default function Home() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-      <div className="flex items-center justify-between border-b-2 border-gray-200 py-6 md:justify-start md:space-x-10">
+      <Navbar links={links} />
+      <div className="flex items-center justify-between border-b-2 border-gray-200 py-6 md:justify-start md:space-x-10 border-y">
         <div className="flex justify-start lg:w-0 lg:flex-1">
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate mt-8 mb-4">
+          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate mb-4">
             My Job Postings
           </h2>
-          <a href="/api/auth/logout">Logout</a>
-          <br />
-          {user && <p>{user.email}</p>}{' '}
           {/* Render user email if user data is available */}
         </div>
         <div className="md:flex items-center justify-end md:flex-1 lg:w-0">
@@ -147,7 +152,7 @@ export default function Home() {
           </div>
         </div>
       )}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mt-5">
         {loading ? (
           <p>Loading...</p>
         ) : jobPostings.length > 0 ? (

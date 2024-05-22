@@ -7,11 +7,12 @@ export async function GET() {
 
     let jobPostings = await getTotalNumberOfPostings(siteCriteria);
 
+    // Check if job postings were found
     if (jobPostings < 1) {
-      return NextResponse.json(
-        { message: 'Not Found - No job postings found on this page' },
-        { status: 404 }
-      );
+      return new Response(null, {
+        status: 204,
+        statusText: 'No job postings were found',
+      });
     }
 
     return NextResponse.json({ jobPostings }, { status: 200 });
