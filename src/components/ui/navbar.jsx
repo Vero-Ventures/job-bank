@@ -3,8 +3,8 @@ import Link from 'next/link';
 
 function Navbar({ links }) {
   return (
-    <header className="px-4 lg:px-6 h-14 flex items-center">
-      <Link className="flex items-center justify-center" href="#">
+    <header className="px-4 lg:px-6 h-14 flex items-center border-y">
+      <Link className="flex items-center justify-center" href="/">
         <BriefcaseIcon className="h-6 w-6" />
         <span className="sr-only">Job Posting Site</span>
       </Link>
