@@ -3,6 +3,7 @@ import { connectMongoDB } from '@/libs/mongodb';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
 import {
+  getPaginationParams,
   fetchJobPostings,
   parseSortCriteria,
   parseFilterCriteria,
@@ -10,6 +11,7 @@ import {
 
 export async function GET(req) {
   try {
+    const { skip, pageSize } = getPaginationParams(req);
     const email = req.nextUrl.searchParams.get('email');
     const sortBy = req.nextUrl.searchParams.get('sort');
     const etFilters = req.nextUrl.searchParams.getAll('et');
@@ -27,8 +29,6 @@ export async function GET(req) {
     }
 
     const siteCriteria = { email };
-    const skip = 0;
-    const pageSize = 0;
 
     // Query job postings with pagination and sort criteria if provided
     const jobPostings = await fetchJobPostings(
