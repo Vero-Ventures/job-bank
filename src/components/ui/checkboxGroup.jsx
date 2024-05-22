@@ -19,7 +19,7 @@ function CheckboxGroup({ formData, handleChange }) {
     'New Comers',
     'People with Disabilities',
     'Students',
-    'Asylum-Refugess',
+    'Asylum-Refugees',
   ];
   const siteKeys = Object.keys(formData).filter(key => key.startsWith('site'));
 
