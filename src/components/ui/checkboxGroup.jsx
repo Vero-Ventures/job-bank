@@ -17,7 +17,7 @@ function CheckboxGroup({ formData, handleChange }) {
   const siteNames = [
     'Indigenous',
     'Newcomers',
-    'People with Disabilities',
+    'Persons with Disabilities',
     'Vulnerable Youth',
     'Asylum-Refugees',
   ];
