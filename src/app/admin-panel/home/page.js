@@ -17,7 +17,7 @@ export default function Home() {
 
   const links = [
     { text: 'Pricing', url: '/pricing' },
-    { text: 'About', url: '/about' },
+    { text: 'About', url: '/wip' },
     { text: 'Logout', url: '/api/auth/logout' },
   ];
 
