@@ -36,5 +36,32 @@ export default function Home() {
     );
   };
 
-  return <AdminPage data={emails} sendEmail={sendEmail} />;
+  // Function to send emails to all recipients
+  const massSendEmails = async () => {
+    try {
+      // Loop through all emails and send email to each recipient
+      for (const { email } of emails) {
+        // if email has not been sent, send email
+        if (!email.sent) {
+          await emailHandler.sendEmail(email);
+        }
+        // Update the status of the email in the emails state
+        setEmails(prevEmails =>
+          prevEmails.map(emailObj =>
+            emailObj.email === email ? { ...emailObj, sent: true } : emailObj
+          )
+        );
+      }
+    } catch (error) {
+      console.error('Error sending emails:', error);
+    }
+  };
+
+  return (
+    <AdminPage
+      data={emails}
+      sendEmail={sendEmail}
+      massSendEmails={massSendEmails}
+    />
+  );
 }
