@@ -3,6 +3,13 @@ import { connectMongoDB } from '@/libs/mongodb';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
 
+// Sort type map to sort job postings by date
+const sortTypeMap = {
+  d: -1,
+  a: 1,
+};
+
+// Employment sub-type map to filter job postings by employment sub-type
 const employmentSubTypeMap = {
   ft: 'Full time',
   pt: 'Part time',
@@ -112,13 +119,21 @@ export async function fetchJobPostings(
     return acc;
   }, {});
 
-  // Query job postings with pagination
-  const jobPostings = await Posting.find({ ...siteCriteria, ...filterObject })
-    .sort(sortCriteria)
-    .skip(skip)
-    .limit(pageSize);
+  let query = Posting.find({ ...siteCriteria, ...filterObject });
 
-  return jobPostings;
+  // Check if sortCriteria is defined before sorting
+  if (sortCriteria && sortCriteria.datePosted !== undefined) {
+    query = query.sort(sortCriteria);
+  }
+  query = query.skip(skip);
+
+  const documents = await query.exec();
+
+  // Split the process and used slice instead of chaining with .limit() to avoid sorted order bug
+  // Todo: Investigate the bug and fix it
+  const paginatedDocuments = documents.slice(0, pageSize);
+
+  return paginatedDocuments;
 }
 
 // Function to check if the requested field exists in the schema
@@ -133,7 +148,11 @@ export async function checkFieldExist(requestedObject) {
 
 // Function to parse sort criteria
 export async function parseSortCriteria(sortBy) {
-  return sortBy ? JSON.parse(sortBy) : null;
+  const sortCriteria = {
+    datePosted: sortTypeMap[sortBy],
+  };
+
+  return sortCriteria;
 }
 
 // Function to parse filter criteria

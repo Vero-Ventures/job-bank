@@ -3,7 +3,6 @@ import {
   getPaginationParams,
   fetchJobPostings,
   handleError,
-  checkFieldExist,
   parseSortCriteria,
   parseFilterCriteria,
 } from '../siteRequestUtils';
@@ -21,17 +20,7 @@ export async function GET(req) {
 
     // Parse sort and filter criteria
     const sortCriteria = await parseSortCriteria(sortBy);
-    // Parse filter criteria
     const filterCriteria = await parseFilterCriteria(etFilters, pFilters);
-
-    // Check if the requested sort field exists
-    if (sortCriteria != null && !(await checkFieldExist(sortCriteria))) {
-      console.log('no field');
-      return NextResponse.json(
-        { message: 'Not Found - Requested sort field does not exist' },
-        { status: 404 }
-      );
-    }
 
     // Query job postings with pagination and sort criteria if provided
     const jobPostings = await fetchJobPostings(
