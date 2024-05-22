@@ -11,6 +11,7 @@ import Footer from '@/components/ui/footer';
 export default function Component() {
   const links = [
     { text: 'Home', url: '/' },
+    { text: 'Pricing', url: '/pricing' },
     { text: 'About', url: '/wip' },
     { text: 'Login / Signup', url: '/api/auth/login' },
   ];
