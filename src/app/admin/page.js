@@ -28,11 +28,10 @@ export default function Home() {
       console.error('Error sending email:', error);
     }
 
-    const sent = true;
     // Update the status of the email in the emails state
     setEmails(prevEmails =>
       prevEmails.map(emailObj =>
-        emailObj.email === recipient ? { ...emailObj, sent } : emailObj
+        emailObj.email === recipient ? { ...emailObj, sent: true } : emailObj
       )
     );
   };
