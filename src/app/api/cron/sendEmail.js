@@ -66,7 +66,7 @@ const getContactStat = async () => {
   }
 };
 
-const updateContactStat = async emailObjects => {
+const addEmailObjects = async emailObjects => {
   try {
     const response = await fetch(CONTACT_STAT_API_URL, {
       method: 'POST',
@@ -125,7 +125,7 @@ cron.schedule('*/5 * * * * *', async () => {
     ];
 
     //call the updateContactStat function to update the contactStat collection
-    await updateContactStat(emailAddresses);
+    await addEmailObjects(emailAddresses);
 
     // fetch contactStat data
     const emailData = await getContactStat();
