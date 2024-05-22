@@ -1,7 +1,5 @@
 ## **Project Description**
 
-something
-
 This project aims to build a job site network, allowing multiple front-end job boards to display listings from a central backend based on user-defined settings. This network will:
 
 - **Support underserved communities:** Job posting companies can promote roles across specialized job boards through a single admin panel, improving access for diverse applicant pools.
@@ -14,7 +12,7 @@ This project aims to build a job site network, allowing multiple front-end job b
 This web-based job portal will utilize:
 
 - **Front-end:** React
-- **Backend:** Supabase (SQL)
+- **Backend:** MongoDB
 - **External APIs:**
   - Stripe for payment processing
   - OpenAI for LLM functionalities
@@ -23,7 +21,7 @@ This web-based job portal will utilize:
 ## **Hardware/Software Requirements**
 
 - **Frontend Development:** React
-- **Backend Database Management:** Supabase (SQL)
+- **Backend Database Management:** MongoDB
 - **Version Control:** GitHub
 - **Development Environment:**
   - IDE suitable for React development
@@ -33,3 +31,62 @@ This web-based job portal will utilize:
 ## **Current Work/Arrangement**
 
 Currently, job postings are often restricted to individual platforms, limiting exposure to a wider range of potential candidates. This often necessitates manual cross-posting across multiple platforms, leading to repetitive and time-consuming work.
+
+## **Project Setup Note**
+
+**Project Overview:**
+Name: job-bank
+
+**Scripts:**
+
+- dev: Run the development server. (npm run dev OR npm run dev --watch)
+- build: Build the production application.
+- start: Start the production server.
+- lint: Lint the codebase using ESLint and Next.js lint rules.
+- prepare: Run Husky pre-commit hooks.
+- format: Format the code using ESLint and Prettier.
+
+**Husky & Lint-Staged**
+
+- Husky is used for Git hooks, configured to run pre-commit hooks.
+- Lint-staged is configured to run ESLint and Prettier on staged files before committing.
+
+**Dependencies:**
+
+- @auth0/nextjs-auth0: Authentication library for Next.js applications.
+- @radix-ui/react-checkbox: Component library for checkboxes.
+- @radix-ui/react-icons: Component library for icons.
+- @radix-ui/react-slot: Component library for slots.
+- @sendgrid/mail: Library for sending emails using SendGrid.
+- @stripe/stripe-js: Stripe library for client-side integration.
+- @tailwindcss/forms: Tailwind CSS plugin for styling form elements.
+- auth0: Auth0 client library.
+- class-variance-authority: Utility library for class variance.
+- clsx: Library for conditionally joining classNames.
+- dotenv: Library for loading environment variables.
+- lucide-react: Library for Lucide icons.
+- mongoose: MongoDB ORM library for Node.js.
+- next: React framework for building server-rendered applications.
+- react: JavaScript library for building user interfaces.
+- react-dom: React library for DOM rendering.
+- stripe: Stripe library for server-side integration.
+- tailwind-merge: Utility library for merging Tailwind CSS classes.
+- tailwindcss-animate: Tailwind CSS plugin for animations.
+
+**DevDependencies:**
+
+- eslint: JavaScript linter.
+- eslint-config-next: ESLint configuration for Next.js projects.
+- husky: Git hooks manager.
+- lint-staged: Run linters on Git staged files.
+- postcss: CSS post-processor.
+- prettier: Code formatter.
+- tailwindcss: Utility-first CSS framework.
+
+**Notes:**
+
+- Use [npm run dev] to start the development server.
+- To apply EsLint and Prettier before committing, make sure to run > npm install or > npm i.
+- Make sure to follow the linting rules defined in .eslintrc and .prettierrc.
+- Environment variables are loaded using dotenv.
+  Git commits trigger linting and formatting checks before being committed due to Husky and lint-staged configurations.

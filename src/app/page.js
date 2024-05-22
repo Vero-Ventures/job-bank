@@ -31,14 +31,15 @@ export default function Component() {
 
   const links = [
     { text: 'Pricing', url: '/pricing' },
-    { text: 'About', url: '/about' },
+    { text: 'About', url: '/wip' },
+    { text: 'Login / Signup', url: '/api/auth/login' },
   ];
 
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <Navbar links={links} />
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 border-y">
+        <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6 space-y-10 xl:space-y-16">
             <div className="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
               <div>
@@ -80,29 +81,25 @@ export default function Component() {
               <div className="grid gap-1">
                 <h3 className="text-lg font-bold">Easy Job Posting</h3>
                 <p className="text-sm text-gray-500">
-                  Post your job openings in minutes and reach a wide pool of
-                  qualified candidates.
+                  Create and publish job listings in minutes.
                 </p>
               </div>
               <div className="grid gap-1">
-                <h3 className="text-lg font-bold">Candidate Management</h3>
+                <h3 className="text-lg font-bold">Flexibility</h3>
                 <p className="text-sm text-gray-500">
-                  Easily track and manage your applicants with our intuitive
-                  dashboard.
+                  Customize your job postings to attract the right candidates.
                 </p>
               </div>
               <div className="grid gap-1">
-                <h3 className="text-lg font-bold">Powerful Analytics</h3>
+                <h3 className="text-lg font-bold">Simple Pricing</h3>
                 <p className="text-sm text-gray-500">
-                  Get insights into your hiring process with our comprehensive
-                  analytics.
+                  No hassle. No hidden fees. Pay only for what you use.
                 </p>
               </div>
               <div className="grid gap-1">
-                <h3 className="text-lg font-bold">Seamless Collaboration</h3>
+                <h3 className="text-lg font-bold">Cross Posting</h3>
                 <p className="text-sm text-gray-500">
-                  Invite your team to collaborate on the hiring process and make
-                  better decisions together.
+                  Advertise your opportunity across multiple job boards.
                 </p>
               </div>
             </div>
