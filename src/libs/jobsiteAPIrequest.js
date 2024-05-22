@@ -16,6 +16,11 @@ const PROVINCES_SHORT = {
   Yukon: 'YT',
 };
 
+const JOBTYPE_SHORT = {
+  fullTime: 'ft',
+  partTime: 'pt',
+};
+
 /**
  * Set Parameters for fetching data
  * @param {string} jobsiteName - name of jobsite
@@ -32,7 +37,7 @@ const setParams = (jobsiteName, page, sortByDate, filterValues) => {
   if (filterValues.jobType && filterValues.jobType.length > 0) {
     for (let i = 0; i < filterValues.jobType.length; i++) {
       filterEParam += '&';
-      filterEParam += `e=${filterValues.jobType[i]}`;
+      filterEParam += `et=${JOBTYPE_SHORT[filterValues.jobType[i]]}`;
     }
   }
   if (filterValues.locations && filterValues.locations.length > 0) {

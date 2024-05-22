@@ -8,7 +8,7 @@ import {
   SelectContent,
   Select,
 } from '@/components/ui/select';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 export default function SearchBar({ onChangeFilter }) {
   const [selectedValue, setSelectedValue] = useState({});
@@ -27,25 +27,24 @@ export default function SearchBar({ onChangeFilter }) {
     'Saskatchewan',
     'Yukon',
   ];
+
   const handleLocationChange = value => {
-    setSelectedValue(prev => ({
-      ...prev,
+    const updatedValue = {
+      ...selectedValue,
       locations: value === 'All' ? [] : [value],
-    }));
-    onChangeFilter(selectedValue);
+    };
+    setSelectedValue(updatedValue);
+    onChangeFilter(updatedValue);
   };
 
   const handleJobTypeChange = value => {
-    setSelectedValue(prev => ({
-      ...prev,
+    const updatedValue = {
+      ...selectedValue,
       jobType: value === 'All' ? [] : [value],
-    }));
-    onChangeFilter(selectedValue);
+    };
+    setSelectedValue(updatedValue);
+    onChangeFilter(updatedValue);
   };
-
-  useEffect(() => {
-    onChangeFilter(selectedValue);
-  }, [onChangeFilter, selectedValue]);
 
   return (
     <div className="bg-white dark:bg-[#0f172a] rounded-lg shadow-lg p-4 md:p-6">
