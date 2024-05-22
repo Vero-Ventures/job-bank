@@ -15,12 +15,14 @@ export default function Home() {
   const [totalPage, setTotalPage] = useState(0); // total number of pages
   const [sortByDate, setSortByDate] = useState(false);
   const [filterValues, setFilterValues] = useState({});
+
   const scrollToTop = id => {
     document.getElementById(id).scrollTo({
       top: 0,
       behavior: 'smooth',
     });
   };
+
   const onChangeFilter = values => {
     setFilterValues(values);
     setPage(1);
@@ -33,8 +35,8 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetchTotalPages(setTotalPage, JOBSITE_NAME);
-  }, []);
+    fetchTotalPages(setTotalPage, JOBSITE_NAME, filterValues);
+  }, [filterValues]);
 
   return (
     <div className="flex flex-col gap-8 p-4 md:p-8 bg-[#f0f9ff] dark:bg-[#0a1929]">
@@ -61,8 +63,7 @@ export default function Home() {
               onClickPageNum={onClickPage}
               totalPage={totalPage}
               page={page}
-              sortByDate={sortByDate}
-              filterValues={filterValues}></Pagination>
+              sortByDate={sortByDate}></Pagination>
           </div>
         </div>
 

@@ -7,14 +7,16 @@ import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 
 export default function Home() {
+  const [page, setPage] = useState(0); // current page
   const [sortByDate, setSortByDate] = useState(false);
   const [filterValues, setFilterValues] = useState({});
+
   const onChangeFilter = values => {
     setFilterValues(values);
   };
   return (
     <div className="flex flex-col lg:flex-row">
-      <Filter onChangeFilter={onChangeFilter} />
+      <Filter onChangeFilter={onChangeFilter} setPage={setPage} />
       <div className="flex-1 p-6 flex flex-col">
         <div className="mb-1 relative">
           <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
@@ -33,7 +35,12 @@ export default function Home() {
             Sort by date
           </button>
         </div>
-        <JobLists sortByDate={sortByDate} filterValues={filterValues} />
+        <JobLists
+          page={page}
+          setPage={setPage}
+          sortByDate={sortByDate}
+          filterValues={filterValues}
+        />
       </div>
     </div>
   );

@@ -7,10 +7,10 @@ import {
 import { Button } from '../ui/button';
 import { useEffect, useState } from 'react';
 
-export default function JobLists({ sortByDate, filterValues }) {
+export default function JobLists({ page, setPage, sortByDate, filterValues }) {
   const [list, setList] = useState([]); // jobPosts list that will be displayed
   const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(0); // current page
+  // const [page, setPage] = useState(0); // current page
   const [totalPage, setTotalPage] = useState(0); // total number of pages
 
   const JOBSITE_NAME = 'indigenous';
@@ -33,8 +33,8 @@ export default function JobLists({ sortByDate, filterValues }) {
   };
 
   useEffect(() => {
-    fetchTotalPages(setTotalPage, JOBSITE_NAME);
-  }, []);
+    fetchTotalPages(setTotalPage, JOBSITE_NAME, filterValues);
+  }, [filterValues]);
 
   useEffect(() => {
     if (page != 0) {

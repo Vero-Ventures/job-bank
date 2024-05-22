@@ -13,7 +13,7 @@ const toggleFilters = () => {
   filters.classList.toggle('hidden');
 };
 
-export default function Filter({ onChangeFilter }) {
+export default function Filter({ onChangeFilter, setPage }) {
   const [isLargeScreen, setIsLargeScreen] = useState(true);
   const [jobTypes, setJobTypes] = useState(
     Object.keys(JOBTYPES).reduce((acc, province) => {
@@ -47,6 +47,7 @@ export default function Filter({ onChangeFilter }) {
       jobType: selectedJobTypes,
       locations: selectedLocations,
     };
+    setPage(1);
     onChangeFilter(filterValues);
   };
 

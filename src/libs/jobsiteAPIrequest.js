@@ -10,8 +10,8 @@ const TOTAL_POSTINGS_PER_PAGE = 25;
  * @param {object} filterValues - filter values as dictionary, keys as filter catogories, values as options user selected
  * @return params as a string that will be sent to API call
  */
-const setParams = (jobsiteName, page, sortByDate, filterValues) => {
-  const pageParam = `page_num=${page}`;
+const setParams = (page, sortByDate, filterValues) => {
+  const pageParam = page ? `page_num=${page}` : '';
   const sortParam = sortByDate ? '&sort=d' : '';
   let filterEParam = '';
   let filterPParam = '';
@@ -36,9 +36,16 @@ const setParams = (jobsiteName, page, sortByDate, filterValues) => {
  * @param {object} setTotalPage - function object to setPage
  * @param {string} jobsiteName - name of jobsite
  */
-export const fetchTotalPages = async (setTotalPage, jobsiteName) => {
+export const fetchTotalPages = async (
+  setTotalPage,
+  jobsiteName,
+  filterValues
+) => {
+  const newParams = setParams(false, false, filterValues);
   try {
-    const response = await fetch(`${API_URL}${jobsiteName}/total-posts`);
+    const response = await fetch(
+      `${API_URL}${jobsiteName}/total-posts?${newParams}`
+    );
     if (!response.ok) {
       throw new Error('Fail to fetch total number of postings.');
     }
@@ -62,7 +69,7 @@ export const fetchJobPostList = async (
   sortByDate,
   filterValues
 ) => {
-  const newParams = setParams(jobsiteName, page, sortByDate, filterValues);
+  const newParams = setParams(page, sortByDate, filterValues);
   console.log(`${API_URL}${jobsiteName}?${newParams}`);
 
   try {
