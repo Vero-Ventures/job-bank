@@ -12,7 +12,7 @@ import Footer from '@/components/ui/footer';
 export default function Component() {
   const links = [
     { text: 'Home', url: '/' },
-    { text: 'About', url: '/about' },
+    { text: 'About', url: '/wip' },
     { text: 'Login / Signup', url: '/api/auth/login' },
   ];
 
