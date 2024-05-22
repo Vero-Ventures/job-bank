@@ -14,6 +14,10 @@ import React, { useState } from 'react';
 export default function SearchBar({ onChangeFilter }) {
   const [selectedValue, setSelectedValue] = useState({});
 
+  /**
+   * Change to the location selection.
+   * @param {string} value - selected location
+   */
   const handleLocationChange = value => {
     const updatedValue = {
       ...selectedValue,
@@ -23,6 +27,10 @@ export default function SearchBar({ onChangeFilter }) {
     onChangeFilter(updatedValue);
   };
 
+  /**
+   * Change to the job type selection.
+   * @param {string} value - selected job type
+   */
   const handleJobTypeChange = value => {
     const updatedValue = {
       ...selectedValue,

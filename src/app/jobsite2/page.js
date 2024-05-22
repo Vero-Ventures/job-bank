@@ -17,6 +17,9 @@ export default function Home() {
   const [sortByDate, setSortByDate] = useState(false);
   const [filterValues, setFilterValues] = useState({});
 
+  /**
+   * Scroll to top.
+   */
   const scrollToTop = id => {
     document.getElementById(id).scrollTo({
       top: 0,
@@ -24,12 +27,20 @@ export default function Home() {
     });
   };
 
+  /**
+   * Set filter values, set page to 1, and scroll to top when filter value is changed.
+   *  @param {object} values - selected options as an object, keys as categories, values as selected options
+   */
   const onChangeFilter = values => {
     setFilterValues(values);
     setPage(1);
     scrollToTop('joblists');
   };
 
+  /**
+   * Set page number, and scroll to top when page is changed.
+   *  @param {int} pageNum - selected page number
+   */
   const onClickPage = pageNum => {
     setPage(pageNum);
     scrollToTop('joblists');

@@ -15,12 +15,15 @@ const toggleFilters = () => {
 
 export default function Filter({ onChangeFilter, setPage }) {
   const [isLargeScreen, setIsLargeScreen] = useState(true);
+
+  // State for managing the selected jobtypes. The initial state sets all jobtyps to false.
   const [jobTypes, setJobTypes] = useState(
     Object.keys(JOBTYPES).reduce((acc, province) => {
       acc[province] = false;
       return acc;
     }, {})
   );
+  // State for managing the selected locations. The initial state sets all locations to false.
   const [locations, setLocations] = useState(
     Object.keys(PROVINCES).reduce((acc, province) => {
       acc[province] = false;
@@ -28,17 +31,34 @@ export default function Filter({ onChangeFilter, setPage }) {
     }, {})
   );
 
+  /**
+   * Handle changes to the job type selection.
+   * This function toggles the boolean value of a job type in the state.
+   *
+   * @param {Object} event - The event object from the change event.
+   * @param {Object} event.target - The target element that triggered the event.
+   */
   const handleJobTypeChange = event => {
     const { id } = event.target;
     setJobTypes(prevState => ({ ...prevState, [id]: !prevState[id] }));
   };
 
+  /**
+   * Handle changes to the location selection.
+   * This function toggles the boolean value of a location in the state.
+   *
+   * @param {Object} event - The event object from the change event.
+   * @param {Object} event.target - The target element that triggered the event.
+   */
   const handleLocationChange = event => {
     const { id } = event.target;
     setLocations(prevState => ({ ...prevState, [id]: !prevState[id] }));
   };
 
-  const getCheckedValues = () => {
+  /**
+   * Retrieve selected job types and locations, then triggers filter change.
+   */
+  const onClickConfirmFilter = () => {
     const selectedJobTypes = Object.keys(jobTypes).filter(key => jobTypes[key]);
     const selectedLocations = Object.keys(locations).filter(
       key => locations[key]
@@ -102,7 +122,7 @@ export default function Filter({ onChangeFilter, setPage }) {
             </div>
           </div>
           <div className="flex justify-end">
-            <Button onClick={getCheckedValues}>Confirm</Button>
+            <Button onClick={onClickConfirmFilter}>Confirm</Button>
           </div>
         </div>
       </div>

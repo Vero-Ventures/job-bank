@@ -11,12 +11,9 @@ export default function Home() {
   const [sortByDate, setSortByDate] = useState(false);
   const [filterValues, setFilterValues] = useState({});
 
-  const onChangeFilter = values => {
-    setFilterValues(values);
-  };
   return (
     <div className="flex flex-col lg:flex-row">
-      <Filter onChangeFilter={onChangeFilter} setPage={setPage} />
+      <Filter onChangeFilter={setFilterValues} setPage={setPage} />
       <div className="flex-1 p-6 flex flex-col">
         <div className="mb-1 relative">
           <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
