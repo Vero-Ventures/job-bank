@@ -8,25 +8,11 @@ import {
   SelectContent,
   Select,
 } from '@/components/ui/select';
+import { PROVINCES, JOBTYPES } from '@/libs/filterValues';
 import React, { useState } from 'react';
 
 export default function SearchBar({ onChangeFilter }) {
   const [selectedValue, setSelectedValue] = useState({});
-  const PROVINCES = [
-    'Alberta',
-    'British Columbia',
-    'Manitoba',
-    'New Brunswick',
-    'Newfoundland and Labrador',
-    'Northwest Territories',
-    'Nova Scotia',
-    'Nunavut',
-    'Ontario',
-    'Prince Edward Island',
-    'Québec',
-    'Saskatchewan',
-    'Yukon',
-  ];
 
   const handleLocationChange = value => {
     const updatedValue = {
@@ -80,8 +66,11 @@ export default function SearchBar({ onChangeFilter }) {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="All">All</SelectItem>
-              <SelectItem value="fullTime">Full Time</SelectItem>
-              <SelectItem value="partTime">Part Time</SelectItem>
+              {Object.keys(JOBTYPES).map(jobType => (
+                <SelectItem key={jobType} value={jobType}>
+                  {jobType}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
           <Select
@@ -98,7 +87,7 @@ export default function SearchBar({ onChangeFilter }) {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="All">All</SelectItem>
-              {PROVINCES.map(province => (
+              {Object.keys(PROVINCES).map(province => (
                 <SelectItem key={province} value={province}>
                   {province}
                 </SelectItem>

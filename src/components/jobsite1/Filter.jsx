@@ -1,9 +1,9 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import ArrowDownIcon from '../icons/arrowDownIcon';
-
-import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
+import ArrowDownIcon from '../icons/arrowDownIcon';
+import { PROVINCES, JOBTYPES } from '@/libs/filterValues';
+import React, { useState, useEffect } from 'react';
 
 /**
  * Toggle filters when screen is small.
@@ -15,25 +15,18 @@ const toggleFilters = () => {
 
 export default function Filter({ onChangeFilter }) {
   const [isLargeScreen, setIsLargeScreen] = useState(true);
-  const [jobTypes, setJobTypes] = useState({
-    fullTime: false,
-    partTime: false,
-  });
-  const [locations, setLocations] = useState({
-    Alberta: false,
-    'British Columbia': false,
-    Manitoba: false,
-    'New Brunswick': false,
-    'Newfoundland and Labrador': false,
-    'Northwest Territories': false,
-    'Nova Scotia': false,
-    Nunavut: false,
-    Ontario: false,
-    'Prince Edward Island': false,
-    Québec: false,
-    Saskatchewan: false,
-    Yukon: false,
-  });
+  const [jobTypes, setJobTypes] = useState(
+    Object.keys(JOBTYPES).reduce((acc, province) => {
+      acc[province] = false;
+      return acc;
+    }, {})
+  );
+  const [locations, setLocations] = useState(
+    Object.keys(PROVINCES).reduce((acc, province) => {
+      acc[province] = false;
+      return acc;
+    }, {})
+  );
 
   const handleJobTypeChange = event => {
     const { id } = event.target;

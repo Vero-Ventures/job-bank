@@ -1,25 +1,6 @@
+import { JOBTYPES, PROVINCES } from './filterValues';
 const API_URL = '/api/job-posting/';
 const TOTAL_POSTINGS_PER_PAGE = 25;
-const PROVINCES_SHORT = {
-  Alberta: 'AB',
-  'British Columbia': 'BC',
-  Manitoba: 'MB',
-  'New Brunswick': 'NB',
-  'Newfoundland and Labrador': 'NL',
-  'Northwest Territories': 'NT',
-  'Nova Scotia': 'NS',
-  Nunavut: 'NU',
-  Ontario: 'ON',
-  'Prince Edward Island': 'PE',
-  Québec: 'QC',
-  Saskatchewan: 'SK',
-  Yukon: 'YT',
-};
-
-const JOBTYPE_SHORT = {
-  fullTime: 'ft',
-  partTime: 'pt',
-};
 
 /**
  * Set Parameters for fetching data
@@ -37,13 +18,13 @@ const setParams = (jobsiteName, page, sortByDate, filterValues) => {
   if (filterValues.jobType && filterValues.jobType.length > 0) {
     for (let i = 0; i < filterValues.jobType.length; i++) {
       filterEParam += '&';
-      filterEParam += `et=${JOBTYPE_SHORT[filterValues.jobType[i]]}`;
+      filterEParam += `et=${JOBTYPES[filterValues.jobType[i]]}`;
     }
   }
   if (filterValues.locations && filterValues.locations.length > 0) {
     for (let i = 0; i < filterValues.locations.length; i++) {
       filterPParam += '&';
-      filterPParam += `p=${PROVINCES_SHORT[filterValues.locations[i]]}`;
+      filterPParam += `p=${PROVINCES[filterValues.locations[i]]}`;
     }
   }
 
