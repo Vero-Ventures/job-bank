@@ -3,17 +3,28 @@ import { connectMongoDB } from '@/libs/mongodb';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
 
+// Sort type map to sort job postings by date
+const sortTypeMap = {
+  d: -1,
+  a: 1,
+};
+
+// Employment sub-type map to filter job postings by employment sub-type
 const employmentSubTypeMap = {
   ft: 'Full time',
   pt: 'Part time',
 };
 
 // Function to get the total number of job postings
-export async function getTotalNumberOfPostings(siteCriteria) {
+export async function getTotalNumberOfPostings(siteCriteria, filterCriteria) {
   await connectMongoDB();
 
   const Posting = mongoose.models.posting || mongoose.model('posting', posting);
-  const totalNumberOfPostings = await Posting.countDocuments(siteCriteria);
+  const filterObject = await createFilterObject(filterCriteria);
+  const totalNumberOfPostings = await Posting.countDocuments({
+    ...siteCriteria,
+    ...filterObject,
+  });
 
   return totalNumberOfPostings;
 }
@@ -99,26 +110,23 @@ export async function fetchJobPostings(
   await connectMongoDB();
 
   const Posting = mongoose.models.posting || mongoose.model('posting', posting);
+  const filterObject = await createFilterObject(filterCriteria);
 
-  const filterObject = filterCriteria.reduce((acc, filter) => {
-    // Check if the key already exists in the accumulator
-    if (Object.prototype.hasOwnProperty.call(acc, Object.keys(filter)[0])) {
-      // If the key exists, push the value to an array
-      acc[Object.keys(filter)[0]].push(Object.values(filter)[0]);
-    } else {
-      // If the key doesn't exist, initialize it as an array with the value
-      acc[Object.keys(filter)[0]] = [Object.values(filter)[0]];
-    }
-    return acc;
-  }, {});
+  let query = Posting.find({ ...siteCriteria, ...filterObject });
 
-  // Query job postings with pagination
-  const jobPostings = await Posting.find({ ...siteCriteria, ...filterObject })
-    .sort(sortCriteria)
-    .skip(skip)
-    .limit(pageSize);
+  // Check if sortCriteria is defined before sorting
+  if (sortCriteria && sortCriteria.datePosted !== undefined) {
+    query = query.sort(sortCriteria);
+  }
+  query = query.skip(skip);
 
-  return jobPostings;
+  const documents = await query.exec();
+
+  // Split the process and used slice instead of chaining with .limit() to avoid sorted order bug
+  // Todo: Investigate the bug and fix it
+  const paginatedDocuments = documents.slice(0, pageSize);
+
+  return paginatedDocuments;
 }
 
 // Function to check if the requested field exists in the schema
@@ -133,7 +141,11 @@ export async function checkFieldExist(requestedObject) {
 
 // Function to parse sort criteria
 export async function parseSortCriteria(sortBy) {
-  return sortBy ? JSON.parse(sortBy) : null;
+  const sortCriteria = {
+    datePosted: sortTypeMap[sortBy],
+  };
+
+  return sortCriteria;
 }
 
 // Function to parse filter criteria
@@ -145,4 +157,19 @@ export async function parseFilterCriteria(etFilters, pFilters) {
   const pFilterCriteria = pFilters.map(p => ({ addressRegion: p }));
 
   return [...etFilterCriteria, ...pFilterCriteria];
+}
+
+// Function to create a filter object
+export async function createFilterObject(filterCriteria) {
+  return filterCriteria.reduce((acc, filter) => {
+    // Check if the key already exists in the accumulator
+    if (Object.prototype.hasOwnProperty.call(acc, Object.keys(filter)[0])) {
+      // If the key exists, push the value to an array
+      acc[Object.keys(filter)[0]].push(Object.values(filter)[0]);
+    } else {
+      // If the key doesn't exist, initialize it as an array with the value
+      acc[Object.keys(filter)[0]] = [Object.values(filter)[0]];
+    }
+    return acc;
+  }, {});
 }
