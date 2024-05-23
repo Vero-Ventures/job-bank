@@ -2,6 +2,9 @@ import puppeteer from 'puppeteer';
 import puppeteerExtraPluginStealth from 'puppeteer-extra-plugin-stealth';
 import puppeteerExtraPluginUserAgentOverride from 'puppeteer-extra-plugin-stealth/evasions/user-agent-override/index.js';
 import { PuppeteerExtra } from 'puppeteer-extra';
+import { setTimeout } from 'node:timers/promises';
+
+// TODO: change all the comments and identifiers in this file to refer to 'emails' not 'jobs' as the item we are scraping
 
 const BASE_URL = `https://www.jobbank.gc.ca/jobsearch`;
 const SELECTOR_TIMEOUT = 30000; // use for waiting for selectors
@@ -14,8 +17,8 @@ const JOBS_PER_PAGE = 25; // appears to be 25 in testing but could change withou
 const device = {
   userAgent: 'Mozilla/5.0 (Macintosh)', // set our fake user-agent
   viewport: {
-    width: 1000,
-    height: 800,
+    width: 1080,
+    height: 4098,
     deviceScaleFactor: 1,
     isMobile: false,
     hasTouch: false,
@@ -52,7 +55,8 @@ const retryablePageNavigation = async (page, url, attempts) => {
   try {
     await page.goto(url);
   } catch (err) {
-    if (err.message.includes('ERR_TIMED_OUT') && attempts > 0) {
+    if (attempts > 0) {
+      console.log(`navigation to ${url} failed due to: ${err}`);
       console.log(`retrying navigation to ${url} ${attempts} attempts left`);
       await retryablePageNavigation(page, url, attempts - 1);
     }
@@ -68,9 +72,6 @@ const scrapeNumberOfJobIds = async browser => {
   const page = await browser.newPage();
   page.setDefaultNavigationTimeout(PAGE_TIMEOUT);
   await page.evaluateOnNewDocument(preload, device);
-
-  // Set screen size
-  await page.setViewport({ width: 1080, height: 4098 });
 
   // Navigate the page to a URL
   const url = `${BASE_URL}?${JOB_POSTING_AGE_FILTER}&page=1&${JOB_POSTING_SORT}&${JOB_POSTING_SOURCE_FILTER}`;
@@ -94,15 +95,12 @@ const scrapeJobs = async browser => {
   const pages = Math.ceil(
     (await scrapeNumberOfJobIds(browser)) / JOBS_PER_PAGE
   );
-
+  // const pages = 1; // REVERT BACK TO ABOVE. DO NOT COMMIT THIS.
   let jobs = 0;
   for (let i = 1; i <= pages; i++) {
     const page = await browser.newPage();
     page.setDefaultNavigationTimeout(PAGE_TIMEOUT);
     await page.evaluateOnNewDocument(preload, device);
-
-    // Set screen size
-    await page.setViewport({ width: 1080, height: 4098 });
 
     // Navigate the page to a URL
 
@@ -115,7 +113,7 @@ const scrapeJobs = async browser => {
       return articles.map(node => node.id.split('-')[1]);
     });
     console.log(jobIdsThisPage);
-    let jobsThisPage = [];
+    let emailsThisPage = [];
 
     for (let j = 0; j < jobIdsThisPage.length; j++) {
       // Navigate the page to a URL
@@ -123,6 +121,13 @@ const scrapeJobs = async browser => {
       try {
         const httpRes = await page.goto(url);
         console.log(`${httpRes.status()} ${url}`);
+
+        // skip if we get a non 2xx code for page navigation
+        if (!httpRes.ok()) {
+          throw new Error(httpRes.statusText());
+        }
+
+        await setTimeout(Math.floor(Math.random() * 8) + 1);
 
         const applyButtonSelector = '#applynowbutton';
         await page.waitForSelector(applyButtonSelector, {
@@ -132,41 +137,27 @@ const scrapeJobs = async browser => {
 
         const emailSiblingSelector = await page.waitForSelector(
           '#tp_applyByEmailAddress',
-          { timeout: SELECTOR_TIMEOUT }
+          { timeout: SELECTOR_TIMEOUT } // using navigation timeout because the click triggers a post request that will take time
         );
         const email = await emailSiblingSelector?.evaluate(
           el => el.parentNode.childNodes[1].textContent
         );
 
-        const jobDetails = {
+        const emailObj = {
           email: email,
-          jobPageId: jobIdsThisPage[j],
           sent: false,
         };
 
-        try {
-          const validThroughSelector = await page.waitForSelector(
-            '[property="validThrough"]',
-            { timeout: SELECTOR_TIMEOUT }
-          );
-          const validThrough = await validThroughSelector?.evaluate(
-            el => el.textContent
-          );
-          jobDetails['validThrough'] = new Date(validThrough.trim());
-        } catch (err) {
-          console.log(`Skipping description due to error: ${err}.`);
-          jobDetails['validThrough'] = null;
-        }
-
-        jobsThisPage = [...jobsThisPage, jobDetails];
+        emailsThisPage = [...emailsThisPage, emailObj];
         jobs++;
-        console.log(jobDetails);
+        console.log(emailObj);
       } catch (err) {
         console.log(`Skipping job at ${url} due to error: ${err}.`);
       }
     }
+    console.log(emailsThisPage);
     // send jobs to job bank server
-    await saveJobs(jobsThisPage);
+    await saveJobs(emailsThisPage);
   }
 
   await browser.close();
@@ -180,7 +171,7 @@ const scrapeJobs = async browser => {
  */
 const saveJobs = async jobObjs => {
   const res = await fetch(
-    `${process.env.JOB_BANK_API_BASE_URL}/api/job-posting`,
+    `${process.env.JOB_BANK_API_BASE_URL}/api/contact-stat`,
     {
       method: 'POST',
       body: JSON.stringify(jobObjs),
@@ -209,7 +200,6 @@ const saveJobs = async jobObjs => {
 
   const browser = await pptr.launch({
     args: [
-      '--proxy-server=socks5://127.0.0.1:9050', // Use one of your SOCKS ports
       '--disable-features=site-per-process',
       `--window-size=${device.viewport.width},${device.viewport.height}`,
     ],
