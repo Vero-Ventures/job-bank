@@ -2,13 +2,24 @@ import { NextResponse } from 'next/server';
 import { connectMongoDB } from '@/libs/mongodb';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
-import { checkFieldExist } from '@/app/api/job-posting/siteRequestUtils';
+import {
+  getPaginationParams,
+  fetchJobPostings,
+  parseSortCriteria,
+  parseFilterCriteria,
+} from '@/app/api/job-posting/siteRequestUtils';
 
 export async function GET(req) {
   try {
+    const { skip, pageSize } = getPaginationParams(req);
     const email = req.nextUrl.searchParams.get('email');
     const sortBy = req.nextUrl.searchParams.get('sort');
-    const sortCriteria = sortBy ? JSON.parse(sortBy) : null;
+    const etFilters = req.nextUrl.searchParams.getAll('et');
+    const pFilters = req.nextUrl.searchParams.getAll('p');
+
+    // Parse sort and filter criteria
+    const sortCriteria = await parseSortCriteria(sortBy);
+    const filterCriteria = await parseFilterCriteria(etFilters, pFilters);
 
     if (!email) {
       return NextResponse.json(
@@ -17,31 +28,24 @@ export async function GET(req) {
       );
     }
 
-    // Check if the requested sort field exists
-    if (sortCriteria != null && !(await checkFieldExist(sortCriteria))) {
-      console.log('no field');
-      return NextResponse.json(
-        { message: 'Not Found - Requested sort field does not exist' },
-        { status: 404 }
-      );
-    }
+    const siteCriteria = { email };
 
-    await connectMongoDB();
-
-    const Posting =
-      mongoose.models.posting || mongoose.model('posting', posting);
-
-    const jobPostings = await Posting.find({ email }).sort(sortCriteria);
+    // Query job postings with pagination and sort criteria if provided
+    const jobPostings = await fetchJobPostings(
+      siteCriteria,
+      sortCriteria,
+      filterCriteria,
+      skip,
+      pageSize
+    );
 
     // Check if job postings were found
-    if (jobPostings.length === 0) {
-      return NextResponse.json(
-        {
-          message:
-            'Not Found - No job postings were found associated with the provided email',
-        },
-        { status: 404 }
-      );
+    if (jobPostings.length < 1) {
+      return new Response(null, {
+        status: 204,
+        statusText:
+          'No job postings were found associated with the provided email',
+      });
     }
 
     return NextResponse.json({ jobPostings }, { status: 200 });
@@ -67,7 +71,7 @@ export async function GET(req) {
     } else if (error.name === 'NotFoundError') {
       // Not Found
       return NextResponse.json(
-        { message: 'Not Found - The specified job email does not exist' },
+        { message: 'Not Found - The specified job ID does not exist' },
         { status: 404 }
       );
     } else {
@@ -126,6 +130,12 @@ export async function POST(req) {
             'Unauthorized - The client is not authorized to perform the operation',
         },
         { status: 401 }
+      );
+    } else if (error.name === 'NotFoundError') {
+      // Not Found
+      return NextResponse.json(
+        { message: 'Not Found - The specified job ID does not exist' },
+        { status: 404 }
       );
     } else {
       // Other server error

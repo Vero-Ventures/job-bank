@@ -1,17 +1,30 @@
 import { NextResponse } from 'next/server';
-import { getTotalNumberOfPostings, handleError } from '../../siteRequestUtils';
+import {
+  getTotalNumberOfPostings,
+  parseFilterCriteria,
+  handleError,
+} from '../../siteRequestUtils';
 
-export async function GET() {
+export async function GET(req) {
   try {
     const siteCriteria = { site3: true };
+    const etFilters = req.nextUrl.searchParams.getAll('et');
+    const pFilters = req.nextUrl.searchParams.getAll('p');
 
-    let jobPostings = await getTotalNumberOfPostings(siteCriteria);
+    // Parse filter criteria
+    const filterCriteria = await parseFilterCriteria(etFilters, pFilters);
 
+    let jobPostings = await getTotalNumberOfPostings(
+      siteCriteria,
+      filterCriteria
+    );
+
+    // Check if job postings were found
     if (jobPostings < 1) {
-      return NextResponse.json(
-        { message: 'Not Found - No job postings found on this page' },
-        { status: 404 }
-      );
+      return new Response(null, {
+        status: 204,
+        statusText: 'No job postings were found',
+      });
     }
 
     return NextResponse.json({ jobPostings }, { status: 200 });
