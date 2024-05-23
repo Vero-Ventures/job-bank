@@ -74,7 +74,7 @@ export function AddEmailModal({ open, onClose, updateEmails }) {
         return;
       }
       await emailHandler.addEmailObjects([{ email, sent: true }]);
-      // await emailHandler.sendEmail(email);
+      await emailHandler.sendEmail(email);
       alert('Email sent to ' + email);
       setEmail('');
 
