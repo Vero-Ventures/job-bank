@@ -7,8 +7,8 @@ import { setTimeout } from 'node:timers/promises';
 // TODO: change all the comments and identifiers in this file to refer to 'emails' not 'jobs' as the item we are scraping
 
 const BASE_URL = `https://www.jobbank.gc.ca/jobsearch`;
-const SELECTOR_TIMEOUT = 30000; // use for waiting for selectors
-const PAGE_TIMEOUT = 120000; // use for page navigation
+const SELECTOR_TIMEOUT = 5000; // use for waiting for selectors
+const PAGE_TIMEOUT = 60000; // use for page navigation
 const JOB_POSTING_AGE_FILTER = 'fage=2'; // query parameter used to filter out postings older than 2 days
 const JOB_POSTING_SORT = 'sort=D'; // query parameter used to sort by date posted
 const JOB_POSTING_SOURCE_FILTER = 'fsrc=16'; // query parameter used to filter out non job bank canada internal postings ex. monster.com
@@ -203,7 +203,7 @@ const saveJobs = async jobObjs => {
       '--disable-features=site-per-process',
       `--window-size=${device.viewport.width},${device.viewport.height}`,
     ],
-    headless: false,
+    headless: true,
     defaultViewport: device.viewport,
   });
 
