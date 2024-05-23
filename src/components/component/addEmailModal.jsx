@@ -43,7 +43,8 @@ export function AddEmailModal({ open, onClose, updateEmails }) {
       setEmail('');
 
       // Call the callback function to update the data state in AdminPage
-      updateEmails({ email, sent: false });
+      const isAdd = true;
+      updateEmails({ email, sent: false }, isAdd);
     } catch (error) {
       console.error('Error adding email objects:', error);
     }
@@ -56,7 +57,8 @@ export function AddEmailModal({ open, onClose, updateEmails }) {
       alert('Email sent');
 
       // Call the callback function to update the data state in AdminPage
-      updateEmails({ email, sent: true });
+      const isAdd = true;
+      updateEmails({ email, sent: true }, isAdd);
     } catch (error) {
       console.error('Error adding email objects:', error);
     }

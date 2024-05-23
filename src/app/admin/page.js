@@ -21,8 +21,18 @@ export default function Home() {
     fetchEmails();
   }, []);
 
-  const updateEmails = email => {
-    setEmails(prevEmails => [...prevEmails, email]);
+  const updateEmails = (emailObj, isAdd) => {
+    if (isAdd) {
+      // Add the email to the existing emails
+      setEmails(prevEmails => [...prevEmails, emailObj]);
+    } else if (!isAdd) {
+      // Filter out the email to remove
+      const updatedEmails = emails.filter(
+        existingEmail => existingEmail.email !== emailObj.email
+      );
+      // Update the data state with the filtered emails
+      setEmails(updatedEmails);
+    }
   };
 
   const sendEmail = async recipient => {

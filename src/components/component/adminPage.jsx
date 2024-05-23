@@ -10,12 +10,22 @@ import {
 } from '@/components/ui/table';
 import { CircleCheckIcon, CircleXIcon } from '@/components/icons';
 import { AddEmailModal } from './addEmailModal';
+import emailHandler from '@/app/admin/emailHandler';
 
 const AdminPage = ({ data, sendEmail, massSendEmails, updateEmails }) => {
   const [showAddEmailModal, setShowAddEmailModal] = useState(false);
 
   const handleAddEmail = () => {
     setShowAddEmailModal(true);
+  };
+
+  const handleDeleteEmail = emailObj => {
+    // Call the deleteEmail function with the email to delete
+    emailHandler.deleteEmail(emailObj.email);
+
+    // Remove row from the table
+    const isAdd = false;
+    updateEmails(emailObj, isAdd);
   };
 
   const handleCloseModal = () => {
@@ -68,6 +78,12 @@ const AdminPage = ({ data, sendEmail, massSendEmails, updateEmails }) => {
                       variant="secondary"
                       onClick={() => sendEmail(email)}>
                       Send Email
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="danger"
+                      onClick={() => handleDeleteEmail({ sent, email })}>
+                      Delete
                     </Button>
                   </TableCell>
                 </TableRow>
