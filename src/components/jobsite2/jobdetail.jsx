@@ -10,7 +10,7 @@ import EmailIcon from '@/components/icons/emailIcon';
 import Loading from '@/components/ui/Loading';
 import Error from '@/components/error';
 
-export default function JobDetail(job) {
+export default function JobDetail({ colourTheme, postingID }) {
   const [jobDetail, setJobDetail] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [isExist, setIsExist] = useState(true); // whether given jobpost exists or not
@@ -19,9 +19,9 @@ export default function JobDetail(job) {
    * Fetch Jobpost detail from database.
    */
   const getDetailData = useCallback(async () => {
-    if (job.postingID) {
+    if (postingID) {
       setIsLoading(true);
-      const result = await fetchJobDetail(job.postingID);
+      const result = await fetchJobDetail(postingID);
       if (result.error) {
         if (result.status == 404) {
           setIsExist(false);
@@ -33,7 +33,7 @@ export default function JobDetail(job) {
       }
       setIsLoading(false);
     }
-  }, [job]);
+  }, [postingID]);
 
   useEffect(() => {
     getDetailData();
@@ -46,7 +46,8 @@ export default function JobDetail(job) {
           {Object.keys(jobDetail).length !== 0 && (
             <div className="space-y-4">
               <div>
-                <h4 className="text-2xl font-bold text-[#0b5394] titleCase dark:text-white">
+                <h4
+                  className={`text-2xl font-bold text-[${colourTheme.base}] titleCase dark:text-white`}>
                   {jobDetail.jobTitle}
                 </h4>
                 <p className="text-gray-500 dark:text-gray-400">
@@ -106,7 +107,8 @@ export default function JobDetail(job) {
                 </div>
               </div>
               <div>
-                <h5 className="text-base font-bold text-[#0b5394] dark:text-white">
+                <h5
+                  className={`text-base font-bold text-[${colourTheme.base}] dark:text-white`}>
                   Job Description
                 </h5>
                 <p className="text-gray-500 dark:text-gray-400">
@@ -114,7 +116,8 @@ export default function JobDetail(job) {
                 </p>
               </div>
               <div>
-                <h5 className="text-base font-bold text-[#0b5394] dark:text-white">
+                <h5
+                  className={`text-base font-bold text-[${colourTheme.base}] dark:text-white`}>
                   Requirements
                 </h5>
                 <ul className="list-disc pl-4 text-gray-500 dark:text-gray-400">
@@ -122,7 +125,8 @@ export default function JobDetail(job) {
                 </ul>
               </div>
               <div>
-                <h5 className="text-base font-bold text-[#0b5394] dark:text-white">
+                <h5
+                  className={`text-base font-bold text-[${colourTheme.base}] dark:text-white`}>
                   Benefits
                 </h5>
                 <ul className="list-disc pl-4 text-gray-500 dark:text-gray-400">
@@ -131,7 +135,8 @@ export default function JobDetail(job) {
                 </ul>
               </div>
               <div>
-                <h5 className="text-base font-bold mb-1 text-[#0b5394] dark:text-white">
+                <h5
+                  className={`text-base font-bold text-[${colourTheme.base}] dark:text-white`}>
                   Apply by email
                 </h5>
                 <div className="flex items-center gap-3 text-sm">
@@ -148,9 +153,9 @@ export default function JobDetail(job) {
         </div>
       )}
       {!isLoading && !isExist && (
-        <Error colourTheme={'blue'} redirectURL={'/jobsite2'} />
+        <Error colourTheme={colourTheme} redirectURL={'/jobsite2'} />
       )}
-      {isLoading && <Loading colour="blue"></Loading>}
+      {isLoading && <Loading></Loading>}
     </div>
   );
 }

@@ -1,10 +1,12 @@
 import Link from 'next/link';
 
-export default function JobListCard({ item, onClick }) {
+export default function JobListCard({ colourTheme, item, onClick }) {
   return (
-    <div className="bg-white dark:bg-[#0f172a] rounded-lg shadow-lg p-4 space-y-3">
+    <div
+      className={`bg-white dark:bg-[${colourTheme.backgroundDark}] rounded-lg shadow-lg p-4 space-y-3`}>
       <div>
-        <h5 className="text-xl font-bold titleCase text-[#0b5394] dark:text-white">
+        <h5
+          className={`text-xl font-bold titleCase text-[${colourTheme.base}] dark:text-white`}>
           {item.jobTitle}
         </h5>
         <p className="pl-2 text-gray-500 dark:text-gray-400">
@@ -24,12 +26,12 @@ export default function JobListCard({ item, onClick }) {
             {item.maxCompValue ? `to $${item.maxCompValue}` : ''} hourly
           </p>
           <button
-            className="text-sm pl-3 font-bold titleCase text-[#0b5394] hidden sm:block dark:text-white"
+            className={`text-sm pl-3 font-bold titleCase text-[${colourTheme.base}] hidden sm:block dark:text-white`}
             onClick={() => onClick(item._id)}>
             View
           </button>
           <Link
-            className="text-sm pl-3 font-bold titleCase text-[#0b5394] block sm:hidden dark:text-white"
+            className={`text-sm pl-3 font-bold titleCase text-[${colourTheme.base}] block sm:hidden dark:text-white`}
             href="/jobsite2/jobposting"
             as={`/jobsite2/jobposting/${item._id}`}>
             View

@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function Top2() {
+export default function Top2({ jobsiteName, colourTheme }) {
   return (
     <header className="flex items-center justify-between w-full md:p-5">
       <Link
-        className="flex items-center space-x-2 text-[#0b5394] font-bold"
+        className={`flex items-center space-x-2 text-[${colourTheme.base}] font-bold`}
         href="/jobsite2">
         <Image
           alt="Logo"
@@ -19,7 +19,7 @@ export default function Top2() {
           }}
           width={32}
         />
-        <span>NewComers Job Site</span>
+        <span>{`${jobsiteName} Job Site`}</span>
       </Link>
     </header>
   );

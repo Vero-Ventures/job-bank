@@ -2,7 +2,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Button } from '../ui/button';
 import ArrowDownIcon from '../icons/arrowDownIcon';
-import { PROVINCES, JOBTYPES } from '@/libs/filterValues';
+import { PROVINCES, JOBTYPES } from '@/libs/jobsiteConstants';
 import React, { useState, useEffect } from 'react';
 
 /**

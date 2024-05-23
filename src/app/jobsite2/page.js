@@ -6,9 +6,11 @@ import SearchBar from '@/components/jobsite2/searchBar';
 import JobLists from '@/components/jobsite2/joblists';
 import Pagination from '@/components/ui/pagination';
 import ErrorNoJobLists from '@/components/errorNoJobLists';
+import { JOBSITE2 } from '@/libs/jobsiteConstants';
 import { useEffect, useState } from 'react';
 
-const JOBSITE_NAME = 'newcomers';
+const JOBSITE_NAME = JOBSITE2.jobsiteName;
+const COLOUR_THEME = JOBSITE2.colours;
 
 export default function Home() {
   const [postingID, setPostingID] = useState(null); //jobposting id that will be displayed
@@ -51,8 +53,11 @@ export default function Home() {
   }, [filterValues]);
 
   return (
-    <div className="flex flex-col gap-8 p-4 md:p-8 bg-[#f0f9ff] dark:bg-[#0a1929]">
-      <SearchBar onChangeFilter={onChangeFilter}></SearchBar>
+    <div
+      className={`flex flex-col gap-8 p-4 md:p-8 bg-[${COLOUR_THEME.background}] dark:bg-[${COLOUR_THEME.backgroundDark}]`}>
+      <SearchBar
+        colourTheme={COLOUR_THEME}
+        onChangeFilter={onChangeFilter}></SearchBar>
       <div className="flex flex-row justify-center flex-1 space-x-6 sm:ml-10 sm:mr-10">
         <div className="w-full sm:w-4/12">
           <div id="joblists" className="max-h-dvh overflow-y-auto">
@@ -69,12 +74,15 @@ export default function Home() {
             {totalPage > 0 && (
               <>
                 <JobLists
+                  jobSiteName={JOBSITE_NAME}
+                  colourTheme={COLOUR_THEME}
                   onClickJob={setPostingID}
                   page={page}
                   totalPage={totalPage}
                   sortByDate={sortByDate}
                   filterValues={filterValues}></JobLists>
                 <Pagination
+                  colourTheme={COLOUR_THEME}
                   onClickPageNum={onClickPage}
                   totalPage={totalPage}
                   page={page}
@@ -84,10 +92,14 @@ export default function Home() {
           </div>
         </div>
         <div className="hidden sm:block sm:w-8/12">
-          {totalPage > 0 && <JobDetail postingID={postingID}></JobDetail>}
+          {totalPage > 0 && (
+            <JobDetail
+              colourTheme={COLOUR_THEME}
+              postingID={postingID}></JobDetail>
+          )}
         </div>
       </div>
-      {totalPage == 0 && <ErrorNoJobLists colourTheme={'blue'} />}
+      {totalPage == 0 && <ErrorNoJobLists colourTheme={COLOUR_THEME} />}
     </div>
   );
 }
