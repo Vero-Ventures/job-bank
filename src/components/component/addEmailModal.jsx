@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   DialogTitle,
   DialogContent,
@@ -33,8 +33,25 @@ export function AddEmailModal({ open, onClose, updateEmails }) {
   const [email, setEmail] = useState('');
   const [emailsAdded, setEmailsAdded] = useState(1);
 
+  // Reset email state when the modal is opened
+  useEffect(() => {
+    if (open) {
+      setEmail('');
+    }
+  }, [open]);
+
+  const validateEmail = email => {
+    // Regular expression to validate email format
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(email);
+  };
+
   const handleAddEmail = async () => {
     try {
+      if (!validateEmail(email)) {
+        alert('Please enter a valid email address');
+        return;
+      }
       // Call the addEmailObjects function with an array of length 1 containing the email object
       const emailsAdded = await emailHandler.addEmailObjects([
         { email, sent: false },
@@ -52,9 +69,14 @@ export function AddEmailModal({ open, onClose, updateEmails }) {
 
   const handleAddAndSendEmail = async () => {
     try {
+      if (!validateEmail(email)) {
+        alert('Please enter a valid email address');
+        return;
+      }
       await emailHandler.addEmailObjects([{ email, sent: true }]);
       // await emailHandler.sendEmail(email);
       alert('Email sent to ' + email);
+      setEmail('');
 
       // Call the callback function to update the data state in AdminPage
       const isAdd = true;
@@ -79,6 +101,8 @@ export function AddEmailModal({ open, onClose, updateEmails }) {
             <Input
               id="email"
               placeholder="Enter email address"
+              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+              title="Please enter a valid email address"
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
