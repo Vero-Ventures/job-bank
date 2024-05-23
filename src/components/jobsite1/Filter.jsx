@@ -1,7 +1,8 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { Button } from '../ui/button';
 import ArrowDownIcon from '../icons/arrowDownIcon';
-
+import { PROVINCES, JOBTYPES } from '@/libs/filterValues';
 import React, { useState, useEffect } from 'react';
 
 /**
@@ -12,8 +13,63 @@ const toggleFilters = () => {
   filters.classList.toggle('hidden');
 };
 
-export default function Filter() {
+export default function Filter({ onChangeFilter, setPage }) {
   const [isLargeScreen, setIsLargeScreen] = useState(true);
+
+  // State for managing the selected jobtypes. The initial state sets all jobtyps to false.
+  const [jobTypes, setJobTypes] = useState(
+    Object.keys(JOBTYPES).reduce((acc, province) => {
+      acc[province] = false;
+      return acc;
+    }, {})
+  );
+  // State for managing the selected locations. The initial state sets all locations to false.
+  const [locations, setLocations] = useState(
+    Object.keys(PROVINCES).reduce((acc, province) => {
+      acc[province] = false;
+      return acc;
+    }, {})
+  );
+
+  /**
+   * Handle changes to the job type selection.
+   * This function toggles the boolean value of a job type in the state.
+   *
+   * @param {Object} event - The event object from the change event.
+   * @param {Object} event.target - The target element that triggered the event.
+   */
+  const handleJobTypeChange = event => {
+    const { id } = event.target;
+    setJobTypes(prevState => ({ ...prevState, [id]: !prevState[id] }));
+  };
+
+  /**
+   * Handle changes to the location selection.
+   * This function toggles the boolean value of a location in the state.
+   *
+   * @param {Object} event - The event object from the change event.
+   * @param {Object} event.target - The target element that triggered the event.
+   */
+  const handleLocationChange = event => {
+    const { id } = event.target;
+    setLocations(prevState => ({ ...prevState, [id]: !prevState[id] }));
+  };
+
+  /**
+   * Retrieve selected job types and locations, then triggers filter change.
+   */
+  const onClickConfirmFilter = () => {
+    const selectedJobTypes = Object.keys(jobTypes).filter(key => jobTypes[key]);
+    const selectedLocations = Object.keys(locations).filter(
+      key => locations[key]
+    );
+    const filterValues = {
+      jobType: selectedJobTypes,
+      locations: selectedLocations,
+    };
+    setPage(1);
+    onChangeFilter(filterValues);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -42,89 +98,31 @@ export default function Filter() {
           <div>
             <h3 className="text-lg font-semibold mb-2">Job Type</h3>
             <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Checkbox id="full-time" />
-                <Label className="font-medium" htmlFor="full-time">
-                  Full-Time
-                </Label>
-              </div>
-              <div className="flex items-center gap-2">
-                <Checkbox id="part-time" />
-                <Label className="font-medium" htmlFor="part-time">
-                  Part-Time
-                </Label>
-              </div>
-              <div className="flex items-center gap-2">
-                <Checkbox id="contract" />
-                <Label className="font-medium" htmlFor="contract">
-                  Contract
-                </Label>
-              </div>
-              <div className="flex items-center gap-2">
-                <Checkbox id="internship" />
-                <Label className="font-medium" htmlFor="internship">
-                  Internship
-                </Label>
-              </div>
-            </div>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold mb-2">Salary Range</h3>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Checkbox id="salary-range-1" />
-                <Label className="font-medium" htmlFor="salary-range-1">
-                  $50,000 - $75,000
-                </Label>
-              </div>
-              <div className="flex items-center gap-2">
-                <Checkbox id="salary-range-2" />
-                <Label className="font-medium" htmlFor="salary-range-2">
-                  $75,000 - $100,000
-                </Label>
-              </div>
-              <div className="flex items-center gap-2">
-                <Checkbox id="salary-range-3" />
-                <Label className="font-medium" htmlFor="salary-range-3">
-                  $100,000 - $125,000
-                </Label>
-              </div>
-              <div className="flex items-center gap-2">
-                <Checkbox id="salary-range-4" />
-                <Label className="font-medium" htmlFor="salary-range-4">
-                  $125,000+
-                </Label>
-              </div>
+              {Object.keys(jobTypes).map(jobType => (
+                <div key={jobType} className="flex items-center gap-2">
+                  <Checkbox id={jobType} onClick={handleJobTypeChange} />
+                  <Label className="font-medium" htmlFor={jobType}>
+                    {jobType}
+                  </Label>
+                </div>
+              ))}
             </div>
           </div>
           <div>
             <h3 className="text-lg font-semibold mb-2">Location</h3>
             <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Checkbox id="location-1" />
-                <Label className="font-medium" htmlFor="location-1">
-                  BC
-                </Label>
-              </div>
-              <div className="flex items-center gap-2">
-                <Checkbox id="location-2" />
-                <Label className="font-medium" htmlFor="location-2">
-                  AB
-                </Label>
-              </div>
-              <div className="flex items-center gap-2">
-                <Checkbox id="location-3" />
-                <Label className="font-medium" htmlFor="location-3">
-                  ON
-                </Label>
-              </div>
-              <div className="flex items-center gap-2">
-                <Checkbox id="location-4" />
-                <Label className="font-medium" htmlFor="location-4">
-                  Remote
-                </Label>
-              </div>
+              {Object.keys(locations).map(location => (
+                <div key={location} className="flex items-center gap-2">
+                  <Checkbox id={location} onClick={handleLocationChange} />
+                  <Label className="font-medium" htmlFor={location}>
+                    {location}
+                  </Label>
+                </div>
+              ))}
             </div>
+          </div>
+          <div className="flex justify-end">
+            <Button onClick={onClickConfirmFilter}>Confirm</Button>
           </div>
         </div>
       </div>

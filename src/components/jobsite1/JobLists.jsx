@@ -4,13 +4,13 @@ import {
   fetchJobPostList,
   fetchTotalPages,
 } from '../../libs/jobsiteAPIrequest';
+import ErrorNoJobLists from '../errorNoJobLists';
 import { Button } from '../ui/button';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function JobLists() {
+export default function JobLists({ page, setPage, sortByDate, filterValues }) {
   const [list, setList] = useState([]); // jobPosts list that will be displayed
   const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(1); // current page
   const [totalPage, setTotalPage] = useState(0); // total number of pages
 
   const JOBSITE_NAME = 'indigenous';
@@ -18,12 +18,40 @@ export default function JobLists() {
   /**
    * Get Jobposts list of page from database.
    */
-  const getJobPostings = useCallback(async () => {
+  const getJobPostings = async () => {
     setIsLoading(true);
-    const jobpostings = await fetchJobPostList(JOBSITE_NAME, page);
-    setList(prevList => prevList.concat(jobpostings));
+    const jobpostings = await fetchJobPostList(
+      JOBSITE_NAME,
+      page,
+      sortByDate,
+      filterValues
+    );
+    setList(prevList =>
+      page === 1 ? jobpostings : prevList.concat(jobpostings)
+    );
     setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchTotalPages(setTotalPage, JOBSITE_NAME, filterValues);
+  }, [filterValues]);
+
+  useEffect(() => {
+    if (page != 0) {
+      getJobPostings();
+    }
   }, [page]);
+
+  useEffect(() => {
+    document
+      .getElementById('joblists')
+      .scrollTo({ top: 0, behavior: 'smooth' });
+    if (page !== 1) {
+      setPage(1);
+    } else {
+      getJobPostings();
+    }
+  }, [sortByDate, filterValues]);
 
   /**
    * Set new page number when user clicks load more button.
@@ -34,25 +62,20 @@ export default function JobLists() {
     }
   };
 
-  useEffect(() => {
-    fetchTotalPages(setTotalPage, JOBSITE_NAME);
-  }, []);
-
-  useEffect(() => {
-    getJobPostings();
-  }, [getJobPostings]);
-
   return (
-    <div className="grid gap-6 max-h-dvh overflow-y-auto">
+    <div id="joblists" className="grid gap-6 max-h-dvh overflow-y-auto">
       {list.map(item => (
         <JobListCard key={item._id} item={item} />
       ))}
       {isLoading && <Loading />}
-      <Button
-        className={`${isLoading ? 'hidden' : 'block'}`}
-        onClick={onClickLoadMore}>
-        Load More
-      </Button>
+      {page < totalPage && !isLoading && (
+        <Button
+          className={`${isLoading ? 'hidden' : 'block'}`}
+          onClick={onClickLoadMore}>
+          Load More
+        </Button>
+      )}
+      {totalPage == 0 && <ErrorNoJobLists colourTheme={'gray'} />}
     </div>
   );
 }
