@@ -9,7 +9,7 @@ export async function POST(req) {
 
     const msg = {
       to,
-      from: 'videre_financiers_13@outlook.com',
+      from: 'canmatchpro@gmail.com',
       subject,
       text,
       html,
