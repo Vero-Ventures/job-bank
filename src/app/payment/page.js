@@ -5,22 +5,29 @@ import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import Navbar from '@/components/ui/navbar';
 import Footer from '@/components/ui/footer';
+import { redirect } from 'next/navigation';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 loadStripe(process.env.STRIPE_PUBLISHABLE_KEY);
 
-// TODO: Needs styling
 export default function PreviewPage() {
+  const { user, error } = useUser();
   const [quantity, setQuantity] = useState(1);
+  const searchParams = useSearchParams();
+
+  if (!user) {
+    redirect('/admin-panel/home');
+  }
+
+  if (error) return <div>{error.message}</div>;
 
   const links = [
     { text: 'Home', url: '/' },
     { text: 'About', url: '/wip' },
     { text: 'Logout', url: '/api/auth/logout' },
   ];
-
-  const searchParams = useSearchParams();
 
   const paymentStatus = searchParams.get('paymentStatus');
 
