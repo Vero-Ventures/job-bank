@@ -8,7 +8,7 @@ import jobPostingService from './jobPostingService';
 import { useCallback } from 'react';
 import Navbar from '@/components/ui/navbar';
 
-const MAX_PAGES = 999;
+const MAX_PAGES = Infinity;
 
 // Define your component
 export default function Home() {
