@@ -56,14 +56,14 @@ const AdminPage = ({ data, sendEmail, massSendEmails, updateEmails }) => {
             <TableHeader>
               <TableRow>
                 <TableHead>Email Contacted Status</TableHead>
-                <TableHead>Action</TableHead>
+                <TableHead className="text-center">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {data.map(({ sent, email }, index) => (
                 <TableRow key={index}>
                   <TableCell>
-                    <div className="flex items-center ">
+                    <div className="flex items-center">
                       <span className="mr-1">{email}</span>
                       {sent ? (
                         <CircleCheckIcon className="text-green-500 mr-2" />
@@ -73,18 +73,17 @@ const AdminPage = ({ data, sendEmail, massSendEmails, updateEmails }) => {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      onClick={() => sendEmail(email)}>
-                      Send Email
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="danger"
-                      onClick={() => handleDeleteEmail({ sent, email })}>
-                      Delete
-                    </Button>
+                    <div className="flex flex-col gap-2">
+                      <Button size="sm" onClick={() => sendEmail(email)}>
+                        Send Email
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => handleDeleteEmail({ sent, email })}>
+                        Delete
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
