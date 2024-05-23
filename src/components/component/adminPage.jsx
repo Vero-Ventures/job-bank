@@ -11,7 +11,7 @@ import {
 import { CircleCheckIcon, CircleXIcon } from '@/components/icons';
 import { AddEmailModal } from './addEmailModal';
 
-const AdminPage = ({ data, sendEmail, massSendEmails }) => {
+const AdminPage = ({ data, sendEmail, massSendEmails, updateEmails }) => {
   const [showAddEmailModal, setShowAddEmailModal] = useState(false);
 
   const handleAddEmail = () => {
@@ -77,7 +77,11 @@ const AdminPage = ({ data, sendEmail, massSendEmails }) => {
         </div>
       </main>
       {/* Render the AddEmailModal */}
-      <AddEmailModal open={showAddEmailModal} onClose={handleCloseModal} />
+      <AddEmailModal
+        open={showAddEmailModal}
+        onClose={handleCloseModal}
+        updateEmails={updateEmails}
+      />
     </div>
   );
 };

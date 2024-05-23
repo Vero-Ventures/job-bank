@@ -21,6 +21,10 @@ export default function Home() {
     fetchEmails();
   }, []);
 
+  const updateEmails = email => {
+    setEmails(prevEmails => [...prevEmails, email]);
+  };
+
   const sendEmail = async recipient => {
     try {
       await emailHandler.sendEmail(recipient);
@@ -62,6 +66,7 @@ export default function Home() {
       data={emails}
       sendEmail={sendEmail}
       massSendEmails={massSendEmails}
+      updateEmails={updateEmails}
     />
   );
 }

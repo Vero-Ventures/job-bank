@@ -29,22 +29,37 @@ const CloseButton = ({ onClick }) => (
   </button>
 );
 
-export function AddEmailModal({ open, onClose }) {
+export function AddEmailModal({ open, onClose, updateEmails }) {
   const [email, setEmail] = useState('');
   const [emailsAdded, setEmailsAdded] = useState(1);
 
   const handleAddEmail = async () => {
-    // Call the addEmailObjects function with an array of length 1 containing the email object
-    const emailsAdded = await emailHandler.addEmailObjects([
-      { email, sent: false },
-    ]);
-    setEmailsAdded(emailsAdded);
+    try {
+      // Call the addEmailObjects function with an array of length 1 containing the email object
+      const emailsAdded = await emailHandler.addEmailObjects([
+        { email, sent: false },
+      ]);
+      setEmailsAdded(emailsAdded);
+      setEmail('');
+
+      // Call the callback function to update the data state in AdminPage
+      updateEmails({ email, sent: false });
+    } catch (error) {
+      console.error('Error adding email objects:', error);
+    }
   };
 
-  const handleAddAndSendEmail = () => {
-    // Add logic to handle adding and sending email
-    console.log('Email added and sent:', email);
-    onClose(); // Close the modal
+  const handleAddAndSendEmail = async () => {
+    try {
+      await emailHandler.addEmailObjects([{ email, sent: true }]);
+      // await emailHandler.sendEmail(email);
+      alert('Email sent');
+
+      // Call the callback function to update the data state in AdminPage
+      updateEmails({ email, sent: true });
+    } catch (error) {
+      console.error('Error adding email objects:', error);
+    }
   };
 
   return (
@@ -75,8 +90,8 @@ export function AddEmailModal({ open, onClose }) {
           </div>
           {/* Display warning/notification field if emailsAdded is less than 1 */}
           {emailsAdded < 1 && (
-            <div className="text-red-500">
-              Failed to add email. Please try again.
+            <div className="text-yellow-500">
+              Email address already exists on the contact list.
             </div>
           )}
         </div>
