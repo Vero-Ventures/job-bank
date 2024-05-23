@@ -1,14 +1,58 @@
+import { JOBTYPES, PROVINCES } from './filterValues';
 const API_URL = '/api/job-posting/';
 const TOTAL_POSTINGS_PER_PAGE = 25;
+
+/**
+ * Set Parameters for fetching data
+ * @param {string} jobsiteName - name of jobsite
+ * @param {int} page - page number
+ * @param {boolean} sortByDate - wether sort by date or not
+ * @param {object} filterValues - filter values as dictionary, keys as filter catogories, values as options user selected
+ * @return params as a string that will be sent to API call
+ */
+const setParams = (page, sortByDate, filterValues) => {
+  const pageParam = page ? `page_num=${page}` : '';
+  const sortParam = sortByDate ? '&sort=d' : '';
+  let filterEParam = '';
+  let filterPParam = '';
+  if (filterValues.jobType && filterValues.jobType.length > 0) {
+    for (let i = 0; i < filterValues.jobType.length; i++) {
+      filterEParam += '&';
+      filterEParam += `et=${JOBTYPES[filterValues.jobType[i]]}`;
+    }
+  }
+  if (filterValues.locations && filterValues.locations.length > 0) {
+    for (let i = 0; i < filterValues.locations.length; i++) {
+      filterPParam += '&';
+      filterPParam += `p=${PROVINCES[filterValues.locations[i]]}`;
+    }
+  }
+
+  return `${pageParam}${sortParam}${filterEParam}${filterPParam}`;
+};
 
 /**
  * Fetch total number of pages for pagination.
  * @param {object} setTotalPage - function object to setPage
  * @param {string} jobsiteName - name of jobsite
  */
-export const fetchTotalPages = async (setTotalPage, jobsiteName) => {
+export const fetchTotalPages = async (
+  setTotalPage,
+  jobsiteName,
+  filterValues
+) => {
+  const newParams = setParams(false, false, filterValues);
   try {
-    const response = await fetch(`${API_URL}${jobsiteName}/total-posts`);
+    const response = await fetch(
+      `${API_URL}${jobsiteName}/total-posts?${newParams}`
+    );
+
+    // posting doesn't exist, setTotalPage as 0
+    if (response.status === 204) {
+      setTotalPage(0);
+      return;
+    }
+
     if (!response.ok) {
       throw new Error('Fail to fetch total number of postings.');
     }
@@ -26,11 +70,23 @@ export const fetchTotalPages = async (setTotalPage, jobsiteName) => {
  * @param {string} page - page number to fetch
  * @returns jobpostings as a list
  */
-export const fetchJobPostList = async (jobsiteName, page) => {
-  console.log('Current Page ' + page);
+export const fetchJobPostList = async (
+  jobsiteName,
+  page,
+  sortByDate,
+  filterValues
+) => {
+  const newParams = setParams(page, sortByDate, filterValues);
+  console.log(`${API_URL}${jobsiteName}?${newParams}`);
 
   try {
-    const response = await fetch(`${API_URL}${jobsiteName}?page_num=${page}`);
+    const response = await fetch(`${API_URL}${jobsiteName}?${newParams}`);
+
+    // posting doesn't exist, return empty list.
+    if (response.status === 204) {
+      return [];
+    }
+
     if (!response.ok) {
       throw new Error('Fail to fetch postings');
     }
@@ -52,14 +108,19 @@ export const fetchJobPostList = async (jobsiteName, page) => {
 export const fetchJobDetail = async postID => {
   try {
     const response = await fetch(`${API_URL}by-id?job-posting-id=${postID}`);
+    // given id posting doesn't exist, return 404 status.
+    if (response.status === 404) {
+      return { error: 'Job detail not found (404)', status: 404 };
+    }
+
     if (!response.ok) {
-      throw new Error('Fail to fetch job detail');
+      return {
+        error: `Failed to fetch job detail (status: ${response.status})`,
+      };
     }
     const res = await response.json();
-
     return res.jobPostings[0];
   } catch (error) {
-    console.error('Error fetching job detail:', error);
-    throw new Error('Failed to fetch job detail');
+    return { error: 'Failed to fetch job detail', details: error.message };
   }
 };

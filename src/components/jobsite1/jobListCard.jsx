@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import MapPinIcon from '../icons/mapPinIcon';
-import MoneyIcon from '../icons/moneyIcon';
+import MoneyIcon from '../icons/moneyIcon';
 
 export default function JobListCard({ item }) {
   return (
