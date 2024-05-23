@@ -118,3 +118,42 @@ export async function PATCH(req) {
     );
   }
 }
+
+export async function DELETE(req) {
+  try {
+    const { email } = await req.json();
+
+    if (!email) {
+      return NextResponse.json(
+        { message: 'Bad Request - Email parameter is required' },
+        { status: 400 }
+      );
+    }
+
+    await connectMongoDB();
+
+    const ContactStat =
+      mongoose.models['contact-stats'] ||
+      mongoose.model('contact-stats', contactStat);
+
+    const deletedContactStat = await ContactStat.deleteOne({ email });
+
+    if (deletedContactStat.deletedCount === 0) {
+      return NextResponse.json(
+        { message: 'No contact stats were deleted' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { message: 'Contact stats deleted successfully' },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error deleting contact stats:', error);
+    return NextResponse.json(
+      { message: 'Failed to delete contact stats' },
+      { status: 500 }
+    );
+  }
+}

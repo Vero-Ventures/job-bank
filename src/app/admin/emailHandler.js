@@ -100,11 +100,30 @@ const addEmailObjects = async emailObjects => {
   }
 };
 
+const deleteEmail = async email => {
+  try {
+    const response = await fetch(CONTACT_STAT_API_URL, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to delete email');
+    }
+  } catch (error) {
+    console.error('Error deleting email:', error);
+  }
+};
+
 const emailHandler = {
   getContactStat,
   sendEmail,
   updateSentStatus,
   addEmailObjects,
+  deleteEmail,
 };
 
 export default emailHandler;
