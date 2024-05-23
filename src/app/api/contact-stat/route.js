@@ -60,8 +60,13 @@ export async function POST(req) {
 
     //return total number of email addresses added and status code 200
     return NextResponse.json(
-      { message: `Added ${newEmailAddresses.length} email addresses` },
-      { status: 200 }
+      {
+        message: `Added ${newEmailAddresses.length} email addresses`,
+        emailsAdded: newEmailAddresses.length,
+      },
+      {
+        status: 200,
+      }
     );
   } catch (error) {
     console.error('Error inserting contact stats:', error);
