@@ -17,7 +17,7 @@ export default function PreviewPage() {
   const links = [
     { text: 'Home', url: '/' },
     { text: 'About', url: '/wip' },
-    { text: 'Login / Signup', url: '/api/auth/login' },
+    { text: 'Logout', url: '/api/auth/logout' },
   ];
 
   const searchParams = useSearchParams();
