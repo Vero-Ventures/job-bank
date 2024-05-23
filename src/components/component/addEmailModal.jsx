@@ -54,7 +54,7 @@ export function AddEmailModal({ open, onClose, updateEmails }) {
     try {
       await emailHandler.addEmailObjects([{ email, sent: true }]);
       // await emailHandler.sendEmail(email);
-      alert('Email sent');
+      alert('Email sent to ' + email);
 
       // Call the callback function to update the data state in AdminPage
       const isAdd = true;
