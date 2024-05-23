@@ -40,7 +40,7 @@ const AdminPage = ({ data, sendEmail, massSendEmails, updateEmails }) => {
           <Button
             className="px-6 py-2 bg-blue-500 hover:bg-blue-600"
             onClick={massSendEmails}>
-            Mass Send Emails
+            Send to Uncontacted Emails
           </Button>
         </div>
       </header>
