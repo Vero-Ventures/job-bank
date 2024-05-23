@@ -77,9 +77,34 @@ const updateSentStatus = async (email, sent) => {
   }
 };
 
+// Function to add email objects to the contactStat collection, take an array of email objects with email and sent properties
+const addEmailObjects = async emailObjects => {
+  try {
+    const response = await fetch(CONTACT_STAT_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(emailObjects),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to add email objects');
+    }
+
+    const responseBody = await response.json();
+    const { emailsAdded } = responseBody;
+    return emailsAdded;
+  } catch (error) {
+    console.error('Error adding email objects:', error);
+  }
+};
+
 const emailHandler = {
   getContactStat,
   sendEmail,
+  updateSentStatus,
+  addEmailObjects,
 };
 
 export default emailHandler;
