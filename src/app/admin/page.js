@@ -53,19 +53,16 @@ export default function Home() {
   // Function to send emails to all recipients
   const massSendEmails = async () => {
     try {
+      let emailSent = 0;
       // Loop through all emails and send email to each recipient
-      for (const { email } of emails) {
+      for (const emailObj of emails) {
         // if email has not been sent, send email
-        if (!email.sent) {
-          await emailHandler.sendEmail(email);
+        if (!emailObj.sent) {
+          await sendEmail(emailObj.email);
+          emailSent++;
         }
-        // Update the status of the email in the emails state
-        setEmails(prevEmails =>
-          prevEmails.map(emailObj =>
-            emailObj.email === email ? { ...emailObj, sent: true } : emailObj
-          )
-        );
       }
+      alert(`${emailSent} emails has been sent.`);
     } catch (error) {
       console.error('Error sending emails:', error);
     }
