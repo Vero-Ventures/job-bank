@@ -8,6 +8,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import emailHandler from '@/app/admin/emailHandler';
 
 // CloseButton component for the close button
 const CloseButton = ({ onClick }) => (
@@ -30,11 +31,14 @@ const CloseButton = ({ onClick }) => (
 
 export function AddEmailModal({ open, onClose }) {
   const [email, setEmail] = useState('');
+  const [emailsAdded, setEmailsAdded] = useState(1);
 
-  const handleAddEmail = () => {
-    // Add logic to handle adding email
-    console.log('Email added:', email);
-    onClose(); // Close the modal
+  const handleAddEmail = async () => {
+    // Call the addEmailObjects function with an array of length 1 containing the email object
+    const emailsAdded = await emailHandler.addEmailObjects([
+      { email, sent: false },
+    ]);
+    setEmailsAdded(emailsAdded);
   };
 
   const handleAddAndSendEmail = () => {
@@ -69,6 +73,12 @@ export function AddEmailModal({ open, onClose }) {
               Add and Send Email
             </Button>
           </div>
+          {/* Display warning/notification field if emailsAdded is less than 1 */}
+          {emailsAdded < 1 && (
+            <div className="text-red-500">
+              Failed to add email. Please try again.
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>
