@@ -1,9 +1,11 @@
-// to run this file, copy the content to index.mjs at root level and use the command: node index.mjs in the terminal
-//To send out marketing email, update the schedule for the cron job by uncommenting line 6, 122 to 124 and commenting out line 127 to 130
+// To run this file::
+// 1. Open a terminal and navigate to the root directory of the project. Run command: npm run dev
+// 2. Open another terminal and navigate to the current file directory /cron (command: cd cron). Run command: node --env-file=../.env .\sendEmail.mjs
+// !IMPORTANT: To test the cron job with test data, comment out line 126 and uncomment line 129 (and add test emails) in cron.schedule block
 import cron from 'node-cron';
 import fetch from 'node-fetch';
 
-// const JOB_POSTING_API_URL = 'http://localhost:3000/api/job-posting/';
+const JOB_POSTING_API_URL = 'http://localhost:3000/api/job-posting/';
 const SEND_EMAIL_API_URL = 'http://localhost:3000/api/send-email/';
 const CONTACT_STAT_API_URL = 'http://localhost:3000/api/contact-stat/';
 // Function to send emails
@@ -110,25 +112,21 @@ const updateSentStatus = async (email, sent) => {
 
 // Define the cron job schedule (runs every 5s for testing)
 cron.schedule('*/5 * * * * *', async () => {
-  // // Define the cron job schedule (runs every day at 8:00 AM),
-  // in the future, we can adjust the timing and adding interval to avoid being blocked
+  // Define the cron job schedule (runs every day at 8:00 AM), we can adjust the timing and adding interval to avoid being blocked
   // cron.schedule('0 8 * * *', async () => {
   try {
-    // const response = await fetch(`${JOB_POSTING_API_URL}/email-sent?sort=-1`);
-    // const data = await response.json();
-    // const emailAddresses = data.emailAddresses;
-
-    //mock data
-    const emailAddresses = [
-      { email: 'vhmai3007@gmail.com', sent: true },
-      { email: 'hvu28@mybcit.ca', sent: false },
-    ];
+    const response = await fetch(`${JOB_POSTING_API_URL}/email-sent?sort=-1`);
+    const data = await response.json();
+    const emailAddresses = data.emailAddresses;
 
     //call the updateContactStat function to update the contactStat collection
     await addEmailObjects(emailAddresses);
 
     // fetch contactStat data
     const emailData = await getContactStat();
+
+    //mock data for testing, uncomment the line above and comment out the line below to use actual data
+    // const emailData = [{ email: 'test@test.com', sent: true }, { email: 'hvu28@mybcit.ca', sent: false }];
 
     // // Filter out emails that have not been sent yet - be careful with this line during testing
     const unsentEmails = emailData.filter(emailObj => !emailObj.sent);
