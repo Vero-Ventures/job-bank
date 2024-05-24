@@ -22,12 +22,14 @@ export const JOBTYPES = {
 export const JOBSITE1 = {
   jobsiteName: 'indigenous',
   //colour theme : taupe
+  endpoint: '/jobsite1',
   colours: {
-    background: '#F9F9F9',
-    backgroundDark: '#1a1a27',
-    base: '#483C32',
-    buttonHover: '#2F2520',
-    buttonText: 'white',
+    background: 'bg-[#F9F9F9]',
+    backgroundDark: 'bg-[#1a1a27]',
+    base: 'bg-[#483C32]',
+    baseText: 'text-[#483C32]',
+    buttonHover: 'bg-[#2F2520]',
+    buttonText: 'text-white',
   },
 };
 
@@ -47,36 +49,42 @@ export const JOBSITE2 = {
 
 export const JOBSITE3 = {
   jobsiteName: 'disabled',
+  endpoint: '/jobsite3',
   //colour theme : gray
   colours: {
-    background: '#fff0f6',
-    backgroundDark: '#1f2937',
-    base: '#6b7280',
-    buttonHover: '#4b5563',
-    buttonText: 'white',
+    background: 'bg-[#f3f4f6]',
+    backgroundDark: 'bg-[#1f2937]',
+    base: 'bg-[#6b7280]',
+    baseText: 'text-[#6b7280]',
+    buttonHover: 'bg-[#4b5563]',
+    buttonText: 'text-white',
   },
 };
 
 export const JOBSITE4 = {
   jobsiteName: 'students',
+  endpoint: '/jobsite4',
   //colour theme : green
   colours: {
-    background: '#f3f4f6',
-    backgroundDark: '#1f2937',
-    base: '#006400',
-    buttonHover: '#004000',
-    buttonText: 'white',
+    background: 'bg-[#f3f4f6]',
+    backgroundDark: 'bg-[#1f2937]',
+    base: 'bg-[#006400]',
+    baseText: 'text-[#006400]',
+    buttonHover: 'bg-[#004000]',
+    buttonText: 'text-white',
   },
 };
 
 export const JOBSITE5 = {
   jobsiteName: 'asylum-refugees',
+  endpoint: '/jobsite5',
   //colour theme : teal
   colours: {
-    background: '#e6f2f2',
-    backgroundDark: '#1a1a27',
-    base: '#008080',
-    buttonHover: '#006060',
-    buttonText: 'white',
+    background: 'bg-[#e6f2f2]',
+    backgroundDark: 'bg-[#1a1a27]',
+    base: 'bg-[#008080]',
+    baseText: 'text-[#008080]',
+    buttonHover: 'bg-[#006060]',
+    buttonText: 'text-white',
   },
 };

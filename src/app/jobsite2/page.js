@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 
 const JOBSITE_NAME = JOBSITE2.jobsiteName;
 const COLOUR_THEME = JOBSITE2.colours;
+const JOBSITE_ENDPOINT = JOBSITE2.endpoint;
 
 export default function Home() {
   const [postingID, setPostingID] = useState(null); //jobposting id that will be displayed
@@ -95,7 +96,8 @@ export default function Home() {
           {totalPage > 0 && (
             <JobDetail
               colourTheme={COLOUR_THEME}
-              postingID={postingID}></JobDetail>
+              postingID={postingID}
+              endpoint={JOBSITE_ENDPOINT}></JobDetail>
           )}
         </div>
       </div>

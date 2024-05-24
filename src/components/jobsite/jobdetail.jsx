@@ -10,7 +10,7 @@ import EmailIcon from '@/components/icons/emailIcon';
 import Loading from '@/components/ui/Loading';
 import Error from '@/components/jobsite/error';
 
-export default function JobDetail({ colourTheme, postingID }) {
+export default function JobDetail({ colourTheme, postingID, endpoint }) {
   const [jobDetail, setJobDetail] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [isExist, setIsExist] = useState(true); // whether given jobpost exists or not
@@ -153,7 +153,7 @@ export default function JobDetail({ colourTheme, postingID }) {
         </div>
       )}
       {!isLoading && !isExist && (
-        <Error colourTheme={colourTheme} redirectURL={'/jobsite2'} />
+        <Error colourTheme={colourTheme} redirectURL={endpoint} />
       )}
       {isLoading && <Loading></Loading>}
     </div>
