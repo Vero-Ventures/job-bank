@@ -8,6 +8,8 @@ import jobPostingService from './jobPostingService';
 import { useCallback } from 'react';
 import Navbar from '@/components/ui/navbar';
 
+const MAX_PAGES = Infinity;
+
 // Define your component
 export default function Home() {
   // State to store the list of job postings
@@ -41,31 +43,56 @@ export default function Home() {
   }, []);
   const [showForm, setShowForm] = useState(false);
 
-  // Function to fetch job postings from the API
   const fetchJobPostings = useCallback(async () => {
     try {
       setLoading(true);
-      const sortCriteria = JSON.stringify({ _id: -1 });
-      const apiURL = `${JOB_POSTING_API_URL}?email=${user.email}&sort=${sortCriteria}`;
-      const response = await fetch(apiURL, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      let page = 1;
+      let jobPostingsArray = [];
 
-      if (response.ok) {
-        const res = await response.json();
-        setJobPostings(res.jobPostings);
-      } else {
-        console.error('Failed to fetch job postings:', response.statusText);
+      while (page <= MAX_PAGES) {
+        // while (true) is not allowed with eslint
+        const apiURL = `${JOB_POSTING_API_URL}?page_num=${page}&email=${user.email}`;
+        const response = await fetch(apiURL, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          if (response.status === 204) {
+            // If the API returns no content status, break the loop
+            break;
+          }
+
+          const res = await response.json();
+          const jobPostings = res.jobPostings;
+
+          if (jobPostings.length === 0) {
+            // If no job postings found, break the loop
+            break;
+          } else {
+            // Add the fetched job postings to the array
+            jobPostingsArray = [...jobPostingsArray, ...jobPostings];
+            page++; // Increment the page number for the next request
+          }
+        } else {
+          console.error('Failed to fetch job postings:', response.statusText);
+          break;
+        }
+
+        //reverse the array to show the latest job postings first
+        jobPostingsArray = jobPostingsArray.reverse();
       }
+
+      // Set the job postings array in state
+      setJobPostings(jobPostingsArray);
     } catch (error) {
       console.error('Error fetching job postings:', error);
     } finally {
       setLoading(false);
     }
-  }, [user]);
+  }, [user, JOB_POSTING_API_URL]);
 
   useEffect(() => {
     fetchUser();
@@ -75,7 +102,7 @@ export default function Home() {
     if (user) {
       fetchJobPostings();
     }
-  }, [user]);
+  }, [user, fetchJobPostings]);
 
   // Function to handle deletion of job posting
   const handleDelete = async jobPostingId => {

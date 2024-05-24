@@ -8,7 +8,7 @@ import CalendarIcon from '@/components/icons/calendarIcon';
 import UserIcon from '@/components/icons/userIcon';
 import EmailIcon from '@/components/icons/emailIcon';
 import Loading from '@/components/ui/Loading';
-import Error from '@/components/error';
+import Error from '@/components/jobsite/error';
 
 export default function JobDetail({ colourTheme, postingID }) {
   const [jobDetail, setJobDetail] = useState({});

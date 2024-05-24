@@ -1,6 +1,6 @@
 'use client';
 
-import JobDetail from '@/components/jobsite2/jobdetail';
+import JobDetail from '@/components/jobsite/jobdetail';
 import { COLOUR_THEME_PINK } from '@/libs/jobsiteConstants';
 
 const COLOUR_THEME = COLOUR_THEME_PINK;

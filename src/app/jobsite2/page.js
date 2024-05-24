@@ -1,11 +1,11 @@
 'use client';
 
 import { fetchTotalPages } from '@/libs/jobsiteAPIrequest';
-import JobDetail from '@/components/jobsite2/jobdetail';
-import SearchBar from '@/components/jobsite2/searchBar';
-import JobLists from '@/components/jobsite2/joblists';
+import JobDetail from '@/components/jobsite/jobdetail';
+import SearchBar from '@/components/jobsite/searchBar';
+import JobLists from '@/components/jobsite/joblists';
 import Pagination from '@/components/ui/pagination';
-import ErrorNoJobLists from '@/components/errorNoJobLists';
+import ErrorNoJobLists from '@/components/jobsite/errorNoJobLists';
 import { JOBSITE2 } from '@/libs/jobsiteConstants';
 import { useEffect, useState } from 'react';
 
