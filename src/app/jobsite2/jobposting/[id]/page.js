@@ -1,6 +1,6 @@
 'use client';
 
-import JobDetail from '@/components/jobsite2/jobdetail';
+import JobDetail from '@/components/jobsite/jobdetail';
 
 export default function JobPosting({ params }) {
   const postingID = params.id;
