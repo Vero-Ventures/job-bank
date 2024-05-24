@@ -14,10 +14,8 @@ loadStripe(process.env.STRIPE_PUBLISHABLE_KEY);
 
 export default function PreviewPage() {
   const [user, setUser] = useState(null);
-  const [setJobPostings] = useState([]);
-  const [quantity, setQuantity] = useState(1);
+  const [jobPostings, setJobPostings] = useState([]);
   const searchParams = useSearchParams();
-  const [setLoading] = useState(true);
 
   const links = [
     { text: 'Home', url: '/' },
@@ -47,7 +45,6 @@ export default function PreviewPage() {
   // Function to fetch job postings from the API
   const fetchJobPostings = useCallback(async () => {
     try {
-      setLoading(true);
       const sortCriteria = JSON.stringify({ _id: -1 });
       const apiURL = `${JOB_POSTING_API_URL}?email=${user.email}&sort=${sortCriteria}`;
       const response = await fetch(apiURL, {
@@ -60,15 +57,11 @@ export default function PreviewPage() {
       if (response.ok) {
         const res = await response.json();
         setJobPostings(res.jobPostings);
-        // Set the quantity to the number of job postings
-        setQuantity(res.jobPostings.length);
       } else {
         console.error('Failed to fetch job postings:', response.statusText);
       }
     } catch (error) {
       console.error('Error fetching job postings:', error);
-    } finally {
-      setLoading(false);
     }
   }, [user]);
 
@@ -130,7 +123,7 @@ export default function PreviewPage() {
                     onClick={decreaseQuantity}>
                     -
                   </button> */}
-                  <div>{quantity}</div>
+                  <div>{jobPostings.length}</div>
                   {/* <button
                     className="text-gray-500 hover:text-gray-700"
                     onClick={increaseQuantity}>
@@ -143,7 +136,7 @@ export default function PreviewPage() {
           </div>
           <div className="flex justify-between items-center">
             <div className="text-gray-500">Subtotal</div>
-            <div className="font-medium">${quantity * 10}</div>
+            <div className="font-medium">${jobPostings.length * 10}</div>
           </div>
           <div className="flex justify-end mt-6">
             {/* <button className="bg-gray-900 text-white px-6 py-3 rounded-md hover:bg-gray-800 transition-colors">
