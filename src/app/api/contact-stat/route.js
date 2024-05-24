@@ -61,7 +61,7 @@ export async function POST(req) {
     //return total number of email addresses added and status code 200
     return NextResponse.json(
       {
-        message: `Added ${newEmailAddresses.length} email addresses`,
+        message: `Added ${newEmailAddresses.length} new email addresses`,
         emailsAdded: newEmailAddresses.length,
       },
       {
