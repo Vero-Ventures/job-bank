@@ -3,7 +3,6 @@
 // 2. Open another terminal and navigate to the current file directory /cron (command: cd cron). Run command: node --env-file=../.env .\sendEmail.mjs
 // !IMPORTANT: To test the cron job with test data, comment out line 126 and uncomment line 129 (and add test emails) in cron.schedule block
 import cron from 'node-cron';
-import fetch from 'node-fetch';
 
 const JOB_POSTING_API_URL = 'http://localhost:3000/api/job-posting/';
 const SEND_EMAIL_API_URL = 'http://localhost:3000/api/send-email/';
