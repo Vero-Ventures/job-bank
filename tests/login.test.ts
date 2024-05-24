@@ -11,10 +11,8 @@ test('Login with registered email and correct password', async ({
     await page.goto(`${config.BASE_URL}/`);
 
     await page.getByRole('link', { name: 'Login / Sign Up' }).click();
-    await page.getByLabel('Email address*').click();
-    await page.getByLabel('Email address*').fill('cboilley@my.bcit.ca');
 
-    await page.getByLabel('Password*').click();
+    await page.getByLabel('Email address*').fill('cboilley@my.bcit.ca');
     await page.getByLabel('Password*').fill('Bcit@123456');
 
     await page.getByRole('button', { name: 'Continue' }).click();
@@ -40,10 +38,8 @@ test('Login with registered email and incorrect password', async ({
     await page.goto(`${config.BASE_URL}/`);
 
     await page.getByRole('link', { name: 'Login / Sign Up' }).click();
-    await page.getByLabel('Email address*').click();
-    await page.getByLabel('Email address*').fill('cboilley@my.bcit.ca');
 
-    await page.getByLabel('Password*').click();
+    await page.getByLabel('Email address*').fill('cboilley@my.bcit.ca');
     await page.getByLabel('Password*').fill('Bcit@12');
 
     // Attempt to log in
@@ -69,10 +65,8 @@ test('Login with unregistered email', async ({ browser }) => {
     await page.goto(`${config.BASE_URL}/`);
 
     await page.getByRole('link', { name: 'Login / Sign Up' }).click();
-    await page.getByLabel('Email address*').click();
-    await page.getByLabel('Email address*').fill('c@my.bcit.ca');
 
-    await page.getByLabel('Password*').click();
+    await page.getByLabel('Email address*').fill('c@my.bcit.ca');
     await page.getByLabel('Password*').fill('Bcit@123456');
 
     // Attempt to log in

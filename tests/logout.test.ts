@@ -10,10 +10,7 @@ test('Logout after login', async ({ browser }) => {
 
     await page.getByRole('link', { name: 'Login / Sign Up' }).click();
 
-    await page.getByLabel('Email address*').click();
     await page.getByLabel('Email address*').fill('cboilley@my.bcit.ca');
-
-    await page.getByLabel('Password*').click();
     await page.getByLabel('Password*').fill('Bcit@123456');
 
     await page.getByRole('button', { name: 'Continue' }).click();
