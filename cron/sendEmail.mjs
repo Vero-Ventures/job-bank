@@ -1,12 +1,13 @@
+// !IMPORTANT: To run the cron job with actual data, comment out line 129 in cron.schedule block.
+// To test the cron job with mock data, uncomment line 129 in cron.schedule block and replace you test email address in the mock data.
 // To run this file::
 // 1. Open a terminal and navigate to the root directory of the project. Run command: npm run dev
 // 2. Open another terminal and navigate to the current file directory /cron (command: cd cron). Run command: node --env-file=../.env .\sendEmail.mjs
-// !IMPORTANT: To test the cron job with test data, comment out line 126 and uncomment line 129 (and add test emails) in cron.schedule block
 import cron from 'node-cron';
 
-const JOB_POSTING_API_URL = 'http://localhost:3000/api/job-posting/';
-const SEND_EMAIL_API_URL = 'http://localhost:3000/api/send-email/';
-const CONTACT_STAT_API_URL = 'http://localhost:3000/api/contact-stat/';
+const JOB_POSTING_API_URL = process.env.JOB_POSTING_API_URL;
+const SEND_EMAIL_API_URL = process.env.LOCAL_SEND_EMAIL_API_URL;
+const CONTACT_STAT_API_URL = process.env.CONTACT_STAT_API_URL;
 // Function to send emails
 const sendEmail = async recipient => {
   try {
@@ -122,10 +123,13 @@ cron.schedule('*/5 * * * * *', async () => {
     await addEmailObjects(emailAddresses);
 
     // fetch contactStat data
-    const emailData = await getContactStat();
+    let emailData = await getContactStat();
 
-    //mock data for testing, uncomment the line above and comment out the line below to use actual data
-    // const emailData = [{ email: 'test@test.com', sent: true }, { email: 'hvu28@mybcit.ca', sent: false }];
+    //mock data for testing, comment out the line below to use actual data
+    emailData = [
+      { email: 'test@test.com', sent: true },
+      { email: 'hvu28@mybcit.ca', sent: false },
+    ];
 
     // // Filter out emails that have not been sent yet - be careful with this line during testing
     const unsentEmails = emailData.filter(emailObj => !emailObj.sent);
