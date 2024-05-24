@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function Top2() {
+export default function Top() {
   return (
     <header className="flex items-center justify-between w-full md:p-5">
       <Link
