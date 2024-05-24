@@ -155,7 +155,6 @@ const scrapeJobs = async browser => {
         console.log(`Skipping job at ${url} due to error: ${err}.`);
       }
     }
-    console.log(emailsThisPage);
     // send jobs to job bank server
     await saveJobs(emailsThisPage);
   }
