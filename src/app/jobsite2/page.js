@@ -54,7 +54,7 @@ export default function Home() {
 
   return (
     <div
-      className={`flex flex-col gap-8 p-4 md:p-8 bg-[${COLOUR_THEME.background}] dark:bg-[${COLOUR_THEME.backgroundDark}]`}>
+      className={`flex flex-col gap-8 p-4 md:p-8 ${COLOUR_THEME.background} dark:${COLOUR_THEME.backgroundDark}`}>
       <SearchBar
         colourTheme={COLOUR_THEME}
         onChangeFilter={onChangeFilter}></SearchBar>

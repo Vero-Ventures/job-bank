@@ -1,9 +1,9 @@
 'use client';
 
 import JobDetail from '@/components/jobsite/jobdetail';
-import { COLOUR_THEME_PINK } from '@/libs/jobsiteConstants';
+import { JOBSITE2 } from '@/libs/jobsiteConstants';
 
-const COLOUR_THEME = COLOUR_THEME_PINK;
+const COLOUR_THEME = JOBSITE2.colours;
 
 export default function JobPosting({ params }) {
   const postingID = params.id;

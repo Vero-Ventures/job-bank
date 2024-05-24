@@ -33,13 +33,15 @@ export const JOBSITE1 = {
 
 export const JOBSITE2 = {
   jobsiteName: 'newcomers',
+  endpoint: '/jobsite2',
   //colour theme : blue
   colours: {
-    background: '#f0f9ff',
-    backgroundDark: '#0f172a',
-    base: '#0b5394',
-    buttonHover: '#0a4480',
-    buttonText: 'white',
+    background: 'bg-[#f0f9ff]',
+    backgroundDark: 'bg-[#0f172a]',
+    base: 'bg-[#0b5394]',
+    baseText: 'text-[#0b5394]',
+    buttonHover: 'bg-[#0a4480]',
+    buttonText: 'text-white',
   },
 };
 

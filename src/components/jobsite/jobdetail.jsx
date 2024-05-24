@@ -47,7 +47,7 @@ export default function JobDetail({ colourTheme, postingID }) {
             <div className="space-y-4">
               <div>
                 <h4
-                  className={`text-2xl font-bold text-[${colourTheme.base}] titleCase dark:text-white`}>
+                  className={`text-2xl font-bold ${colourTheme.baseText} titleCase dark:text-white`}>
                   {jobDetail.jobTitle}
                 </h4>
                 <p className="text-gray-500 dark:text-gray-400">
@@ -108,7 +108,7 @@ export default function JobDetail({ colourTheme, postingID }) {
               </div>
               <div>
                 <h5
-                  className={`text-base font-bold text-[${colourTheme.base}] dark:text-white`}>
+                  className={`text-base font-bold ${colourTheme.baseText} dark:text-white`}>
                   Job Description
                 </h5>
                 <p className="text-gray-500 dark:text-gray-400">
@@ -117,7 +117,7 @@ export default function JobDetail({ colourTheme, postingID }) {
               </div>
               <div>
                 <h5
-                  className={`text-base font-bold text-[${colourTheme.base}] dark:text-white`}>
+                  className={`text-base font-bold ${colourTheme.baseText} dark:text-white`}>
                   Requirements
                 </h5>
                 <ul className="list-disc pl-4 text-gray-500 dark:text-gray-400">
@@ -126,7 +126,7 @@ export default function JobDetail({ colourTheme, postingID }) {
               </div>
               <div>
                 <h5
-                  className={`text-base font-bold text-[${colourTheme.base}] dark:text-white`}>
+                  className={`text-base font-bold ${colourTheme.baseText} dark:text-white`}>
                   Benefits
                 </h5>
                 <ul className="list-disc pl-4 text-gray-500 dark:text-gray-400">
@@ -136,7 +136,7 @@ export default function JobDetail({ colourTheme, postingID }) {
               </div>
               <div>
                 <h5
-                  className={`text-base font-bold text-[${colourTheme.base}] dark:text-white`}>
+                  className={`text-base font-bold ${colourTheme.baseText} dark:text-white`}>
                   Apply by email
                 </h5>
                 <div className="flex items-center gap-3 text-sm">

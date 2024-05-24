@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Top jobsiteName={'NewComers'} colourTheme={JOBSITE2.colours} />
+        <Top jobsiteInfo={JOBSITE2} />
         {children}
         <Footer />
       </body>

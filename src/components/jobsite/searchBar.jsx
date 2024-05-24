@@ -45,26 +45,24 @@ export default function SearchBar({ colourTheme, onChangeFilter }) {
       <div className="flex items-center space-x-4">
         <div className="flex-1">
           <Input
-            className={`w-full bg-[${colourTheme.background}] dark:bg-[${colourTheme.backgroundDark}] dark:text-white`}
+            className={`w-full ${colourTheme.background} dark:${colourTheme.backgroundDark} dark:text-white`}
             placeholder="Search jobs..."
           />
         </div>
         <Button
-          className={`bg-[${colourTheme.base}] hover:bg-[${colourTheme.buttonHover}] text-${colourTheme.buttonText}`}
+          className={`${colourTheme.base} hover:${colourTheme.buttonHover} ${colourTheme.buttonText}`}
           variant="primary">
           Search
         </Button>
       </div>
       <div className="mt-4 space-y-2">
         <div className="flex items-center space-x-2">
-          <FilterIcon className={`w-5 h-5 text-[${colourTheme.base}]`} />
-          <span className={`text-[${colourTheme.base}] font-medium`}>
-            Filters
-          </span>
+          <FilterIcon className={`w-5 h-5 ${colourTheme.baseText}`} />
+          <span className={`${colourTheme.baseText} font-medium`}>Filters</span>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           <Select
-            className={`bg-[${colourTheme.background}] dark:bg-[${colourTheme.backgroundDark}] dark:text-white`}
+            className={`${colourTheme.background} dark:${colourTheme.backgroundDark} dark:text-white`}
             defaultValue="jobType"
             onValueChange={handleJobTypeChange}>
             <SelectTrigger>
@@ -84,7 +82,7 @@ export default function SearchBar({ colourTheme, onChangeFilter }) {
             </SelectContent>
           </Select>
           <Select
-            className={`bg-[${colourTheme.background}] dark:bg-[${colourTheme.backgroundDark}] dark:text-white`}
+            className={`${colourTheme.background} dark:${colourTheme.backgroundDark} dark:text-white`}
             defaultValue="Loactions"
             onValueChange={handleLocationChange}>
             <SelectTrigger>
