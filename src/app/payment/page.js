@@ -5,29 +5,82 @@ import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import Navbar from '@/components/ui/navbar';
 import Footer from '@/components/ui/footer';
-import { redirect } from 'next/navigation';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { useCallback } from 'react';
+import { useEffect } from 'react';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 loadStripe(process.env.STRIPE_PUBLISHABLE_KEY);
 
 export default function PreviewPage() {
-  const { user, error } = useUser();
+  const [user, setUser] = useState(null);
+  const [setJobPostings] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const searchParams = useSearchParams();
-
-  if (!user) {
-    redirect('/admin-panel/home');
-  }
-
-  if (error) return <div>{error.message}</div>;
+  const [setLoading] = useState(true);
 
   const links = [
     { text: 'Home', url: '/' },
     { text: 'About', url: '/wip' },
     { text: 'Logout', url: '/api/auth/logout' },
   ];
+
+  const JOB_POSTING_API_URL = process.env.NEXT_PUBLIC_JOB_POSTING_API_URL;
+
+  const fetchUser = useCallback(async () => {
+    try {
+      const response = await fetch('/api/auth/me');
+      if (response.ok) {
+        const userData = await response.json();
+        setUser(userData);
+      } else {
+        console.error('Failed to fetch user:', response.statusText);
+        window.location.href = '/';
+      }
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      //redirect to login page
+      window.location.href = '/';
+    }
+  }, []);
+
+  // Function to fetch job postings from the API
+  const fetchJobPostings = useCallback(async () => {
+    try {
+      setLoading(true);
+      const sortCriteria = JSON.stringify({ _id: -1 });
+      const apiURL = `${JOB_POSTING_API_URL}?email=${user.email}&sort=${sortCriteria}`;
+      const response = await fetch(apiURL, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const res = await response.json();
+        setJobPostings(res.jobPostings);
+        // Set the quantity to the number of job postings
+        setQuantity(res.jobPostings.length);
+      } else {
+        console.error('Failed to fetch job postings:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching job postings:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    fetchUser();
+  }, []); // Fetch job postings when the component mounts
+
+  useEffect(() => {
+    if (user) {
+      fetchJobPostings();
+    }
+  }, [user]);
 
   const paymentStatus = searchParams.get('paymentStatus');
 
@@ -40,15 +93,15 @@ export default function PreviewPage() {
     );
   }
 
-  const increaseQuantity = () => {
-    setQuantity(quantity + 1);
-  };
+  // const increaseQuantity = () => {
+  //   setQuantity(quantity + 1);
+  // };
 
-  const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
+  // const decreaseQuantity = () => {
+  //   if (quantity > 1) {
+  //     setQuantity(quantity - 1);
+  //   }
+  // };
 
   return (
     <section className="flex flex-col min-h-screen">
@@ -72,17 +125,17 @@ export default function PreviewPage() {
               </div>
               <div className="text-center">
                 <div className="flex items-center justify-center space-x-2">
-                  <button
+                  {/* <button
                     className="text-gray-500 hover:text-gray-700"
                     onClick={decreaseQuantity}>
                     -
-                  </button>
+                  </button> */}
                   <div>{quantity}</div>
-                  <button
+                  {/* <button
                     className="text-gray-500 hover:text-gray-700"
                     onClick={increaseQuantity}>
                     +
-                  </button>
+                  </button> */}
                 </div>
               </div>
               <div className="text-right font-medium">$10</div>
