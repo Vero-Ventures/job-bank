@@ -13,7 +13,7 @@ export default new mongoose.Schema({
   workHours: String,
   specialCommitments: String,
   email: { type: String, required: true },
-  jobPageId: String,
+  jobPageId: { type: String, unique: true }, // unique prevents duplicate job postings from web scrapers
   employmentType: String,
   employmentSubType: String,
   startTime: String,
