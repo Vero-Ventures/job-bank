@@ -7,7 +7,7 @@ import { setTimeout } from 'node:timers/promises';
 const BASE_URL = `https://www.newcomersjobcentre.ca/`;
 const SELECTOR_TIMEOUT = 5000; // use for waiting for selectors
 const PAGE_TIMEOUT = 60000; // use for page navigation
-const PAGES_TO_SCRAPE = 1; // Don't need that much data. Just scrape the most recent 5 pages of jobs
+const PAGES_TO_SCRAPE = 5; // Don't need that much data. Just scrape the most recent few pages of jobs
 
 const device = {
   userAgent: 'Mozilla/5.0 (Macintosh)', // set our fake user-agent
