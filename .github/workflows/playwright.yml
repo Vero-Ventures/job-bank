@@ -16,7 +16,7 @@ jobs:
       - name: next build
         run: |
           npm ci
-          npm start &
+          npm run dev &
           sleep 30
       - name: Install dependencies
         run: npm ci
