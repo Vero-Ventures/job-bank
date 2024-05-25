@@ -1,6 +1,11 @@
 import Link from 'next/link';
 
-export default function JobListCard({ colourTheme, item, onClick }) {
+export default function JobListCard({
+  jobSitePath,
+  colourTheme,
+  item,
+  onClick,
+}) {
   return (
     <div
       className={`bg-white dark:${colourTheme.backgroundDark} rounded-lg shadow-lg p-4 space-y-3`}>
@@ -32,8 +37,8 @@ export default function JobListCard({ colourTheme, item, onClick }) {
           </button>
           <Link
             className={`text-sm pl-3 font-bold titleCase ${colourTheme.baseText} block sm:hidden dark:text-white`}
-            href="/jobsite2/jobposting"
-            as={`/jobsite2/jobposting/${item._id}`}>
+            href={`/${jobSitePath}/jobposting`}
+            as={`/${jobSitePath}/jobposting/${item._id}`}>
             View
           </Link>
         </div>

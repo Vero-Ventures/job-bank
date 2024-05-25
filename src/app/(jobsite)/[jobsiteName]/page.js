@@ -6,14 +6,14 @@ import SearchBar from '@/components/jobsite/searchBar';
 import JobLists from '@/components/jobsite/joblists';
 import Pagination from '@/components/ui/pagination';
 import ErrorNoJobLists from '@/components/jobsite/errorNoJobLists';
-import { JOBSITE2 } from '@/libs/jobsiteConstants';
+import { JOBSITE_INFO } from '@/libs/jobsiteConstants';
 import { useEffect, useState } from 'react';
 
-const JOBSITE_NAME = JOBSITE2.jobsiteName;
-const COLOUR_THEME = JOBSITE2.colours;
-const JOBSITE_ENDPOINT = JOBSITE2.endpoint;
+export default function Home({ params }) {
+  const JOBSITE_NAME = JOBSITE_INFO[params.jobsiteName].jobsiteName;
+  const JOBSITE_PATH = params.jobsiteName;
+  const COLOUR_THEME = JOBSITE_INFO[params.jobsiteName].colours;
 
-export default function Home() {
   const [postingID, setPostingID] = useState(null); //jobposting id that will be displayed
   const [page, setPage] = useState(1); // current page
   const [totalPage, setTotalPage] = useState(-1); // total number of pages
@@ -76,10 +76,10 @@ export default function Home() {
               <>
                 <JobLists
                   jobSiteName={JOBSITE_NAME}
+                  jobSitePath={JOBSITE_PATH}
                   colourTheme={COLOUR_THEME}
                   onClickJob={setPostingID}
                   page={page}
-                  totalPage={totalPage}
                   sortByDate={sortByDate}
                   filterValues={filterValues}></JobLists>
                 <Pagination
@@ -97,7 +97,8 @@ export default function Home() {
             <JobDetail
               colourTheme={COLOUR_THEME}
               postingID={postingID}
-              endpoint={JOBSITE_ENDPOINT}></JobDetail>
+              path={JOBSITE_PATH}
+              jobSiteName={JOBSITE_NAME}></JobDetail>
           )}
         </div>
       </div>
