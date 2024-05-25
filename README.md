@@ -69,6 +69,7 @@ Name: job-bank
 - next: React framework for building server-rendered applications.
 - react: JavaScript library for building user interfaces.
 - react-dom: React library for DOM rendering.
+- react-quill: rich text editor component for React
 - stripe: Stripe library for server-side integration.
 - tailwind-merge: Utility library for merging Tailwind CSS classes.
 - tailwindcss-animate: Tailwind CSS plugin for animations.

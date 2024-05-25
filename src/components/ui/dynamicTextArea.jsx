@@ -1,31 +1,35 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
-function DynamicTextarea({ value, onChange, ...rest }) {
-  const textareaRef = useRef(null);
+function DynamicTextarea({ name, value, onChange, ...rest }) {
+  const quillRef = useRef(null);
+  const [editorHtml, setEditorHtml] = useState(value);
 
   useEffect(() => {
-    adjustTextareaHeight();
+    setEditorHtml(value);
   }, [value]);
 
-  const adjustTextareaHeight = () => {
-    const textarea = textareaRef.current;
-    textarea.style.height = 'auto'; // Reset height
-    textarea.style.height = `${textarea.scrollHeight}px`; // Set new height
-  };
-
-  const handleChange = event => {
+  const handleChange = html => {
+    setEditorHtml(html);
     if (onChange) {
-      onChange(event);
+      // Create a synthetic event to mimic the real event so that the parent component can access the name and value
+      const syntheticEvent = {
+        target: {
+          name,
+          value: html,
+        },
+      };
+      onChange(syntheticEvent);
     }
-    adjustTextareaHeight();
   };
 
   return (
-    <textarea
-      ref={textareaRef}
-      value={value}
+    <ReactQuill
+      ref={quillRef}
+      value={editorHtml}
       onChange={handleChange}
-      className="textarea-auto"
+      className="quill-editor"
       {...rest}
     />
   );

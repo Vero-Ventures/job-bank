@@ -8,7 +8,7 @@ import jobPostingService from './jobPostingService';
 import { useCallback } from 'react';
 import Navbar from '@/components/ui/navbar';
 
-const MAX_PAGES = 999;
+const MAX_PAGES = Infinity;
 
 // Define your component
 export default function Home() {
@@ -50,6 +50,7 @@ export default function Home() {
       let jobPostingsArray = [];
 
       while (page <= MAX_PAGES) {
+        // while (true) is not allowed with eslint
         const apiURL = `${JOB_POSTING_API_URL}?page_num=${page}&email=${user.email}`;
         const response = await fetch(apiURL, {
           method: 'GET',
@@ -79,6 +80,9 @@ export default function Home() {
           console.error('Failed to fetch job postings:', response.statusText);
           break;
         }
+
+        //reverse the array to show the latest job postings first
+        jobPostingsArray = jobPostingsArray.reverse();
       }
 
       // Set the job postings array in state
