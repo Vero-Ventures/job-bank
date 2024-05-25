@@ -109,26 +109,10 @@ export default function JobDetail(job) {
                 <h5 className="text-base font-bold text-[#0b5394] dark:text-white">
                   Job Description
                 </h5>
-                <p className="text-gray-500 dark:text-gray-400">
-                  ## TO BE UPDATED
-                </p>
-              </div>
-              <div>
-                <h5 className="text-base font-bold text-[#0b5394] dark:text-white">
-                  Requirements
-                </h5>
-                <ul className="list-disc pl-4 text-gray-500 dark:text-gray-400">
-                  <li>## TO BE UPDATED</li>
-                </ul>
-              </div>
-              <div>
-                <h5 className="text-base font-bold text-[#0b5394] dark:text-white">
-                  Benefits
-                </h5>
-                <ul className="list-disc pl-4 text-gray-500 dark:text-gray-400">
-                  {jobDetail.benefits}
-                  <li>## TO BE UPDATED</li>
-                </ul>
+                <p
+                  className="text-gray-500 dark:text-gray-400"
+                  dangerouslySetInnerHTML={{ __html: jobDetail.description }}
+                />
               </div>
               <div>
                 <h5 className="text-base font-bold mb-1 text-[#0b5394] dark:text-white">
