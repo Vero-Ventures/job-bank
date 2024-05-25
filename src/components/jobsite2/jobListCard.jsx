@@ -24,12 +24,12 @@ export default function JobListCard({ item, onClick }) {
             {item.maxCompValue ? `to $${item.maxCompValue}` : ''} hourly
           </p>
           <button
-            className="text-sm p-3 font-bold titleCase text-[#0b5394] hidden sm:block dark:text-white"
+            className="text-sm pl-3 font-bold titleCase text-[#0b5394] hidden sm:block dark:text-white"
             onClick={() => onClick(item._id)}>
             View
           </button>
           <Link
-            className="text-sm p-3 font-bold titleCase text-[#0b5394] block sm:hidden dark:text-white"
+            className="text-sm pl-3 font-bold titleCase text-[#0b5394] block sm:hidden dark:text-white"
             href="/jobsite2/jobposting"
             as={`/jobsite2/jobposting/${item._id}`}>
             View
