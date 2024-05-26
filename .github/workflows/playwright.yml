@@ -16,6 +16,7 @@ jobs:
       - name: next build
         run: |
           npm ci
+          npm run dev
           next build &
           sleep 30
       - name: Install dependencies
