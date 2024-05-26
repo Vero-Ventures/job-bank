@@ -53,7 +53,7 @@ test('Login with registered email and incorrect password', async ({
   } catch (error) {
     console.log('Login with registered email and incorrect password failed');
   } finally {
-    await browser.close();
+    await context.close();
   }
 });
 
@@ -81,6 +81,6 @@ test('Login with unregistered email', async ({ browser }) => {
     console.log('Login with unregistered email failed');
     console.error(error);
   } finally {
-    await browser.close();
+    await context.close();
   }
 });
