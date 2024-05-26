@@ -4,7 +4,7 @@ import { defineConfig, devices } from '@playwright/test';
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
+require('dotenv').config();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -25,13 +25,12 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 
-  webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:3000/',
-    timeout: 40000,
-  },
+  // webServer: {
+  //   command: 'npm run dev',
+  //   url: 'http://localhost:3000/',
+  //   timeout: 40000,
+  // },
   use: {
-    baseURL: 'http://localhost:3000/',
     trace: 'on-first-retry',
   },
 
