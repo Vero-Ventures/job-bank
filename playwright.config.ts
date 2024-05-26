@@ -26,9 +26,9 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 
   webServer: {
-    command: 'yarn start',
+    command: 'npm run dev',
     url: 'http://localhost:3000/',
-    timeout: 120000,
+    timeout: 40000,
   },
   use: {
     baseURL: 'http://localhost:3000/',
