@@ -11,7 +11,6 @@ import { useEffect, useState } from 'react';
 
 export default function Home({ params }) {
   const JOBSITE_NAME = JOBSITE_INFO[params.jobsiteName].jobsiteName;
-  const JOBSITE_PATH = params.jobsiteName;
   const COLOUR_THEME = JOBSITE_INFO[params.jobsiteName].colours;
 
   const [postingID, setPostingID] = useState(null); //jobposting id that will be displayed
@@ -76,7 +75,6 @@ export default function Home({ params }) {
               <>
                 <JobLists
                   jobSiteName={JOBSITE_NAME}
-                  jobSitePath={JOBSITE_PATH}
                   colourTheme={COLOUR_THEME}
                   onClickJob={setPostingID}
                   page={page}
@@ -97,7 +95,6 @@ export default function Home({ params }) {
             <JobDetail
               colourTheme={COLOUR_THEME}
               postingID={postingID}
-              path={JOBSITE_PATH}
               jobSiteName={JOBSITE_NAME}></JobDetail>
           )}
         </div>

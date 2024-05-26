@@ -5,7 +5,6 @@ import { useCallback, useEffect, useState, useRef } from 'react';
 
 export default function JobLists({
   jobSiteName,
-  jobSitePath,
   colourTheme,
   onClickJob,
   page,
@@ -54,7 +53,6 @@ export default function JobLists({
             return (
               <JobListCard
                 key={item._id}
-                jobSitePath={jobSitePath}
                 colourTheme={colourTheme}
                 item={item}
                 onClick={onClickJob}></JobListCard>

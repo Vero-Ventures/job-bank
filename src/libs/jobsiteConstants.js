@@ -20,7 +20,7 @@ export const JOBTYPES = {
 };
 
 export const JOBSITE_INFO = {
-  indigenous: {
+  'job-bank-indigenous': {
     jobsiteName: 'indigenous',
     //colour theme : taupe
     colours: {
@@ -32,7 +32,7 @@ export const JOBSITE_INFO = {
       buttonText: 'text-white',
     },
   },
-  newcomers: {
+  'job-bank-newcomers': {
     jobsiteName: 'newcomers',
     //colour theme : blue
     colours: {
@@ -44,7 +44,7 @@ export const JOBSITE_INFO = {
       buttonText: 'text-white',
     },
   },
-  disabled: {
+  'job-bank-disabled': {
     jobsiteName: 'disabled',
     //colour theme : gray
     colours: {
@@ -57,7 +57,7 @@ export const JOBSITE_INFO = {
     },
   },
 
-  students: {
+  'job-bank-youth': {
     jobsiteName: 'students',
     //colour theme : green
     colours: {
@@ -70,7 +70,7 @@ export const JOBSITE_INFO = {
     },
   },
 
-  'asylum-refugees': {
+  'job-bank-asylum': {
     jobsiteName: 'asylum-refugees',
     //colour theme : teal
     colours: {

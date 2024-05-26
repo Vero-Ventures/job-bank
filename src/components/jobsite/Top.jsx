@@ -10,7 +10,7 @@ export default function Top({ name }) {
     <header className="flex items-center justify-between w-full md:p-5">
       <Link
         className={`flex items-center space-x-2 ${COULOUR_THEME.baseText} font-bold`}
-        href={`/${name.jobsiteName}`}>
+        href="/">
         <Image
           alt="Logo"
           className="h-12 w-12"
