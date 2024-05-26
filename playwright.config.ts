@@ -25,12 +25,12 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 
-  webServer: {
-    command: 'npm run dev',
-    url: 'http://127.0.0.1:3000/',
-    timeout: 120 * 1000,
-    reuseExistingServer: true,
-  },
+  // webServer: {
+  //   command: 'npm run dev',
+  //   url: 'http://127.0.0.1:3000/',
+  //   timeout: 120 * 1000,
+  //   reuseExistingServer: true,
+  // },
   use: {
     trace: 'on-first-retry',
   },
