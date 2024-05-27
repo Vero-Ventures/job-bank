@@ -1,3 +1,3 @@
 export const config = {
-  BASE_URL: 'http://localhost:3000',
+  BASE_URL: 'https://job-bank-admin.vercel.app/',
 };
