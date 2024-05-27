@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import DynamicTextarea from '@/components/ui/dynamicTextArea';
-import CheckboxGroup from './CheckboxGroup';
+import CheckboxGroup from '@/components/ui/checkboxGroup';
 
 const AddJobPostingForm = ({ onSubmit, email }) => {
   const [formData, setFormData] = useState({

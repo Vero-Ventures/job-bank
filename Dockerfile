@@ -1,11 +1,11 @@
 FROM node:alpine
 
-WORKDIR /src/server
+WORKDIR /job-bank
 
-COPY . /src/server/
+COPY . .
 
 RUN npm install
 
-RUN npm install -ws
+EXPOSE 3000
 
-CMD ["npm", "run", "-w", "services", "start"]
+CMD ["npm", "run", "dev"]
