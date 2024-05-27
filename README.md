@@ -73,6 +73,7 @@ Name: job-bank
 - stripe: Stripe library for server-side integration.
 - tailwind-merge: Utility library for merging Tailwind CSS classes.
 - tailwindcss-animate: Tailwind CSS plugin for animations.
+- node-cron: module for scheduling tasks
 
 **DevDependencies:**
 
