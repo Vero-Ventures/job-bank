@@ -43,7 +43,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/job-bank:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/job-bank:${{ github.sha }}
       # - name: Notify failure
       #   if: failure()
       #   uses: actions/github-script@v4
