@@ -35,12 +35,6 @@ export default async function middleware(req) {
     );
   }
 
-  if (subdomain === 'job-bank-admin') {
-    return NextResponse.rewrite(
-      new URL(`/${path === '/' ? '' : path}`, req.url)
-    );
-  }
-
   // Other rewrites or logic can be added here
   return NextResponse.next(); // Continue to next middleware or to the requested route if no rewrites
 }
