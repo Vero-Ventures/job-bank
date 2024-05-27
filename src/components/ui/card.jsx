@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import TrashButton from '@/components/ui/trashbutton';
-import CheckboxGroup from './CheckboxGroup';
+import CheckboxGroup from '@/components/ui/checkboxGroup';
 import { PencilIcon } from '@/components/icons';
 import { cn } from '@/libs/utils';
 import jobPostingService from '@/app/admin-panel/home/jobPostingService';

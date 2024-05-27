@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { connectMongoDB } from '@/libs/mongodb';
+import { isDynamicServerError } from 'next/dist/client/components/hooks-server-context';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
 
@@ -31,6 +32,11 @@ export async function GET(req) {
 
     return NextResponse.json({ jobPostings }, { status: 200 });
   } catch (error) {
+    // shouldn't catch nextjs errors
+    if (isDynamicServerError(error)) {
+      throw error;
+    }
+
     console.log('Error fetching job postings by ID:', error);
 
     // Check error status and return appropriate response
