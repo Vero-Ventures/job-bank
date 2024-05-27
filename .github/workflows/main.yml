@@ -1,9 +1,9 @@
 name: Format
 on:
   pull_request:
-    branches: [main]
+    branches: [main, devops/qa-testing]
   push:
-    branches: [main]
+    branches: [main, devops/qa-testing]
 
 jobs:
   format:
