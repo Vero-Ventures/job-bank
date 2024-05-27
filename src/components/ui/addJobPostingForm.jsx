@@ -299,4 +299,4 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
   );
 };
 
-export { AddJobPostingForm };
+export default AddJobPostingForm;

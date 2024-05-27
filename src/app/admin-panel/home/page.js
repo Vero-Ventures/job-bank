@@ -3,10 +3,16 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { AddJobPostingForm } from '@/components/ui/addJobPostingForm';
 import jobPostingService from './jobPostingService';
 import { useCallback } from 'react';
 import Navbar from '@/components/ui/navbar';
+import dynamic from 'next/dynamic';
+const AddJobPostingForm = dynamic(
+  () => import('@/components/ui/addJobPostingForm'),
+  {
+    ssr: false,
+  }
+);
 
 const MAX_PAGES = Infinity;
 
