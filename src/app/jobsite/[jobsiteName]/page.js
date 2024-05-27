@@ -50,7 +50,7 @@ export default function Home({ params }) {
 
   useEffect(() => {
     fetchTotalPages(setTotalPage, JOBSITE_NAME, filterValues);
-  }, [filterValues]);
+  }, [filterValues, JOBSITE_NAME]);
 
   return (
     <div
