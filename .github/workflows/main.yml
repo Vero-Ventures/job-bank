@@ -28,6 +28,21 @@ jobs:
           commit_message: Apply formatting changes
           branch: ${{ github.head_ref }}
 
+      - name: docker login
+        uses: actions/checkout@v3
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+          run: |
+            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+      - name: Build the docker image
+        run: |
+          docker build -t job-bank . --file Dockerfile --tag cassidyboilley099/job-bank:${{ github.sha }}
+
+      - name: Push the docker image
+        run: docker push cassidyboilley099/job-bank:${{ github.sha }}
       # - name: Notify failure
       #   if: failure()
       #   uses: actions/github-script@v4
