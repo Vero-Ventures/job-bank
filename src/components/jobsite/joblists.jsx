@@ -4,6 +4,8 @@ import JobListCard from './jobListCard';
 import { useCallback, useEffect, useState, useRef } from 'react';
 
 export default function JobLists({
+  jobSiteName,
+  colourTheme,
   onClickJob,
   page,
   sortByDate,
@@ -13,15 +15,13 @@ export default function JobLists({
   const [isLoading, setIsLoading] = useState(true);
   const hasSetInitialJob = useRef(false);
 
-  const JOBSITE_NAME = 'newcomers';
-
   /**
    * Fetch Jobposts list of page from database.
    */
   const getJobPostings = useCallback(async () => {
     setIsLoading(true);
     const jobpostings = await fetchJobPostList(
-      JOBSITE_NAME,
+      jobSiteName,
       page,
       sortByDate,
       filterValues
@@ -46,13 +46,14 @@ export default function JobLists({
 
   return (
     <div>
-      {isLoading && <Loading colour="blue" />}
+      {isLoading && <Loading />}
       {!isLoading && (
         <div className="space-y-8">
           {list.map(item => {
             return (
               <JobListCard
                 key={item._id}
+                colourTheme={colourTheme}
                 item={item}
                 onClick={onClickJob}></JobListCard>
             );

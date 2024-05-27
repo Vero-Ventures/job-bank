@@ -8,10 +8,10 @@ import {
   SelectContent,
   Select,
 } from '@/components/ui/select';
-import { PROVINCES, JOBTYPES } from '@/libs/filterValues';
+import { PROVINCES, JOBTYPES } from '@/libs/jobsiteConstants';
 import React, { useState } from 'react';
 
-export default function SearchBar({ onChangeFilter }) {
+export default function SearchBar({ colourTheme, onChangeFilter }) {
   const [selectedValue, setSelectedValue] = useState({});
 
   /**
@@ -45,24 +45,24 @@ export default function SearchBar({ onChangeFilter }) {
       <div className="flex items-center space-x-4">
         <div className="flex-1">
           <Input
-            className="w-full bg-[#f0f9ff] dark:bg-[#0f172a] dark:text-white"
+            className={`w-full ${colourTheme.background} dark:${colourTheme.backgroundDark} dark:text-white`}
             placeholder="Search jobs..."
           />
         </div>
         <Button
-          className="bg-[#0b5394] hover:bg-[#0a4480] text-white"
+          className={`${colourTheme.base} hover:${colourTheme.buttonHover} ${colourTheme.buttonText}`}
           variant="primary">
           Search
         </Button>
       </div>
       <div className="mt-4 space-y-2">
         <div className="flex items-center space-x-2">
-          <FilterIcon className="w-5 h-5 text-[#0b5394]" />
-          <span className="text-[#0b5394] font-medium">Filters</span>
+          <FilterIcon className={`w-5 h-5 ${colourTheme.baseText}`} />
+          <span className={`${colourTheme.baseText} font-medium`}>Filters</span>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           <Select
-            className="bg-[#f0f9ff] dark:bg-[#0f172a] dark:text-white"
+            className={`${colourTheme.background} dark:${colourTheme.backgroundDark} dark:text-white`}
             defaultValue="jobType"
             onValueChange={handleJobTypeChange}>
             <SelectTrigger>
@@ -82,7 +82,7 @@ export default function SearchBar({ onChangeFilter }) {
             </SelectContent>
           </Select>
           <Select
-            className="bg-[#f0f9ff] dark:bg-[#0f172a] dark:text-white"
+            className={`${colourTheme.background} dark:${colourTheme.backgroundDark} dark:text-white`}
             defaultValue="Loactions"
             onValueChange={handleLocationChange}>
             <SelectTrigger>
