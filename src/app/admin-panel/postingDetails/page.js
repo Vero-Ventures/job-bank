@@ -1,18 +1,25 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import jobPostingService from '../home/jobPostingService';
-import DynamicTextarea from '@/components/ui/dynamicTextArea';
 import CheckboxGroup from '@/components/ui/checkboxGroup';
+import dynamic from 'next/dynamic';
+const DynamicTextarea = dynamic(
+  () => import('@/components/ui/dynamicTextArea'),
+  {
+    ssr: false,
+  }
+);
 
 export default function DetailsPage() {
   const [jobPosting, setJobPosting] = useState({});
-  const jobPostingId = new URLSearchParams(window.location.search).get(
-    'job-posting-id'
-  );
+  const [jobPostingId, setJobPostingId] = useState(null);
 
   useEffect(() => {
     const fetchJobPosting = async () => {
       try {
+        setJobPostingId(
+          new URLSearchParams(window.location.search).get('job-posting-id')
+        );
         const response =
           await jobPostingService.getJobPostingDetails(jobPostingId);
         setJobPosting(response.jobPostings[0]);

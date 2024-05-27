@@ -2,13 +2,13 @@
 
 import { loadStripe } from '@stripe/stripe-js';
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 loadStripe(process.env.STRIPE_PUBLISHABLE_KEY);
 
-// TODO: Needs styling
-export default function PreviewPage() {
+function CheckoutButton() {
   const searchParams = useSearchParams();
 
   const paymentStatus = searchParams.get('paymentStatus');
@@ -21,7 +21,6 @@ export default function PreviewPage() {
       </>
     );
   }
-
   return (
     <form action="/api/stripe" method="POST">
       <section>
@@ -57,5 +56,14 @@ export default function PreviewPage() {
         `}
       </style>
     </form>
+  );
+}
+
+// TODO: Needs styling
+export default function PreviewPage() {
+  return (
+    <Suspense>
+      <CheckoutButton />
+    </Suspense>
   );
 }
