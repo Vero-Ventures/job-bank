@@ -17,14 +17,14 @@ export const config = {
 export default async function middleware(req) {
   const url = req.nextUrl;
 
-  // Get hostname of request (e.g. demo.vercel.pub, demo.localhost:3000)
+  // Get hostname of request (e.g. job-bank-youth.vercel.app, job-bank-youth.localhost:3000)
   let hostname = req.headers.get('host');
   // .replace('.localhost:3000', `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`);
   const domainParts = hostname.split('.');
   const subdomain = domainParts[0];
 
   const searchParams = req.nextUrl.searchParams.toString();
-  // Get the pathname of the request (e.g. /, /about, /blog/first-post)
+  // Get the pathname of the request (e.g. /, /pricing, /jobposting)
   const path = `${url.pathname}${
     searchParams.length > 0 ? `?${searchParams}` : ''
   }`;
