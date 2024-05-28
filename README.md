@@ -132,4 +132,7 @@ To install the project, clone the repository and run `npm install` to install al
 - There will be a need to add more qa tests for the app as the current coverage is only around 20%
 - The ACTIONS_TOKEN is bound to my PAT, a new token will need to be made. The same applies to the DOCKER_PASSWORD and DOCKER_USERNAME.
   To modify these go to the repo -> Settings -> Secrets and Variables -> Actions
+  ^^
+  This will require admin access to the repository
+
 - Testing is done through Playwright and Jest. Ideally tests should be made with Jest so that coverage can be done. However playwright is easier to use but doesn't currently have coverage reports.
