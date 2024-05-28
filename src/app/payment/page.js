@@ -16,7 +16,6 @@ loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 export default function PreviewPage() {
   const [user, setUser] = useState(null);
   const [jobPostings, setJobPostings] = useState([]);
-  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
 
   const links = [
@@ -80,15 +79,18 @@ export default function PreviewPage() {
       fetchJobPostings();
     }
   }, [user]);
+  const searchParams = useSearchParams();
 
   const paymentStatus = searchParams.get('paymentStatus');
 
   if (paymentStatus) {
     return (
-      <>
-        <h1>Payment Status</h1>
-        <p>Payment was successful: {paymentStatus}</p>
-      </>
+      <Suspense fallback={<div>Loading...</div>}>
+        <>
+          <h1>Payment Status</h1>
+          <p>Payment was successful: {paymentStatus}</p>
+        </>
+      </Suspense>
     );
   }
 
