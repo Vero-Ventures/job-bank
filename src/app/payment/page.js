@@ -13,7 +13,7 @@ import { Suspense } from 'react';
 // recreating the `Stripe` object on every render.
 loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
-export default function PreviewPage() {
+function Cart() {
   const [user, setUser] = useState(null);
   const [jobPostings, setJobPostings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -79,18 +79,16 @@ export default function PreviewPage() {
       fetchJobPostings();
     }
   }, [user]);
-  const searchParams = useSearchParams();
 
+  const searchParams = useSearchParams();
   const paymentStatus = searchParams.get('paymentStatus');
 
   if (paymentStatus) {
     return (
-      <Suspense fallback={<div>Loading...</div>}>
-        <>
-          <h1>Payment Status</h1>
-          <p>Payment was successful: {paymentStatus}</p>
-        </>
-      </Suspense>
+      <>
+        <h1>Payment Status</h1>
+        <p>Payment was successful: {paymentStatus}</p>
+      </>
     );
   }
 
@@ -105,94 +103,100 @@ export default function PreviewPage() {
   // };
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <section className="flex flex-col min-h-screen">
-        <Navbar links={links} />
-        <div className="flex-grow container mx-auto py-8 px-4 md:px-6">
-          <div className="bg-white rounded-lg shadow-md p-6 md:p-8">
-            <div className="flex items-center justify-between mb-6">
-              <h1 className="text-2xl font-bold">Shopping Cart</h1>
-              <div className="text-gray-500">1 item</div>
-            </div>
-            <div className="border-b border-gray-200 pb-4 mb-4">
-              <div className="grid grid-cols-5 gap-4 items-center">
-                <div className="col-span-3 flex items-center space-x-4">
-                  <div className="w-16 h-16 bg-gray-100 rounded-md" />
-                  <div>
-                    <h3 className="text-lg font-medium">Job Posting</h3>
-                    <p className="text-gray-500">
-                      6 Months, Cross-posting enabled
-                    </p>
-                  </div>
+    <section className="flex flex-col min-h-screen">
+      <Navbar links={links} />
+      <div className="flex-grow container mx-auto py-8 px-4 md:px-6">
+        <div className="bg-white rounded-lg shadow-md p-6 md:p-8">
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-2xl font-bold">Shopping Cart</h1>
+            <div className="text-gray-500">1 item</div>
+          </div>
+          <div className="border-b border-gray-200 pb-4 mb-4">
+            <div className="grid grid-cols-5 gap-4 items-center">
+              <div className="col-span-3 flex items-center space-x-4">
+                <div className="w-16 h-16 bg-gray-100 rounded-md" />
+                <div>
+                  <h3 className="text-lg font-medium">Job Posting</h3>
+                  <p className="text-gray-500">
+                    6 Months, Cross-posting enabled
+                  </p>
                 </div>
-                <div className="text-center">
-                  <div className="flex items-center justify-center space-x-2">
-                    {/* <button
+              </div>
+              <div className="text-center">
+                <div className="flex items-center justify-center space-x-2">
+                  {/* <button
                     className="text-gray-500 hover:text-gray-700"
                     onClick={decreaseQuantity}>
                     -
                   </button> */}
-                    <div>{loading ? 'Loading...' : jobPostings.length}</div>
-                    {/* <button
+                  <div>{loading ? 'Loading...' : jobPostings.length}</div>
+                  {/* <button
                     className="text-gray-500 hover:text-gray-700"
                     onClick={increaseQuantity}>
                     +
                   </button> */}
-                  </div>
                 </div>
-                <div className="text-right font-medium">$10</div>
               </div>
-            </div>
-            <div className="flex justify-between items-center">
-              <div className="text-gray-500">Subtotal</div>
-              <div className="font-medium">
-                {loading ? 'Loading...' : `$${jobPostings.length * 10}`}
-              </div>
-            </div>
-            <div className="flex justify-end mt-6">
-              {/* <button className="bg-gray-900 text-white px-6 py-3 rounded-md hover:bg-gray-800 transition-colors">
-            Proceed to Checkout
-          </button> */}
-              <form action="/api/stripe" method="POST">
-                <input type="hidden" name="amount" value={jobPostings.length} />
-                <section>
-                  <button type="submit" role="link">
-                    Checkout
-                  </button>
-                </section>
-                <style jsx>
-                  {`
-                    section {
-                      background: #ffffff;
-                      display: flex;
-                      flex-direction: column;
-                      width: 400px;
-                      height: 112px;
-                      border-radius: 6px;
-                      justify-content: space-between;
-                    }
-                    button {
-                      height: 36px;
-                      background: #556cd6;
-                      border-radius: 4px;
-                      color: white;
-                      border: 0;
-                      font-weight: 600;
-                      cursor: pointer;
-                      transition: all 0.2s ease;
-                      box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
-                    }
-                    button:hover {
-                      opacity: 0.8;
-                    }
-                  `}
-                </style>
-              </form>
+              <div className="text-right font-medium">$10</div>
             </div>
           </div>
+          <div className="flex justify-between items-center">
+            <div className="text-gray-500">Subtotal</div>
+            <div className="font-medium">
+              {loading ? 'Loading...' : `$${jobPostings.length * 10}`}
+            </div>
+          </div>
+          <div className="flex justify-end mt-6">
+            {/* <button className="bg-gray-900 text-white px-6 py-3 rounded-md hover:bg-gray-800 transition-colors">
+            Proceed to Checkout
+          </button> */}
+            <form action="/api/stripe" method="POST">
+              <input type="hidden" name="amount" value={jobPostings.length} />
+              <section>
+                <button type="submit" role="link">
+                  Checkout
+                </button>
+              </section>
+              <style jsx>
+                {`
+                  section {
+                    background: #ffffff;
+                    display: flex;
+                    flex-direction: column;
+                    width: 400px;
+                    height: 112px;
+                    border-radius: 6px;
+                    justify-content: space-between;
+                  }
+                  button {
+                    height: 36px;
+                    background: #556cd6;
+                    border-radius: 4px;
+                    color: white;
+                    border: 0;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+                  }
+                  button:hover {
+                    opacity: 0.8;
+                  }
+                `}
+              </style>
+            </form>
+          </div>
         </div>
-        <Footer />
-      </section>
+      </div>
+      <Footer />
+    </section>
+  );
+}
+
+export default function PreviewPage() {
+  return (
+    <Suspense>
+      <Cart />
     </Suspense>
   );
 }
