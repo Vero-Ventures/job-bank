@@ -2,14 +2,14 @@ import Top from '@/components/jobsite/Top';
 import Footer from '@/components/jobsite/Footer';
 
 export const metadata = {
-  title: 'New Comers Job Site',
+  title: 'Job Site',
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ params, children }) {
   return (
     <html lang="en">
       <body>
-        <Top />
+        <Top name={params} />
         {children}
         <Footer />
       </body>

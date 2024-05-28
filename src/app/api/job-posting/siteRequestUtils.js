@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { connectMongoDB } from '@/libs/mongodb';
+import { isDynamicServerError } from 'next/dist/client/components/hooks-server-context';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
 
@@ -81,6 +82,11 @@ export function getPaginationParams(req) {
 
 // Function to handle errors
 export function handleError(error) {
+  // shouldn't catch nextjs errors
+  if (isDynamicServerError(error)) {
+    throw error;
+  }
+
   console.error('Error fetching job postings:', error);
 
   // Check error status and return appropriate response

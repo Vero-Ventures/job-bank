@@ -14,11 +14,21 @@ function Footer() {
         </div>
         <div className="grid gap-1">
           <h3 className="font-semibold">Job Sites</h3>
-          <Link href="/jobsite1">Indigenous People</Link>
-          <Link href="/jobsite2">Newcomers</Link>
-          <Link href="/wip">Persons with Disabilities</Link>
-          <Link href="/wip">Vulnerable Youth</Link>
-          <Link href="/wip">Asylum-Refugees</Link>
+          <Link href="https://job-bank-indigenous.vercel.app" target="_blank">
+            Indigenous People
+          </Link>
+          <Link href="https://job-bank-newcomers.vercel.app" target="_blank">
+            Newcomers
+          </Link>
+          <Link href="https://job-bank-disabled.vercel.app" target="_blank">
+            Persons with Disabilities
+          </Link>
+          <Link href="https://job-bank-youth.vercel.app" target="_blank">
+            Vulnerable Youth
+          </Link>
+          <Link href="https://job-bank-asylum.vercel.app" target="_blank">
+            Asylum-Refugees
+          </Link>
         </div>
         <div className="grid gap-1">
           <h3 className="font-semibold">Legal</h3>
