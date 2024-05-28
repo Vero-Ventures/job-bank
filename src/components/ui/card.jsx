@@ -86,6 +86,21 @@ const Card = React.forwardRef(
         )}
         {...props}>
         <CardHeader>
+          <div className="flex flex-col items-end">
+            <div className="flex items-center space-x-1">
+              {posting.paid ? (
+                <>
+                  <span className="h-2 w-2 bg-green-500 rounded-full"></span>
+                  <span className="text-green-500">Active</span>
+                </>
+              ) : (
+                <>
+                  <span className="h-2 w-2 bg-yellow-500 rounded-full"></span>
+                  <span className="text-yellow-500">Pending</span>
+                </>
+              )}
+            </div>
+          </div>
           <CardTitle className="title-case">{posting.jobTitle}</CardTitle>
           <div className="flex space-x-2">
             <a
