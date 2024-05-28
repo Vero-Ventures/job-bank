@@ -338,7 +338,13 @@ export default function DetailsPage() {
           }}
           handleChange={handleChange}
         />
-        <div className="mt-10">
+        <div className="mt-10 flex space-x-4">
+          <button
+            type="button"
+            onClick={() => (window.location.href = '/admin-panel/home')}
+            className="block w-full rounded-md bg-gray-300 px-3.5 py-2.5 text-center text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400">
+            Back to Home
+          </button>
           <button
             type="submit"
             onClick={handleSubmit}
