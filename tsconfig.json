@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "strict": true,
+    "module": "commonjs",
+    "noEmit": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["@types/jest", "jest-playwright/preset", "expect-playwright"]
+  },
+  "include": ["src"],
+  "files": [
+    "node_modules/jest-playwright/types/global.d.ts",
+    "node_modules/expect-playwright/global.d.ts"
+  ]
+}
