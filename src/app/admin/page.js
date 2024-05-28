@@ -3,9 +3,38 @@
 import React, { useState, useEffect } from 'react';
 import emailHandler from './emailHandler';
 import { AdminPage } from '@/components/component/adminPage';
+import Navbar from '@/components/ui/navbar';
+import { useCallback } from 'react';
 
 export default function Home() {
   const [emails, setEmails] = useState([]);
+  const [user, setUser] = useState(null);
+
+  const links = [{ text: 'Logout', url: '/api/auth/logout' }];
+
+  const fetchUser = useCallback(async () => {
+    try {
+      const response = await fetch('/api/auth/me');
+      if (response.ok) {
+        const userData = await response.json();
+        setUser(userData);
+        console.log('User:', userData);
+        if (userData.data && userData.data.admin === true) {
+          console.log('User is admin');
+        } else {
+          console.log('User is not admin');
+          window.location.href = '/';
+        }
+      } else {
+        console.error('Failed to fetch user:', response.statusText);
+        window.location.href = '/';
+      }
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      //redirect to login page
+      window.location.href = '/';
+    }
+  }, []);
 
   // Function to fetch emails from an API endpoint
   const fetchEmails = async () => {
@@ -18,8 +47,12 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetchEmails();
+    fetchUser();
   }, []);
+
+  useEffect(() => {
+    fetchEmails();
+  }, [user]);
 
   const updateEmails = (emailObj, isAdd) => {
     if (isAdd) {
@@ -69,11 +102,14 @@ export default function Home() {
   };
 
   return (
-    <AdminPage
-      data={emails}
-      sendEmail={sendEmail}
-      massSendEmails={massSendEmails}
-      updateEmails={updateEmails}
-    />
+    <div>
+      <Navbar links={links} />
+      <AdminPage
+        data={emails}
+        sendEmail={sendEmail}
+        massSendEmails={massSendEmails}
+        updateEmails={updateEmails}
+      />
+    </div>
   );
 }
