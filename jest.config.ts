@@ -7,4 +7,9 @@ module.exports = {
   verbose: true,
   testTimeout: 40000,
   setupFilesAfterEnv: ['expect-playwright'],
+
+  collectCoverageFrom: ['./src/**'],
+  collectCoverage: true,
+  coverageDirectory: './coverage',
+  coverageReporters: ['html'],
 };

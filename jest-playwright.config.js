@@ -6,5 +6,4 @@ module.exports = {
     launchTimeout: 10000,
     debug: true,
   },
-  collectCoverage: true,
 };

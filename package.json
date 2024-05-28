@@ -10,7 +10,7 @@
     "prepare": "husky",
     "format": "eslint --fix . && prettier --write .",
     "jest": "jest e2e",
-    "coverage": "jest e2e --coverage"
+    "coverage": "jest --coverage"
   },
   "lint-staged": {
     "**/*": [
