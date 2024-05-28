@@ -20,7 +20,7 @@ export async function POST(req) {
         },
       ],
       mode: 'payment',
-      success_url: `${baseURL}/?paymentStatus=true`,
+      success_url: `${baseURL}/?paymentStatus=true`, // This needs to be changed because right now you can just change the URL to get your postings marked as active
       cancel_url: `${baseURL}/?paymentStatus=false`,
     });
 
