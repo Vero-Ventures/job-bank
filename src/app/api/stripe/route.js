@@ -7,13 +7,14 @@ export async function POST(req) {
   const baseURL = req.headers.get('referer');
 
   try {
+    const { amount } = await req.json();
     // Create Checkout Sessions from body params.
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
           // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
           price: process.env.NEXT_PUBLIC_STRIPE_JOB_POSTING_PRICE_ID,
-          quantity: 2,
+          quantity: amount,
         },
       ],
       mode: 'payment',
