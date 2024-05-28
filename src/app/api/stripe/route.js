@@ -3,11 +3,13 @@ const stripe = require('stripe')(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
 
 export async function POST(req) {
   // const { jobPostingsLength } = await req.json(); // Extract jobPostingsLength from the request body
-
   const baseURL = req.headers.get('referer');
 
+  // Parse the URL-encoded form data
+  const formData = await req.formData();
+  const amount = formData.get('amount');
+
   try {
-    const { amount } = await req.json();
     // Create Checkout Sessions from body params.
     const session = await stripe.checkout.sessions.create({
       line_items: [
