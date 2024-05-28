@@ -337,6 +337,7 @@ export default function DetailsPage() {
             site5: jobPosting.site5,
           }}
           handleChange={handleChange}
+          disabled={jobPosting.paid}
         />
         <div className="mt-10 flex space-x-4">
           <button
