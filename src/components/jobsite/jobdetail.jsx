@@ -9,8 +9,9 @@ import UserIcon from '@/components/icons/userIcon';
 import EmailIcon from '@/components/icons/emailIcon';
 import Loading from '@/components/ui/Loading';
 import Error from '@/components/jobsite/error';
+import Link from 'next/link';
 
-export default function JobDetail({ colourTheme, postingID }) {
+export default function JobDetail({ colourTheme, postingID, showJobPageBtn }) {
   const [jobDetail, setJobDetail] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [isExist, setIsExist] = useState(true); // whether given jobpost exists or not
@@ -56,6 +57,13 @@ export default function JobDetail({ colourTheme, postingID }) {
                 <div className="text-right text-sm text-gray-500 dark:text-gray-400 mt-1 lg:mt-0">
                   {jobDetail.datePosted}
                 </div>
+                {showJobPageBtn && (
+                  <Link
+                    className={`inline-flex h-9 items-center justify-center rounded-md ${colourTheme.base} px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:${colourTheme.buttonHover} focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50`}
+                    href={`/jobposting/${jobDetail._id}`}>
+                    Job Page
+                  </Link>
+                )}
               </div>
               <div className="grid text-sm md:grid-cols-2 gap-6">
                 <div className="space-y-4">

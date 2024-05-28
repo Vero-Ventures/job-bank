@@ -42,7 +42,7 @@ const sendEmail = async recipient => {
             <li><strong>Payment Plans:</strong> Choose from flexible payment plans that suit your budget and hiring needs.</li>
           </ul>
           <p>Ready to take your hiring to the next level? Sign up now via the link below and start reaching the talent you've been looking for!</p>
-          <p><a href="https://job-bank-mu.vercel.app/" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Sign Up Now</a></p>
+          <p><a href=${process.env.NEXT_PUBLIC_JOB_BANK_API_URL} style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Sign Up Now</a></p>
           <p>Don't miss out on the opportunity to find your next great hire effortlessly. Join us today and experience the power of our job panel!</p>
           <p>Best regards,</p>
          <p>The [Job Panel] Team</p>`,
