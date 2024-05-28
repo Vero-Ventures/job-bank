@@ -36,6 +36,11 @@ test('Create Job Posting', async ({ browser, page }) => {
 
   try {
     await login(page);
+
+    await page.waitForTimeout(2000);
+    await page.reload();
+    await page.waitForTimeout(2000);
+
     await page.getByRole('button', { name: 'Add New Job Posting' }).click();
     await page.waitForTimeout(2000);
 
@@ -76,7 +81,7 @@ test('Create Job Posting', async ({ browser, page }) => {
 
     await page
       .locator('div')
-      .filter({ hasText: new RegExp(`^${browserType} TestEditDelete$`) })
+      .filter({ hasText: new RegExp(`^Pending${browserType} TestEditDelete$`) })
       .getByRole('link')
       .click();
     await page.waitForTimeout(2000);
@@ -163,9 +168,13 @@ test('Edit Job Posting', async ({ browser, page }) => {
   try {
     await login(page);
 
+    await page.waitForTimeout(2000);
+    await page.reload();
+    await page.waitForTimeout(2000);
+
     await page
       .locator('div')
-      .filter({ hasText: new RegExp(`^${browserType} TestEditDelete$`) })
+      .filter({ hasText: new RegExp(`^Pending${browserType} TestEditDelete$`) })
       .getByRole('link')
       .click();
 
@@ -213,7 +222,7 @@ test('Edit Job Posting', async ({ browser, page }) => {
     await page
       .locator('div')
       .filter({
-        hasText: new RegExp(`^${browserType} Updated TestEditDelete$`),
+        hasText: new RegExp(`^Pending${browserType} Updated TestEditDelete$`),
       })
       .getByRole('link')
       .click();
@@ -291,12 +300,16 @@ test('Delete Job Posting', async ({ browser, page }) => {
   try {
     await login(page);
 
+    await page.waitForTimeout(2000);
+    await page.reload();
+    await page.waitForTimeout(2000);
+
     // Find the job to delete based on the browser type
     const jobTitle = `${browser.browserType().name()} Updated Test`;
 
     await page
       .locator('div')
-      .filter({ hasText: new RegExp(`^${jobTitle}EditDelete$`) })
+      .filter({ hasText: new RegExp(`^Pending${jobTitle}EditDelete$`) })
       .getByLabel('Delete job posting')
       .click();
 

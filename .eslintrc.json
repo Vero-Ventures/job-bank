@@ -8,7 +8,8 @@
     "*.css",
     "*.md",
     "Dockerfile",
-    "compose.yaml"
+    "compose.yaml",
+    "*.ts"
     // Add other file types you want to ignore
   ],
   "plugins": ["@next/eslint-plugin-next"],
