@@ -40,7 +40,8 @@ Name: job-bank
 ## Installation
 
 To install the project, clone the repository and run `npm install` to install all dependencies:
-**Notes:**  This is a React + Next.js project. Please follow these steps to run the project.
+**Notes:** This is a React + Next.js project. Please follow these steps to run the project.
+
 - Clone the repository (git clone https://github.com/your-username/job-bank.git). Navigate to root folder (cd job-bank)
 - Add the ‘ .env.local’ file to the project.
 - Run ‘npm install’ or ‘npm i’ to install dependencies/packages
