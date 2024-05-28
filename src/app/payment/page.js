@@ -149,11 +149,7 @@ export default function PreviewPage() {
             Proceed to Checkout
           </button> */}
             <form action="/api/stripe" method="POST">
-              <input
-                type="hidden"
-                name="amount"
-                value={JSON.stringify(jobPostings.length)}
-              />
+              <input type="hidden" name="amount" value={jobPostings.length} />
               <section>
                 <button type="submit" role="link">
                   Checkout
