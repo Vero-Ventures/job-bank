@@ -79,6 +79,7 @@ To install the project, clone the repository and run `npm install` to install al
 - `babel`: JavaScript compiler.
 - `babel-plugin-istanbul`: Babel plugin for code coverage.
 - `class-variance-authority`: Utility library for class variance.
+- `classnames`: Utility for conditionally combining class names
 - `clsx`: Library for conditionally joining classNames.
 - `dotenv`: Library for loading environment variables.
 - `lucide-react`: Library for Lucide icons.
