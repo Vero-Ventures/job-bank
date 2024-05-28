@@ -60,6 +60,39 @@ function Cart() {
         const res = await response.json();
         const unpaidPostings = res.jobPostings.filter(posting => !posting.paid);
         setJobPostings(unpaidPostings);
+
+        if (paymentStatus === 'true') {
+          const promises = unpaidPostings.map(async posting => {
+            const validThrough = new Date();
+            validThrough.setMonth(validThrough.getMonth() + 6);
+
+            const patchData = {
+              paid: true,
+              validThrough: validThrough.toISOString(),
+            };
+
+            const patchResponse = await fetch(
+              `/api/job-posting?job-posting-id=${posting._id}`,
+              {
+                method: 'PATCH',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(patchData),
+              }
+            );
+
+            if (patchResponse.ok) {
+              console.log(`Job posting ${posting._id} updated successfully`);
+            } else {
+              console.error(
+                `Failed to update job posting ${posting._id}:`,
+                patchResponse.statusText
+              );
+            }
+          });
+          await Promise.all(promises);
+        }
       } else {
         console.error('Failed to fetch job postings:', response.statusText);
       }
