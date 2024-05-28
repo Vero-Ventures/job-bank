@@ -8,6 +8,7 @@ import Footer from '@/components/ui/footer';
 import { useCallback } from 'react';
 import { useEffect } from 'react';
 import { Suspense } from 'react';
+import Link from 'next/link';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -116,12 +117,52 @@ function Cart() {
   const searchParams = useSearchParams();
   const paymentStatus = searchParams.get('paymentStatus');
 
-  if (paymentStatus) {
+  function CircleCheckIcon(props) {
     return (
-      <>
-        <h1>Payment Status</h1>
-        <p>Payment was successful: {paymentStatus}</p>
-      </>
+      <svg
+        {...props}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <path d="m9 12 2 2 4-4" />
+      </svg>
+    );
+  }
+
+  if (paymentStatus && paymentStatus === 'true') {
+    const links = [
+      { text: 'Home', url: '/admin-panel/home' },
+      { text: 'About', url: '/wip' },
+      { text: 'Logout', url: '/api/auth/logout' },
+    ];
+    return (
+      <div className="w-full h-full">
+        <Navbar links={links} />
+        <div className="flex min-h-screen w-full flex-col items-center justify-center bg-gray-100 px-4 dark:bg-gray-900">
+          <div className="max-w-md space-y-4 rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800">
+            <div className="flex flex-col items-center justify-center space-y-2">
+              <CircleCheckIcon className="h-16 w-16 text-green-500" />
+              <h2 className="text-2xl font-bold">Payment Successful</h2>
+              <p className="text-gray-500 dark:text-gray-400">
+                Your payment was processed successfully.
+              </p>
+            </div>
+            <Link
+              className="inline-flex h-10 w-full items-center justify-center rounded-md bg-gray-900 px-4 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
+              href="/admin-panel/home">
+              Return to Home
+            </Link>
+          </div>
+        </div>
+        <Footer />
+      </div>
     );
   }
 
