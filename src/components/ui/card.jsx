@@ -126,6 +126,7 @@ const Card = React.forwardRef(
             <CheckboxGroup
               formData={checkboxState}
               handleChange={handleChange}
+              postingPaid={posting.paid}
             />
           </div>
         </CardContent>
