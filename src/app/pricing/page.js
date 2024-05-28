@@ -8,13 +8,23 @@
 import Link from 'next/link';
 import Navbar from '@/components/ui/navbar';
 import Footer from '@/components/ui/footer';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 export default function Component() {
+  const { user, error } = useUser();
+
+  if (error) return <div>{error.message}</div>;
+
   const links = [
     { text: 'Home', url: '/' },
     { text: 'About', url: '/wip' },
-    { text: 'Login / Signup', url: '/api/auth/login' },
+    {
+      text: user ? 'Logout' : 'Login / Signup',
+      url: user ? '/api/auth/logout' : '/api/auth/login',
+    },
   ];
+
+  const linkHref = user ? '/payment' : '/api/auth/login?returnTo=/payment';
 
   return (
     <section className="w-full h-dvh">
@@ -43,7 +53,7 @@ export default function Component() {
                   <span className="text-gray-500">/position</span>
                 </div>
                 <Link
-                  href="/payment"
+                  href={linkHref}
                   className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gray-900 text-gray-50 hover:bg-gray-900/90 h-10 px-4 py-2 w-full">
                   Get Started
                 </Link>
