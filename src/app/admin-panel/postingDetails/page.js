@@ -83,7 +83,7 @@ export default function DetailsPage() {
 
   return (
     <div className="isolate bg-white px-2 py-2 sm:py-2 lg:px-2">
-      <form className="mx-auto mt-16 max-w-xl sm:mt-2">
+      <form className="mx-auto mt-16 max-w-4xl sm:mt-2 ">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
