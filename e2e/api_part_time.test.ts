@@ -1,4 +1,4 @@
-import { test, expect, APIRequestContext } from '@playwright/test';
+import { request, APIRequestContext } from '@playwright/test';
 import { config } from './config';
 
 const baseURL = `${config.BASE_URL}/api/job-posting`;
@@ -6,6 +6,7 @@ const baseURL = `${config.BASE_URL}/api/job-posting`;
 // Function to validate job properties
 const validateJobProperties = (job: any) => {
   expect(job).toHaveProperty('_id');
+  // Uncomment the properties you want to validate
   // expect(job).toHaveProperty('jobTitle');
   // expect(job).toHaveProperty('datePosted');
   // expect(job).toHaveProperty('hiringOrganization');
@@ -49,15 +50,14 @@ const testEndpoint = async (context: APIRequestContext, endpoint: string) => {
   }
 };
 
-// Test for each endpoint
-test.describe('API Job Postings', () => {
+describe('API Job Postings', () => {
   let context: APIRequestContext;
 
-  test.beforeAll(async ({ playwright }) => {
-    context = await playwright.request.newContext();
+  beforeAll(async () => {
+    context = await request.newContext();
   });
 
-  test.afterAll(async () => {
+  afterAll(async () => {
     await context.dispose();
   });
 
