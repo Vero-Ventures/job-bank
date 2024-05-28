@@ -40,10 +40,17 @@ Name: job-bank
 ## Installation
 
 To install the project, clone the repository and run `npm install` to install all dependencies:
+**Notes:** This is a React + Next.js project. Please follow these steps to run the project.
 
-- git clone https://github.com/your-username/job-bank.git
-- cd job-bank
-- npm install
+- Clone the repository (git clone https://github.com/your-username/job-bank.git). Navigate to root folder (cd job-bank)
+- Add the ‘ .env.local’ file to the project.
+- Run ‘npm install’ or ‘npm i’ to install dependencies/packages
+- Run ‘npm run dev’ to see changes in the local development environment
+- To apply EsLint and Prettier before committing, run > npm install or > npm i.
+- Make sure to follow the linting rules defined in .eslintrc and .prettierrc.
+- Environment variables are loaded using dotenv.
+- Run ‘npm run build’ before merging to main to ensure there are no build errors before deployment
+- Git commits trigger linting and formatting checks before being committed due to Husky and lint-staged configurations.
 
 **Scripts:**
 
@@ -116,14 +123,6 @@ To install the project, clone the repository and run `npm install` to install al
 - `tailwindcss`: Utility-first CSS framework.
 - `ts-jest`: TypeScript preprocessor with source map support for Jest.
 - `typescript`: TypeScript language.
-
-**Notes:**
-
-- Use [npm run dev] to start the development server.
-- To apply EsLint and Prettier before committing, make sure to run > npm install or > npm i.
-- Make sure to follow the linting rules defined in .eslintrc and .prettierrc.
-- Environment variables are loaded using dotenv.
-- Git commits trigger linting and formatting checks before being committed due to Husky and lint-staged configurations.
 
 **DevOps Notes**
 
