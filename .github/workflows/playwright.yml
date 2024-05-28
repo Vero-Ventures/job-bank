@@ -31,7 +31,7 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
-      - name: Run the tests
+      - name: Create coverage report
         run: npm jest --coverage
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
