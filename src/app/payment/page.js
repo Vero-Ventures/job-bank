@@ -90,28 +90,6 @@ export default function PreviewPage() {
     );
   }
 
-  // const handleCheckout = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     const response = await fetch('/api/stripe', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ jobPostingsLength: jobPostings.length }), // Pass jobPostings length here
-  //     });
-
-  //     if (response.ok) {
-  //       const { url } = await response.json();
-  //       window.location.href = url;
-  //     } else {
-  //       console.error('Failed to initiate checkout:', response.statusText);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error initiating checkout:', error);
-  //   }
-  // };
-
   // const increaseQuantity = () => {
   //   setQuantity(quantity + 1);
   // };
@@ -171,6 +149,11 @@ export default function PreviewPage() {
             Proceed to Checkout
           </button> */}
             <form action="/api/stripe" method="POST">
+              <input
+                type="hidden"
+                name="amount"
+                value={JSON.stringify(jobPostings.length)}
+              />
               <section>
                 <button type="submit" role="link">
                   Checkout
