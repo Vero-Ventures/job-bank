@@ -102,7 +102,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchUser();
-  }, []); // Fetch job postings when the component mounts
+  }, [fetchUser]); // Fetch job postings when the component mounts
 
   useEffect(() => {
     if (user) {

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-export default new mongoose.Schema({
+const posting = new mongoose.Schema({
   jobTitle: String,
   datePosted: String,
   hiringOrganization: String,
@@ -29,3 +29,5 @@ export default new mongoose.Schema({
   site4: Boolean,
   site5: Boolean,
 });
+
+export default posting;
