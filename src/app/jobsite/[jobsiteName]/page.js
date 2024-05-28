@@ -95,7 +95,8 @@ export default function Home({ params }) {
             <JobDetail
               colourTheme={COLOUR_THEME}
               postingID={postingID}
-              jobSiteName={JOBSITE_NAME}></JobDetail>
+              jobSiteName={JOBSITE_NAME}
+              showJobPageBtn={true}></JobDetail>
           )}
         </div>
       </div>
