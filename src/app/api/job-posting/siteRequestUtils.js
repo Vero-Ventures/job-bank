@@ -1,19 +1,31 @@
 import { NextResponse } from 'next/server';
 import { connectMongoDB } from '@/libs/mongodb';
+import { isDynamicServerError } from 'next/dist/client/components/hooks-server-context';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
 
+// Sort type map to sort job postings by date
+const sortTypeMap = {
+  d: -1,
+  a: 1,
+};
+
+// Employment sub-type map to filter job postings by employment sub-type
 const employmentSubTypeMap = {
   ft: 'Full time',
   pt: 'Part time',
 };
 
 // Function to get the total number of job postings
-export async function getTotalNumberOfPostings(siteCriteria) {
+export async function getTotalNumberOfPostings(siteCriteria, filterCriteria) {
   await connectMongoDB();
 
   const Posting = mongoose.models.posting || mongoose.model('posting', posting);
-  const totalNumberOfPostings = await Posting.countDocuments(siteCriteria);
+  const filterObject = await createFilterObject(filterCriteria);
+  const totalNumberOfPostings = await Posting.countDocuments({
+    ...siteCriteria,
+    ...filterObject,
+  });
 
   return totalNumberOfPostings;
 }
@@ -70,6 +82,11 @@ export function getPaginationParams(req) {
 
 // Function to handle errors
 export function handleError(error) {
+  // shouldn't catch nextjs errors
+  if (isDynamicServerError(error)) {
+    throw error;
+  }
+
   console.error('Error fetching job postings:', error);
 
   // Check error status and return appropriate response
@@ -99,26 +116,26 @@ export async function fetchJobPostings(
   await connectMongoDB();
 
   const Posting = mongoose.models.posting || mongoose.model('posting', posting);
+  const filterObject = await createFilterObject(filterCriteria);
 
-  const filterObject = filterCriteria.reduce((acc, filter) => {
-    // Check if the key already exists in the accumulator
-    if (Object.prototype.hasOwnProperty.call(acc, Object.keys(filter)[0])) {
-      // If the key exists, push the value to an array
-      acc[Object.keys(filter)[0]].push(Object.values(filter)[0]);
-    } else {
-      // If the key doesn't exist, initialize it as an array with the value
-      acc[Object.keys(filter)[0]] = [Object.values(filter)[0]];
-    }
-    return acc;
-  }, {});
+  let query = Posting.find({ ...siteCriteria, ...filterObject });
 
-  // Query job postings with pagination
-  const jobPostings = await Posting.find({ ...siteCriteria, ...filterObject })
-    .sort(sortCriteria)
-    .skip(skip)
-    .limit(pageSize);
+  // Check if sortCriteria is defined and sort by it, ensuring to include _id for uniqueness
+  if (sortCriteria && sortCriteria.datePosted !== undefined) {
+    // Ensure sortCriteria includes _id to maintain unique ordering
+    sortCriteria._id = 1;
+    query = query.sort(sortCriteria);
+  } else {
+    // Default sort by _id if no sortCriteria is provided
+    query = query.sort({ _id: 1 });
+  }
 
-  return jobPostings;
+  // Apply skip and limit for pagination
+  query = query.skip(skip).limit(pageSize);
+
+  // Execute the query and return the results
+  const documents = await query.exec();
+  return documents;
 }
 
 // Function to check if the requested field exists in the schema
@@ -133,7 +150,11 @@ export async function checkFieldExist(requestedObject) {
 
 // Function to parse sort criteria
 export async function parseSortCriteria(sortBy) {
-  return sortBy ? JSON.parse(sortBy) : null;
+  const sortCriteria = {
+    datePosted: sortTypeMap[sortBy],
+  };
+
+  return sortCriteria;
 }
 
 // Function to parse filter criteria
@@ -145,4 +166,19 @@ export async function parseFilterCriteria(etFilters, pFilters) {
   const pFilterCriteria = pFilters.map(p => ({ addressRegion: p }));
 
   return [...etFilterCriteria, ...pFilterCriteria];
+}
+
+// Function to create a filter object
+export async function createFilterObject(filterCriteria) {
+  return filterCriteria.reduce((acc, filter) => {
+    // Check if the key already exists in the accumulator
+    if (Object.prototype.hasOwnProperty.call(acc, Object.keys(filter)[0])) {
+      // If the key exists, push the value to an array
+      acc[Object.keys(filter)[0]].push(Object.values(filter)[0]);
+    } else {
+      // If the key doesn't exist, initialize it as an array with the value
+      acc[Object.keys(filter)[0]] = [Object.values(filter)[0]];
+    }
+    return acc;
+  }, {});
 }

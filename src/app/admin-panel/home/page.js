@@ -3,10 +3,18 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { AddJobPostingForm } from '@/components/ui/addJobPostingForm';
 import jobPostingService from './jobPostingService';
 import { useCallback } from 'react';
 import Navbar from '@/components/ui/navbar';
+import dynamic from 'next/dynamic';
+const AddJobPostingForm = dynamic(
+  () => import('@/components/ui/addJobPostingForm'),
+  {
+    ssr: false,
+  }
+);
+
+const MAX_PAGES = Infinity;
 
 // Define your component
 export default function Home() {
@@ -41,41 +49,66 @@ export default function Home() {
   }, []);
   const [showForm, setShowForm] = useState(false);
 
-  // Function to fetch job postings from the API
   const fetchJobPostings = useCallback(async () => {
     try {
       setLoading(true);
-      const sortCriteria = JSON.stringify({ _id: -1 });
-      const apiURL = `${JOB_POSTING_API_URL}?email=${user.email}&sort=${sortCriteria}`;
-      const response = await fetch(apiURL, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      let page = 1;
+      let jobPostingsArray = [];
 
-      if (response.ok) {
-        const res = await response.json();
-        setJobPostings(res.jobPostings);
-      } else {
-        console.error('Failed to fetch job postings:', response.statusText);
+      while (page <= MAX_PAGES) {
+        // while (true) is not allowed with eslint
+        const apiURL = `${JOB_POSTING_API_URL}?page_num=${page}&email=${user.email}`;
+        const response = await fetch(apiURL, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          if (response.status === 204) {
+            // If the API returns no content status, break the loop
+            break;
+          }
+
+          const res = await response.json();
+          const jobPostings = res.jobPostings;
+
+          if (jobPostings.length === 0) {
+            // If no job postings found, break the loop
+            break;
+          } else {
+            // Add the fetched job postings to the array
+            jobPostingsArray = [...jobPostingsArray, ...jobPostings];
+            page++; // Increment the page number for the next request
+          }
+        } else {
+          console.error('Failed to fetch job postings:', response.statusText);
+          break;
+        }
+
+        //reverse the array to show the latest job postings first
+        jobPostingsArray = jobPostingsArray.reverse();
       }
+
+      // Set the job postings array in state
+      setJobPostings(jobPostingsArray);
     } catch (error) {
       console.error('Error fetching job postings:', error);
     } finally {
       setLoading(false);
     }
-  }, [user]);
+  }, [user, JOB_POSTING_API_URL]);
 
   useEffect(() => {
     fetchUser();
-  }, []); // Fetch job postings when the component mounts
+  }, [fetchUser]); // Fetch job postings when the component mounts
 
   useEffect(() => {
     if (user) {
       fetchJobPostings();
     }
-  }, [user]);
+  }, [user, fetchJobPostings]);
 
   // Function to handle deletion of job posting
   const handleDelete = async jobPostingId => {
@@ -144,11 +177,15 @@ export default function Home() {
       {/* Render the form as a modal */}
       {showForm && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-white p-8 rounded shadow-lg max-h-[80vh] overflow-y-auto">
-            <AddJobPostingForm onSubmit={handleFormSubmit} email={user.email} />
-            <button
+          <div className="bg-white p-2 rounded shadow-lg max-h-[90vh] w-full max-w-4xl overflow-y-auto">
+            <AddJobPostingForm
+              onSubmit={handleFormSubmit}
+              email={user.email}
+              onClose={() => setShowForm(false)}
+            />
+            {/* <button
               className="close-icon absolute top-0 right-0 p-2 text-gray-500 hover:text-gray-700"
-              onClick={() => setShowForm(false)}></button>
+              onClick={() => setShowForm(false)}></button> */}
           </div>
         </div>
       )}
