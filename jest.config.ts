@@ -1,6 +1,6 @@
 module.exports = {
   preset: 'jest-playwright-preset',
-  testMatch: ['**/e2e/*.test.ts'],
+  testMatch: ['**/e2e/*.jest.ts'],
   transform: {
     '^.+\\.ts$': 'ts-jest',
   },
