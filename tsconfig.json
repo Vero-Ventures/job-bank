@@ -9,11 +9,27 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["@types/jest", "jest-playwright/preset", "expect-playwright"]
+    "types": [
+      "@types/jest",
+      "jest-playwright/preset",
+      "expect-playwright",
+      "@types/node"
+    ],
+    "skipLibCheck": true,
+    "incremental": true,
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["src"],
+  "include": ["src", ".next/types/**/*.ts"],
   "files": [
     "node_modules/jest-playwright/types/global.d.ts",
     "node_modules/expect-playwright/global.d.ts"
-  ]
+  ],
+  "exclude": ["node_modules"]
 }
