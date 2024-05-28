@@ -171,6 +171,12 @@ const scrapeJobs = async browser => {
           language: 'English',
           datePosted: datePosted,
           validThrough: validThrough,
+          paid: true,
+          site1: true,
+          site2: true,
+          site3: true,
+          site4: true,
+          site5: true,
         };
       });
 
