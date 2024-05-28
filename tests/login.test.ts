@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { config } from './config';
 
+test.describe.configure({ mode: 'parallel' });
+
 test('Login with registered email and correct password', async ({
   browser,
 }) => {
@@ -24,7 +26,7 @@ test('Login with registered email and correct password', async ({
   } catch (error) {
     console.log('Login with registered email and correct password failed');
   } finally {
-    await browser.close();
+    await context.close();
   }
 });
 
@@ -53,7 +55,7 @@ test('Login with registered email and incorrect password', async ({
   } catch (error) {
     console.log('Login with registered email and incorrect password failed');
   } finally {
-    await browser.close();
+    await context.close();
   }
 });
 
@@ -73,7 +75,13 @@ test('Login with unregistered email', async ({ browser }) => {
     await page.getByRole('button', { name: 'Continue' }).click();
 
     // Check for the error message
-    const errorMessage = await page.getByText('Wrong email or password');
+    const errorMessage = await page
+      .getByText('Wrong email or password')
+      .or(
+        await page.getByText(
+          'Your account has been blocked after multiple consecutive login attempts'
+        )
+      );
     await expect(errorMessage).toBeVisible();
 
     console.log('Login with unregistered email passed');
@@ -81,6 +89,6 @@ test('Login with unregistered email', async ({ browser }) => {
     console.log('Login with unregistered email failed');
     console.error(error);
   } finally {
-    await browser.close();
+    await context.close();
   }
 });

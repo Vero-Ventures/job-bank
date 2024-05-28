@@ -1,9 +1,9 @@
 name: Format
 on:
   pull_request:
-    branches: [main]
+    branches: [main, devops/qa-testing]
   push:
-    branches: [main]
+    branches: [main, devops/qa-testing]
 
 jobs:
   format:
@@ -28,6 +28,22 @@ jobs:
           commit_message: Apply formatting changes
           branch: ${{ github.head_ref }}
 
+      - name: Login to Docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/job-bank:${{ github.sha }}
       # - name: Notify failure
       #   if: failure()
       #   uses: actions/github-script@v4
