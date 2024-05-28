@@ -31,6 +31,13 @@ export default function Home() {
       if (response.ok) {
         const userData = await response.json();
         setUser(userData);
+        console.log('User:', userData);
+        if (userData.data && userData.data.admin === true) {
+          console.log('User is admin');
+          window.location.href = '/admin';
+        } else {
+          console.log('User is not admin');
+        }
       } else {
         console.error('Failed to fetch user:', response.statusText);
         window.location.href = '/';
