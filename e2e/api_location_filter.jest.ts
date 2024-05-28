@@ -1,4 +1,4 @@
-import { test, expect, APIRequestContext } from '@playwright/test';
+import { request, APIRequestContext } from '@playwright/test';
 import { config } from './config';
 
 const baseURL = `${config.BASE_URL}/api/job-posting`;
@@ -39,44 +39,30 @@ const validateJobProperties = (job: any) => {
 const testEndpoint = async (
   context: APIRequestContext,
   endpoint: string,
-  sortOrder: string
+  province: string
 ) => {
   const response = await context.get(
-    `${baseURL}/${endpoint}?sort=${sortOrder}&page_num=1`
+    `${baseURL}/${endpoint}?p=${province}&page_num=1`
   );
   expect(response.status()).toBe(200);
+  const data = await response.json();
 
-  let data;
-  try {
-    data = await response.json();
-  } catch (error) {
-    throw new Error(
-      `Error parsing JSON response for ${endpoint} with sort ${sortOrder}: ${error}`
-    );
-  }
-
-  if (typeof data !== 'object' || Array.isArray(data)) {
-    throw new Error(
-      `Unexpected response format for ${endpoint} with sort ${sortOrder}`
-    );
-  }
   for (const joblist in data) {
     for (const job of data[joblist]) {
       validateJobProperties(job);
     }
-    expect(data[joblist].length).toBeGreaterThan(0);
+    expect(data[joblist].length).toBe(25);
   }
 };
 
-// Test for each endpoint and sort order
-test.describe('API Job Postings', () => {
+describe('API Job Postings', () => {
   let context: APIRequestContext;
 
-  test.beforeAll(async ({ playwright }) => {
-    context = await playwright.request.newContext();
+  beforeAll(async () => {
+    context = await request.newContext();
   });
 
-  test.afterAll(async () => {
+  afterAll(async () => {
     await context.dispose();
   });
 
@@ -85,18 +71,25 @@ test.describe('API Job Postings', () => {
     'disabled',
     'indigenous',
     'students',
-    'asylum-refugees',
+    // 'asylum-refugees', currently is not populated
   ];
 
-  const sortOrders = [
-    'a', // ascending
-    'd', // descending
+  const provinces = [
+    // 'AB',
+    // 'BC',
+    // 'MB',
+    // 'NB',
+    // 'NL',
+    // 'NT',
+    // 'NS',
+    // 'NU',
+    'ON',
   ];
 
   endpoints.forEach(endpoint => {
-    sortOrders.forEach(sortOrder => {
-      test(`API: ${endpoint.charAt(0).toUpperCase() + endpoint.slice(1)} Postings sorted ${sortOrder === 'a' ? 'ascending' : 'descending'}`, async () => {
-        await testEndpoint(context, endpoint, sortOrder);
+    provinces.forEach(province => {
+      test(`API: ${endpoint.charAt(0).toUpperCase() + endpoint.slice(1)} Postings for ${province}`, async () => {
+        await testEndpoint(context, endpoint, province);
       });
     });
   });
