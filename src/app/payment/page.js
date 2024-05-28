@@ -58,7 +58,8 @@ export default function PreviewPage() {
 
       if (response.ok) {
         const res = await response.json();
-        setJobPostings(res.jobPostings);
+        const unpaidPostings = res.jobPostings.filter(posting => !posting.paid);
+        setJobPostings(unpaidPostings);
       } else {
         console.error('Failed to fetch job postings:', response.statusText);
       }
