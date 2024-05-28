@@ -72,7 +72,7 @@ test.describe('API Job Postings', () => {
     'disabled',
     'indigenous',
     'students',
-    // 'asylum-refugees',
+    // 'asylum-refugees', currently is not populated
   ];
 
   const provinces = [
