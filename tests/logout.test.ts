@@ -22,6 +22,6 @@ test('Logout after login', async ({ browser }) => {
     console.log('Logout failed');
     console.error(error);
   } finally {
-    await browser.close();
+    await context.close();
   }
 });
