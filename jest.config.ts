@@ -11,5 +11,5 @@ module.exports = {
   collectCoverageFrom: ['./src/**'],
   collectCoverage: true,
   coverageDirectory: './coverage',
-  coverageReporters: ['html'],
+  coverageReporters: ['html', 'text', 'lcov'],
 };
