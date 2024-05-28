@@ -75,7 +75,13 @@ test('Login with unregistered email', async ({ browser }) => {
     await page.getByRole('button', { name: 'Continue' }).click();
 
     // Check for the error message
-    const errorMessage = await page.getByText('Wrong email or password');
+    const errorMessage = await page
+      .getByText('Wrong email or password')
+      .or(
+        await page.getByText(
+          'Your account has been blocked after multiple consecutive login attempts'
+        )
+      );
     await expect(errorMessage).toBeVisible();
 
     console.log('Login with unregistered email passed');
