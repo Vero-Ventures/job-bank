@@ -127,9 +127,8 @@ To install the project, clone the repository and run `npm install` to install al
 
 **DevOps Notes**
 
-- Currently coverage reports aren't properly being uploaded to CodeCov
 - In the main.yaml, the Docker Image is currently being uploaded to a personal Docker Hub repo (Account name is cassidyboilley099 and repo is job-bank)
-- There will be a need to add more qa tests for the app as the current coverage is only around 20%
+- There will be a need to add more qa tests for the app as the current coverage sits around 0% as jest doesnt consider e2e testing.
 - The ACTIONS_TOKEN is currently my PAT, a new token will need to be made. The same applies to the DOCKER_PASSWORD and DOCKER_USERNAME.
   To modify these go to the repo -> Settings -> Secrets and Variables -> Actions
   ^^
