@@ -124,15 +124,10 @@ export async function fetchJobPostings(
   if (sortCriteria && sortCriteria.datePosted !== undefined) {
     query = query.sort(sortCriteria);
   }
-  query = query.skip(skip);
-
+  query = query.limit(pageSize).skip(skip);
   const documents = await query.exec();
 
-  // Split the process and used slice instead of chaining with .limit() to avoid sorted order bug
-  // Todo: Investigate the bug and fix it
-  const paginatedDocuments = documents.slice(0, pageSize);
-
-  return paginatedDocuments;
+  return documents;
 }
 
 // Function to check if the requested field exists in the schema
