@@ -83,7 +83,17 @@ export default function DetailsPage() {
 
   return (
     <div className="isolate bg-white px-2 py-2 sm:py-2 lg:px-2">
-      <form className="mx-auto mt-16 max-w-xl sm:mt-2">
+      <form className="mx-auto mt-16 max-w-4xl sm:mt-2 ">
+        <div className="flex items-center">
+          <label className="text-sm font-semibold leading-6 text-gray-900 mr-2">
+            Posting Status:
+          </label>
+          <span
+            className={`text-sm font-semibold ${jobPosting.paid ? 'text-green-500' : 'text-yellow-500'}`}>
+            {jobPosting.paid ? 'Active' : 'Pending'}
+          </span>
+        </div>
+
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
@@ -328,7 +338,13 @@ export default function DetailsPage() {
           }}
           handleChange={handleChange}
         />
-        <div className="mt-10">
+        <div className="mt-10 flex space-x-4">
+          <button
+            type="button"
+            onClick={() => (window.location.href = '/admin-panel/home')}
+            className="block w-full rounded-md bg-gray-300 px-3.5 py-2.5 text-center text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400">
+            Back to Home
+          </button>
           <button
             type="submit"
             onClick={handleSubmit}
