@@ -1,14 +1,15 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import emailHandler from './emailHandler';
 import { AdminPage } from '@/components/component/adminPage';
 import Navbar from '@/components/ui/navbar';
-import { useCallback } from 'react';
 
 export default function Home() {
   const [emails, setEmails] = useState([]);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [unauthorized, setUnauthorized] = useState(false);
 
   const links = [{ text: 'Logout', url: '/api/auth/logout' }];
 
@@ -17,26 +18,34 @@ export default function Home() {
       const response = await fetch('/api/auth/me');
       if (response.ok) {
         const userData = await response.json();
-        setUser(userData);
-        console.log('User:', userData);
         if (userData.data && userData.data.admin === true) {
+          setUser(userData);
           console.log('User is admin');
         } else {
           console.log('User is not admin');
-          window.location.href = '/';
+          setUnauthorized(true);
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 3000); // Redirect after 3 seconds
         }
       } else {
         console.error('Failed to fetch user:', response.statusText);
-        window.location.href = '/';
+        setUnauthorized(true);
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 3000); // Redirect after 3 seconds
       }
     } catch (error) {
       console.error('Error fetching user:', error);
-      //redirect to login page
-      window.location.href = '/';
+      setUnauthorized(true);
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 3000); // Redirect after 3 seconds
+    } finally {
+      setLoading(false);
     }
   }, []);
 
-  // Function to fetch emails from an API endpoint
   const fetchEmails = async () => {
     try {
       const data = await emailHandler.getContactStat();
@@ -48,22 +57,21 @@ export default function Home() {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [fetchUser]);
 
   useEffect(() => {
-    fetchEmails();
+    if (user) {
+      fetchEmails();
+    }
   }, [user]);
 
   const updateEmails = (emailObj, isAdd) => {
     if (isAdd) {
-      // Add the email to the existing emails
       setEmails(prevEmails => [...prevEmails, emailObj]);
     } else if (!isAdd) {
-      // Filter out the email to remove
       const updatedEmails = emails.filter(
         existingEmail => existingEmail.email !== emailObj.email
       );
-      // Update the data state with the filtered emails
       setEmails(updatedEmails);
     }
   };
@@ -75,7 +83,6 @@ export default function Home() {
       console.error('Error sending email:', error);
     }
 
-    // Update the status of the email in the emails state
     setEmails(prevEmails =>
       prevEmails.map(emailObj =>
         emailObj.email === recipient ? { ...emailObj, sent: true } : emailObj
@@ -95,13 +102,31 @@ export default function Home() {
           emailSent++;
         }
       }
-      alert(`${emailSent} emails has been sent.`);
+      alert(`${emailSent} emails have been sent.`);
     } catch (error) {
       console.error('Error sending emails:', error);
     }
   };
 
-  return (
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-xl">Loading...</div>
+      </div>
+    );
+  }
+
+  if (unauthorized) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-xl text-red-600">
+          You do not have access to this page. Redirecting...
+        </div>
+      </div>
+    );
+  }
+
+  return user ? (
     <div>
       <Navbar links={links} />
       <AdminPage
@@ -111,5 +136,5 @@ export default function Home() {
         updateEmails={updateEmails}
       />
     </div>
-  );
+  ) : null;
 }
