@@ -1,0 +1,6 @@
+name: job-bank
+
+services:
+  job-bank:
+    ports:
+      - 3000:3000

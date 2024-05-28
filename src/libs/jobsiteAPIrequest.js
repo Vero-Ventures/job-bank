@@ -1,4 +1,4 @@
-import { JOBTYPES, PROVINCES } from './filterValues';
+import { JOBTYPES, PROVINCES } from './jobsiteConstants';
 const API_URL = '/api/job-posting/';
 const TOTAL_POSTINGS_PER_PAGE = 25;
 
