@@ -37,6 +37,14 @@ Currently, job postings are often restricted to individual platforms, limiting e
 **Project Overview:**
 Name: job-bank
 
+## Installation
+
+To install the project, clone the repository and run `npm install` to install all dependencies:
+
+- git clone https://github.com/your-username/job-bank.git
+- cd job-bank
+- npm install
+
 **Scripts:**
 
 - dev: Run the development server. (npm run dev OR npm run dev --watch)
@@ -45,45 +53,69 @@ Name: job-bank
 - lint: Lint the codebase using ESLint and Next.js lint rules.
 - prepare: Run Husky pre-commit hooks.
 - format: Format the code using ESLint and Prettier.
+- jest: run jest tests in the e2e folder for testing
+- coverage: generates a coverage report after running jest tests
 
 **Husky & Lint-Staged**
 
 - Husky is used for Git hooks, configured to run pre-commit hooks.
 - Lint-staged is configured to run ESLint and Prettier on staged files before committing.
 
-**Dependencies:**
+**Dependencies**
 
-- @auth0/nextjs-auth0: Authentication library for Next.js applications.
-- @radix-ui/react-checkbox: Component library for checkboxes.
-- @radix-ui/react-icons: Component library for icons.
-- @radix-ui/react-slot: Component library for slots.
-- @sendgrid/mail: Library for sending emails using SendGrid.
-- @stripe/stripe-js: Stripe library for client-side integration.
-- @tailwindcss/forms: Tailwind CSS plugin for styling form elements.
-- auth0: Auth0 client library.
-- class-variance-authority: Utility library for class variance.
-- clsx: Library for conditionally joining classNames.
-- dotenv: Library for loading environment variables.
-- lucide-react: Library for Lucide icons.
-- mongoose: MongoDB ORM library for Node.js.
-- next: React framework for building server-rendered applications.
-- react: JavaScript library for building user interfaces.
-- react-dom: React library for DOM rendering.
-- react-quill: rich text editor component for React
-- stripe: Stripe library for server-side integration.
-- tailwind-merge: Utility library for merging Tailwind CSS classes.
-- tailwindcss-animate: Tailwind CSS plugin for animations.
-- node-cron: module for scheduling tasks
+- `@auth0/nextjs-auth0`: Authentication library for Next.js applications.
+- `@heroicons/react`: Heroicons for React.
+- `@radix-ui/react-checkbox`: Component library for checkboxes.
+- `@radix-ui/react-dialog`: Component library for dialogs.
+- `@radix-ui/react-icons`: Component library for icons.
+- `@radix-ui/react-label`: Component library for labels.
+- `@radix-ui/react-select`: Component library for selects.
+- `@radix-ui/react-slot`: Component library for slots.
+- `@sendgrid/mail`: Library for sending emails using SendGrid.
+- `@stripe/stripe-js`: Stripe library for client-side integration.
+- `@tailwindcss/forms`: Tailwind CSS plugin for styling form elements.
+- `auth0`: Auth0 client library.
+- `axios`: Promise-based HTTP client for the browser and Node.js.
+- `babel`: JavaScript compiler.
+- `babel-plugin-istanbul`: Babel plugin for code coverage.
+- `class-variance-authority`: Utility library for class variance.
+- `clsx`: Library for conditionally joining classNames.
+- `dotenv`: Library for loading environment variables.
+- `lucide-react`: Library for Lucide icons.
+- `mongoose`: MongoDB ORM library for Node.js.
+- `next`: React framework for building server-rendered applications.
+- `node-cron`: Module for scheduling tasks.
+- `puppeteer-extra`: Extended version of Puppeteer.
+- `puppeteer-extra-plugin-stealth`: Plugin to make Puppeteer stealthier.
+- `react`: JavaScript library for building user interfaces.
+- `react-dom`: React library for DOM rendering.
+- `react-quill`: Rich text editor component for React.
+- `stripe`: Stripe library for server-side integration.
+- `tailwind-merge`: Utility library for merging Tailwind CSS classes.
+- `tailwindcss-animate`: Tailwind CSS plugin for animations.
+- `ts-node`: TypeScript execution environment for Node.js.
 
 **DevDependencies:**
 
-- eslint: JavaScript linter.
-- eslint-config-next: ESLint configuration for Next.js projects.
-- husky: Git hooks manager.
-- lint-staged: Run linters on Git staged files.
-- postcss: CSS post-processor.
-- prettier: Code formatter.
-- tailwindcss: Utility-first CSS framework.
+- `@jest/globals`: Jest globals for TypeScript.
+- `@playwright/test`: Playwright testing library.
+- `@types/jest`: TypeScript definitions for Jest.
+- `@types/node`: TypeScript definitions for Node.js.
+- `@types/puppeteer`: TypeScript definitions for Puppeteer.
+- `@types/react`: TypeScript definitions for React.
+- `eslint`: JavaScript linter.
+- `eslint-config-next`: ESLint configuration for Next.js projects.
+- `husky`: Git hooks manager.
+- `jest`: JavaScript testing framework.
+- `jest-playwright-preset`: Jest preset for Playwright.
+- `lint-staged`: Run linters on Git staged files.
+- `playwright`: End-to-end testing library.
+- `postcss`: CSS post-processor.
+- `prettier`: Code formatter.
+- `puppeteer`: Headless Chrome Node.js API.
+- `tailwindcss`: Utility-first CSS framework.
+- `ts-jest`: TypeScript preprocessor with source map support for Jest.
+- `typescript`: TypeScript language.
 
 **Notes:**
 
@@ -91,4 +123,13 @@ Name: job-bank
 - To apply EsLint and Prettier before committing, make sure to run > npm install or > npm i.
 - Make sure to follow the linting rules defined in .eslintrc and .prettierrc.
 - Environment variables are loaded using dotenv.
-  Git commits trigger linting and formatting checks before being committed due to Husky and lint-staged configurations.
+- Git commits trigger linting and formatting checks before being committed due to Husky and lint-staged configurations.
+
+**DevOps Notes**
+
+- Currently coverage reports aren't properly being uploaded to CodeCov
+- In the main.yaml, the Docker Image is currently being uploaded to a personal Docker Hub repo (Account name is cassidyboilley099 and repo is job-bank)
+- There will be a need to add more qa tests for the app as the current coverage is only around 20%
+- The ACTIONS_TOKEN is bound to my PAT, a new token will need to be made. The same applies to the DOCKER_PASSWORD and DOCKER_USERNAME.
+  To modify these go to the repo -> Settings -> Secrets and Variables -> Actions
+- Testing is done through Playwright and Jest. Ideally tests should be made with Jest so that coverage can be done. However playwright is easier to use but doesn't currently have coverage reports.
