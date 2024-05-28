@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { connectMongoDB } from '@/libs/mongodb';
+import { isDynamicServerError } from 'next/dist/client/components/hooks-server-context';
 import posting from '@/app/api/posting';
 import mongoose from 'mongoose';
 
@@ -81,6 +82,11 @@ export function getPaginationParams(req) {
 
 // Function to handle errors
 export function handleError(error) {
+  // shouldn't catch nextjs errors
+  if (isDynamicServerError(error)) {
+    throw error;
+  }
+
   console.error('Error fetching job postings:', error);
 
   // Check error status and return appropriate response
@@ -114,19 +120,22 @@ export async function fetchJobPostings(
 
   let query = Posting.find({ ...siteCriteria, ...filterObject });
 
-  // Check if sortCriteria is defined before sorting
+  // Check if sortCriteria is defined and sort by it, ensuring to include _id for uniqueness
   if (sortCriteria && sortCriteria.datePosted !== undefined) {
+    // Ensure sortCriteria includes _id to maintain unique ordering
+    sortCriteria._id = 1;
     query = query.sort(sortCriteria);
+  } else {
+    // Default sort by _id if no sortCriteria is provided
+    query = query.sort({ _id: 1 });
   }
-  query = query.skip(skip);
 
+  // Apply skip and limit for pagination
+  query = query.skip(skip).limit(pageSize);
+
+  // Execute the query and return the results
   const documents = await query.exec();
-
-  // Split the process and used slice instead of chaining with .limit() to avoid sorted order bug
-  // Todo: Investigate the bug and fix it
-  const paginatedDocuments = documents.slice(0, pageSize);
-
-  return paginatedDocuments;
+  return documents;
 }
 
 // Function to check if the requested field exists in the schema

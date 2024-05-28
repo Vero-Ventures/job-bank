@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import DynamicTextarea from '@/components/ui/dynamicTextArea';
-import CheckboxGroup from './CheckboxGroup';
+import CheckboxGroup from '@/components/ui/checkboxGroup';
 
-const AddJobPostingForm = ({ onSubmit, email }) => {
+const AddJobPostingForm = ({ onSubmit, email, onClose }) => {
   const [formData, setFormData] = useState({
     jobTitle: '',
     datePosted: new Date().toISOString().split('T')[0],
@@ -45,8 +45,12 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
   };
 
   return (
-    <div className="isolate bg-white px-2 py-2 sm:py-2 lg:px-2">
-      <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-2">
+    <div className="isolate bg-white px-2 py-2 sm:py-2 lg:px-2 relative">
+      <button
+        className="close-icon sticky top-0 right-0 p-2 text-gray-500 hover:text-gray-700"
+        onClick={onClose}
+        style={{ float: 'right' }}></button>
+      <form onSubmit={handleSubmit} className="mx-auto mt-6 max-w-4xl sm:mt-2">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
             <label className="block text-sm font-semibold leading-6 text-gray-900">
@@ -299,4 +303,4 @@ const AddJobPostingForm = ({ onSubmit, email }) => {
   );
 };
 
-export { AddJobPostingForm };
+export default AddJobPostingForm;
