@@ -32,6 +32,8 @@ const CloseButton = ({ onClick }) => (
 export function AddEmailModal({ open, onClose, updateEmails }) {
   const [email, setEmail] = useState('');
   const [emailsAdded, setEmailsAdded] = useState(1);
+  const [isAdding, setIsAdding] = useState(false);
+  const [isAddingAndSending, setIsAddingAndSending] = useState(false);
 
   // Reset email state when the modal is opened
   useEffect(() => {
@@ -47,6 +49,9 @@ export function AddEmailModal({ open, onClose, updateEmails }) {
   };
 
   const handleAddEmail = async () => {
+    // Set isAdding to true to indicate that the email is being added
+    setIsAdding(true);
+
     try {
       if (!validateEmail(email)) {
         alert('Please enter a valid email address');
@@ -55,6 +60,7 @@ export function AddEmailModal({ open, onClose, updateEmails }) {
       // Call the addEmailObjects function with an array of length 1 containing the email object
       const emailsAdded = await emailHandler.addEmailObjects([
         { email, sent: false },
+        //indicate to UI that email is being added
       ]);
       setEmailsAdded(emailsAdded);
       setEmail('');
@@ -64,10 +70,15 @@ export function AddEmailModal({ open, onClose, updateEmails }) {
       updateEmails({ email, sent: false }, isAdd);
     } catch (error) {
       console.error('Error adding email objects:', error);
+    } finally {
+      // Set isAdding to false after adding the email
+      setIsAdding(false);
     }
   };
 
   const handleAddAndSendEmail = async () => {
+    setIsAddingAndSending(true);
+
     try {
       if (!validateEmail(email)) {
         alert('Please enter a valid email address');
@@ -83,6 +94,8 @@ export function AddEmailModal({ open, onClose, updateEmails }) {
       updateEmails({ email, sent: true }, isAdd);
     } catch (error) {
       console.error('Error adding email objects:', error);
+    } finally {
+      setIsAddingAndSending(false);
     }
   };
 
@@ -109,9 +122,11 @@ export function AddEmailModal({ open, onClose, updateEmails }) {
             />
           </div>
           <div className="flex gap-2">
-            <Button onClick={handleAddEmail}>Add Email</Button>
+            <Button onClick={handleAddEmail}>
+              {isAdding ? 'Adding...' : 'Add Email'}
+            </Button>
             <Button variant="outline" onClick={handleAddAndSendEmail}>
-              Add and Send Email
+              {isAddingAndSending ? 'Sending...' : 'Add and Send Email'}
             </Button>
           </div>
           {/* Display warning/notification field if emailsAdded is less than 1 */}

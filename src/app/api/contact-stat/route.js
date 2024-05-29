@@ -11,7 +11,7 @@ export async function GET() {
       mongoose.models['contact-stats'] ||
       mongoose.model('contact-stats', contactStat);
 
-    const contactStats = await ContactStat.find();
+    const contactStats = await ContactStat.find().sort({ _id: -1 });
 
     return NextResponse.json({ contactStats }, { status: 200 });
   } catch (error) {
