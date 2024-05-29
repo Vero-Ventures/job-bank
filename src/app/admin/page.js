@@ -20,27 +20,25 @@ export default function Home() {
         const userData = await response.json();
         if (userData.data && userData.data.admin === true) {
           setUser(userData);
-          console.log('User is admin');
         } else {
-          console.log('User is not admin');
           setUnauthorized(true);
           setTimeout(() => {
             window.location.href = '/';
-          }, 3000); // Redirect after 3 seconds
+          }, 2000); // Redirect after 2 seconds
         }
       } else {
         console.error('Failed to fetch user:', response.statusText);
         setUnauthorized(true);
         setTimeout(() => {
           window.location.href = '/';
-        }, 3000); // Redirect after 3 seconds
+        }, 2000); // Redirect after 2 seconds
       }
     } catch (error) {
       console.error('Error fetching user:', error);
       setUnauthorized(true);
       setTimeout(() => {
         window.location.href = '/';
-      }, 3000); // Redirect after 3 seconds
+      }, 2000); // Redirect after 2 seconds
     } finally {
       setLoading(false);
     }
@@ -67,7 +65,7 @@ export default function Home() {
 
   const updateEmails = (emailObj, isAdd) => {
     if (isAdd) {
-      setEmails(prevEmails => [...prevEmails, emailObj]);
+      setEmails(prevEmails => [emailObj, ...prevEmails]);
     } else if (!isAdd) {
       const updatedEmails = emails.filter(
         existingEmail => existingEmail.email !== emailObj.email
