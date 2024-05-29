@@ -83,6 +83,8 @@ export default function Home() {
       console.error('Error sending email:', error);
     }
 
+    alert('Email sent to ' + recipient);
+
     setEmails(prevEmails =>
       prevEmails.map(emailObj =>
         emailObj.email === recipient ? { ...emailObj, sent: true } : emailObj
