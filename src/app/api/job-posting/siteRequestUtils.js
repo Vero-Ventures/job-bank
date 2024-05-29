@@ -12,8 +12,8 @@ const sortTypeMap = {
 
 // Employment sub-type map to filter job postings by employment sub-type
 const employmentSubTypeMap = {
-  ft: 'Full time',
-  pt: 'Part time',
+  ft: 'Full Time',
+  pt: 'Part Time',
 };
 
 // Function to get the total number of job postings
