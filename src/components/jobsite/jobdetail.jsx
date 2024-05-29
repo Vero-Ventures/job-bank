@@ -55,7 +55,7 @@ export default function JobDetail({ colourTheme, postingID, showJobPageBtn }) {
                   {jobDetail.hiringOrganization}
                 </p>
                 <div className="text-right text-sm text-gray-500 dark:text-gray-400 mt-1 lg:mt-0">
-                  {jobDetail.datePosted}
+                  {new Date(jobDetail.datePosted).toDateString()}
                 </div>
                 {showJobPageBtn && (
                   <Link
@@ -70,7 +70,12 @@ export default function JobDetail({ colourTheme, postingID, showJobPageBtn }) {
                   <div className="flex items-center gap-2">
                     <BriefcaseIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                     <span className="text-gray-500 dark:text-gray-400 titleCase">
-                      {jobDetail.employmentSubType}, {jobDetail.employmentType}
+                      {jobDetail.employmentSubType
+                        ? jobDetail.employmentSubType
+                        : ''}
+                      {jobDetail.employmentType
+                        ? `, ${jobDetail.employmentType}`
+                        : ''}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -97,19 +102,21 @@ export default function JobDetail({ colourTheme, postingID, showJobPageBtn }) {
                   <div className="flex items-center gap-2">
                     <ClockIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                     <span className="text-gray-500 dark:text-gray-400">
-                      {jobDetail.workHours}
+                      {jobDetail.workHours ? `${jobDetail.workHours}` : 'N/A'}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CalendarIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                     <span className="text-gray-500 dark:text-gray-400">
-                      {jobDetail.startTime}
+                      {jobDetail.startTime ? `${jobDetail.startTime}` : 'N/A'}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <UserIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                     <span className="text-gray-500 dark:text-gray-400">
-                      {jobDetail.vacancies} vacancy
+                      {jobDetail.vacancies
+                        ? `${jobDetail.vacancies} vacancy`
+                        : 'N/A'}
                     </span>
                   </div>
                 </div>

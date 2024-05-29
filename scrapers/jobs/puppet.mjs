@@ -7,7 +7,7 @@ import { setTimeout } from 'node:timers/promises';
 const BASE_URL = `https://www.newcomersjobcentre.ca/`;
 const SELECTOR_TIMEOUT = 5000; // use for waiting for selectors
 const PAGE_TIMEOUT = 60000; // use for page navigation
-const PAGES_TO_SCRAPE = 5; // Don't need that much data. Just scrape the most recent few pages of jobs
+const PAGES_TO_SCRAPE = 1; // Don't need that much data. Just scrape the most recent few pages of jobs
 
 const device = {
   userAgent: 'Mozilla/5.0 (Macintosh)', // set our fake user-agent
@@ -147,7 +147,8 @@ const scrapeJobs = async browser => {
         const addressSplit = details[1].trim().split(',');
         const addressLocality = addressSplit[0].trim();
         const addressRegion = addressRegionMap[addressSplit[1].trim()];
-        const employmentSubType = details[6];
+        const employment = details[6].split('-');
+        const employmentSubType = employment[0] + ' ' + employment[1];
         const paySplit = details[7].split(' : ')[1].split(' ');
         const minCompValue =
           paySplit[0][1] === '$'
@@ -191,9 +192,7 @@ const scrapeJobs = async browser => {
       );
 
       const description = await sectionContentElement?.evaluate(node => {
-        const textContent = node.textContent.trim();
-
-        return textContent;
+        return node.innerHTML.split('<style>')[0];
       });
 
       jobDetailsObj['description'] = description;

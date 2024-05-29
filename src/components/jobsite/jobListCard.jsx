@@ -17,7 +17,7 @@ export default function JobListCard({ colourTheme, item, onClick }) {
             {item.addressLocality}, {item.addressRegion}
           </div>
           <div className="text-xs text-gray-400 dark:text-gray-300 mb-4">
-            {item.datePosted.split(' ').slice(2).join(' ')}
+            {new Date(item.datePosted).toDateString()}
           </div>
         </div>
         <div className="flex justify-between">
