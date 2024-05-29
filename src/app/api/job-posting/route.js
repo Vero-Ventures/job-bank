@@ -8,6 +8,7 @@ import {
   parseSortCriteria,
   parseFilterCriteria,
 } from '@/app/api/job-posting/siteRequestUtils';
+import crypto from 'crypto';
 
 export async function GET(req) {
   try {
@@ -98,6 +99,10 @@ export async function POST(req) {
 
     // Iterate over each job posting object in the array and create it
     for (const jobPostingData of jobPosting) {
+      //if jobPostingData.jobPageId is null or not provided, assign a random crypto.randomBytes(16).toString("hex") string
+      if (!jobPostingData.jobPageId) {
+        jobPostingData.jobPageId = crypto.randomBytes(16).toString('hex');
+      }
       const newJobPosting = await Posting.create(jobPostingData);
       createdJobPostings.push(newJobPosting);
     }

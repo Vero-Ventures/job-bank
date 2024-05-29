@@ -184,8 +184,8 @@ export default function Home() {
         </div>
         {/* Render the form as a modal */}
         {showForm && (
-          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
-            <div className="bg-white p-2 rounded shadow-lg max-h-[90vh] w-full max-w-4xl overflow-y-auto">
+          <div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
+            <div className="bg-white p-2 rounded shadow-lg max-h-[90vh] w-full max-w-4xl overflow-y-auto z-60">
               <AddJobPostingForm
                 onSubmit={handleFormSubmit}
                 email={user.email}
