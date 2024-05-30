@@ -136,4 +136,4 @@ To install the project, clone the repository and run `npm install` to install al
   ^^
   This will require admin access to the repository
 
-- Testing is done through Playwright and Jest. Ideally tests should be made with Jest so that coverage can be done. However playwright is easier to use but doesn't currently have coverage reports.
+- Testing is done through Playwright and Jest. Unit tests should be made with Jest so that coverage can be done. However playwright is easier to use for end-to-end testing but doesn't currently register on coverage reports.
