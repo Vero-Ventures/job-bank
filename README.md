@@ -51,6 +51,8 @@ To install the project, clone the repository and run `npm install` to install al
 - Environment variables are loaded using dotenv.
 - Run ‘npm run build’ before merging to main to ensure there are no build errors before deployment
 - Git commits trigger linting and formatting checks before being committed due to Husky and lint-staged configurations.
+- To run the playwright tests use 'npx playwright test' this will the test directory defined in the playwright.config.ts
+- To run the coverage report `npm run coverage`
 
 **Scripts:**
 
