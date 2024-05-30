@@ -139,3 +139,5 @@ To install the project, clone the repository and run `npm install` to install al
 - Testing is done through Playwright and Jest. Unit tests should be made with Jest so that coverage can be done. However playwright is easier to use for end-to-end testing but doesn't currently register on coverage reports.
 
 - The current playwright tests need to be updated to function with the current code as it was changed. Playwright does have a VSCode extension that you can use. Additionally if you want to run a Playwright browser instance use `npx playwright codegen YOUR_URL` and it lets click on the elements.
+
+- A local docker build can be made by running `docker build -t job-bank .`
