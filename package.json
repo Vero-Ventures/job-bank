@@ -48,7 +48,7 @@
     "react-dom": "^18",
     "react-quill": "^2.0.0",
     "react-tooltip": "^5.26.4",
-    "stripe": "^15.6.0",
+    "stripe": "^15.9.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "ts-node": "^10.9.2"
