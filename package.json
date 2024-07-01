@@ -39,7 +39,7 @@
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
     "lucide-react": "^0.378.0",
-    "mongoose": "^8.3.4",
+    "mongoose": "^8.4.4",
     "next": "14.2.3",
     "node-cron": "^3.0.3",
     "puppeteer-extra": "^3.3.6",
